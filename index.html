@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>《魔兽世界》：无限 · 开荒资料库</title>
+<style>/* ============================================================
+   Theme: Blizzard / World of Warcraft official site style
+   Dark parchment + arcane gold; serif display headings
+   ============================================================ */
+:root{
+  --gold:#c8aa6e;
+  --gold-b:#f3dda6;
+  --gold-d:#8a7038;
+  --gold-x:#5e4c28;
+  --bg:#08080a;
+  --bg2:#0e0e10;
+  --panel:#121210;
+  --panel2:#191813;
+  --panel3:#1f1e17;
+  --line:#3a3324;
+  --line2:#242015;
+  --txt:#d8d0be;
+  --mut:#938a76;
+  --blue:#2f6f9e;
+  --blue-b:#5fb4e8;
+  --horde:#a3232a;
+  --ok:#6fae5a;
+  --warn:#d39433;
+  --serif:"Cinzel","Trajan Pro","Lifecraft","STZhongsong","华文中宋",
+          "Source Han Serif SC","Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--txt);
+  line-height:1.78;
+  font-size:14.5px;
+  background:
+    radial-gradient(1100px 520px at 50% -180px, rgba(200,170,110,.16), transparent 70%),
+    radial-gradient(700px 400px at 92% 12%, rgba(47,111,158,.10), transparent 70%),
+    linear-gradient(180deg,#0d0d0f 0%, var(--bg) 42%, #060607 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold-d);color:#fff}
+a{color:var(--gold-b);text-decoration:none;border-bottom:1px solid rgba(200,170,110,.32)}
+a:hover{color:#fff;border-bottom-color:var(--gold-b);text-shadow:0 0 8px rgba(243,221,166,.55)}
+
+/* ---------- thin brand bar ---------- */
+.topbar{
+  height:30px;display:flex;align-items:center;gap:18px;
+  padding:0 22px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);background:rgba(0,0,0,.62);
+  border-bottom:1px solid var(--line2);
+}
+.topbar b{color:var(--gold);font-weight:700}
+.topbar .sp{margin-left:auto}
+
+/* ---------- hero ---------- */
+header.hero{
+  position:relative;text-align:center;
+  padding:52px 24px 40px;overflow:hidden;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(600px 220px at 50% 130%, rgba(200,170,110,.20), transparent 70%),
+    linear-gradient(180deg,rgba(20,18,12,.92),rgba(8,8,9,.55));
+}
+header.hero::before{
+  content:"";position:absolute;left:50%;top:-140px;width:900px;height:400px;
+  transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(200,170,110,.18),transparent 72%);
+}
+header.hero::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-x) 18%,var(--gold) 50%,var(--gold-x) 82%,transparent);
+}
+.hero .crest{
+  width:52px;height:52px;margin:0 auto 14px;position:relative;
+  border:1px solid var(--gold-d);transform:rotate(45deg);
+  background:linear-gradient(145deg,#1d1a12,#0c0b08);
+  box-shadow:0 0 22px rgba(200,170,110,.22);
+}
+.hero .crest::after{
+  content:"W";position:absolute;inset:0;transform:rotate(-45deg);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:24px;font-weight:700;color:var(--gold);
+  letter-spacing:0;
+}
+.hero .eyebrow{
+  font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gold-d);margin-bottom:12px;
+}
+.hero h1{
+  margin:0;font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,4.4vw,42px);letter-spacing:.06em;
+  color:var(--gold-b);
+  text-shadow:0 2px 0 #000,0 0 26px rgba(200,170,110,.34);
+}
+.hero .sub{
+  margin-top:12px;font-size:13.5px;letter-spacing:.18em;
+  color:var(--mut);text-transform:uppercase;
+}
+.hero .meta{
+  margin-top:18px;font-size:12.5px;color:#a79e8a;
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+}
+.hero .meta i{font-style:normal;color:var(--gold)}
+.hero .diamond{
+  width:9px;height:9px;margin:16px auto 0;background:var(--gold);
+  transform:rotate(45deg);box-shadow:0 0 12px rgba(200,170,110,.7);
+}
+
+/* ---------- layout ---------- */
+#app{display:flex;align-items:flex-start;max-width:1560px;margin:0 auto;padding:0 18px}
+
+/* ---------- nav ---------- */
+nav{
+  width:264px;flex:0 0 264px;position:sticky;top:0;max-height:100vh;overflow:auto;
+  padding:20px 12px;margin-right:20px;
+}
+nav .ttl{
+  font-family:var(--serif);font-size:11px;color:var(--gold-d);
+  letter-spacing:.3em;text-transform:uppercase;
+  margin:0 10px 12px;padding-bottom:8px;
+  border-bottom:1px solid var(--line2);
+}
+nav button{
+  display:block;width:100%;text-align:left;padding:10px 12px;margin:3px 0;
+  background:linear-gradient(90deg,rgba(25,24,19,.9),rgba(16,16,16,.55));
+  border:1px solid var(--line2);border-left:3px solid var(--line);
+  color:#a89f8b;font-size:13.4px;font-family:inherit;cursor:pointer;
+  transition:.16s;letter-spacing:.02em;
+}
+nav button:hover{
+  color:var(--gold-b);border-left-color:var(--gold-d);
+  background:linear-gradient(90deg,rgba(45,38,24,.95),rgba(20,18,13,.6));
+}
+nav button.on{
+  color:#fff6df;font-weight:700;border-color:var(--gold-d);border-left-color:var(--gold);
+  background:linear-gradient(90deg,rgba(90,72,36,.85),rgba(28,24,16,.6));
+  box-shadow:inset 0 0 18px rgba(200,170,110,.18);
+}
+nav button .star{color:var(--gold);margin-right:5px}
+
+/* ---------- main / panels ---------- */
+main{flex:1;min-width:0;padding:24px 0 70px}
+.bar{margin-bottom:16px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.bar button,.bar span.info{
+  padding:7px 15px;font-size:12.4px;font-family:var(--serif);letter-spacing:.12em;
+  text-transform:uppercase;cursor:pointer;
+  color:var(--gold);background:linear-gradient(180deg,#221e15,#141210);
+  border:1px solid var(--gold-x);
+}
+.bar button:hover{color:#fff;background:linear-gradient(180deg,#3a3018,#1d1913);
+  box-shadow:0 0 14px rgba(200,170,110,.3)}
+.bar span.info{border-color:var(--line2);color:var(--mut);cursor:default;background:none}
+.bar span.info:hover{color:var(--mut);background:none;box-shadow:none}
+
+.doc{display:none;position:relative;
+  background:
+    linear-gradient(180deg,rgba(31,30,23,.72),rgba(15,15,14,.86)),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 2px,transparent 2px 4px);
+  border:1px solid var(--line);
+  box-shadow:0 0 0 1px #0b0b0c inset,0 18px 40px rgba(0,0,0,.55);
+  padding:30px 34px 34px;margin-bottom:22px;
+}
+.doc.on{display:block}
+.doc::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold) 12%,var(--gold-b) 50%,var(--gold) 88%,transparent);
+}
+
+/* ---------- headings ---------- */
+h1{
+  font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.05em;
+  color:var(--gold-b);margin:0 0 8px;position:relative;
+}
+h1::after{
+  content:"";display:block;width:120px;height:1px;margin:14px 0 0;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.doc>h1{margin-bottom:22px}
+h2{
+  font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:.04em;
+  color:var(--gold);margin:34px 0 12px;padding-bottom:7px;
+  border-bottom:1px solid var(--line2);position:relative;padding-left:20px;
+}
+h2::before{
+  content:"";position:absolute;left:0;top:6px;width:9px;height:9px;
+  background:var(--gold-d);transform:rotate(45deg);
+}
+h3{font-family:var(--serif);font-size:16.2px;font-weight:700;letter-spacing:.03em;
+   color:#e6dcc2;margin:22px 0 8px}
+h4,h5,h6{font-family:var(--sans);font-size:14.6px;color:#cdc4ae;margin:16px 0 6px}
+p{margin:9px 0}
+strong{color:#fff2d4;font-weight:700}
+em{color:var(--gold-b);font-style:normal}
+hr{border:0;height:1px;margin:26px 0;
+   background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+ul,ol{margin:9px 0;padding-left:26px}
+li{margin:5px 0}
+li::marker{color:var(--gold-d)}
+ul ul,ol ul,ul ol,ol ol{margin:4px 0}
+
+blockquote{
+  margin:14px 0;padding:12px 16px;
+  background:linear-gradient(90deg,rgba(58,48,26,.42),rgba(20,18,13,.18));
+  border:1px solid var(--line);border-left:3px solid var(--gold-d);
+  color:#bdb39c;font-size:13.6px;
+}
+blockquote strong{color:var(--gold-b)}
+
+code{
+  background:#0f0f0d;border:1px solid var(--line2);
+  padding:1px 6px;font-size:12.6px;font-family:Consolas,Menlo,monospace;
+  color:var(--gold-b);
+}
+pre{
+  background:#0b0b0a;border:1px solid var(--line);border-left:3px solid var(--gold-d);
+  padding:14px 16px;overflow:auto;
+}
+pre code{background:none;border:0;color:#cdc4ae;padding:0}
+
+.tw{overflow-x:auto;margin:14px 0;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:13.2px;background:rgba(10,10,9,.5)}
+th{
+  background:linear-gradient(180deg,#3b3119,#1c1810);
+  color:var(--gold-b);text-align:left;padding:10px 12px;
+  font-family:var(--serif);font-weight:700;letter-spacing:.06em;
+  white-space:nowrap;border-bottom:1px solid var(--gold-d);
+}
+td{border-top:1px solid var(--line2);padding:9px 12px;vertical-align:top;color:#cbc2ad}
+tbody tr:nth-child(even){background:rgba(200,170,110,.045)}
+tbody tr:hover{background:rgba(200,170,110,.11)}
+
+.cb{
+  display:inline-block;width:13px;height:13px;margin-right:8px;vertical-align:-2px;
+  border:1px solid var(--gold-d);background:#0d0d0b;box-shadow:0 0 6px rgba(0,0,0,.6);
+}
+.cb.checked{background:var(--gold);border-color:var(--gold-b);
+  box-shadow:0 0 9px rgba(200,170,110,.65)}
+
+footer{
+  margin-top:8px;padding:18px;text-align:center;color:var(--mut);
+  font-size:12px;border-top:1px solid var(--line2);letter-spacing:.06em;
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4a3f22,#241d0f);
+  border:1px solid #141210}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#6d5b2c,#33290f)}
+
+@media(max-width:900px){
+  #app{flex-direction:column;padding:0 10px}
+  nav{width:100%;flex:none;position:static;max-height:none;margin:0 0 14px;
+      display:flex;gap:6px;overflow-x:auto;padding:12px 4px}
+  nav .ttl{display:none}
+  nav button{white-space:nowrap;width:auto;margin:0}
+  .hero h1{font-size:26px}
+  .doc{padding:20px 16px}
+}
+
+/* ---------- print: light parchment for readability ---------- */
+@media print{
+  nav,.bar,.topbar{display:none}
+  #app{display:block;max-width:none;padding:0}
+  body{background:#fff;color:#1a1a18;font-size:11.2pt}
+  header.hero{background:none;border-bottom:2px solid #8a7038;padding:0 0 12px}
+  .hero h1{color:#5e4c28;text-shadow:none;font-size:20pt}
+  .hero .hidden-print,.hero .crest,.hero .diamond{display:none}
+  .hero .eyebrow,.hero .meta{color:#5b5347}
+  .hero .meta i{color:#8a7038}
+  .doc{display:block!important;border:0;box-shadow:none;background:#fff;
+       padding:0 0 10px;margin:0;page-break-after:always}
+  .doc::before{display:none}
+  h1{color:#5e4c28;font-size:16pt}
+  h2{color:#6b5a2e;border-bottom:1px solid #c9bfa6}
+  h3,h4{color:#333}
+  h2::before{background:#8a7038}
+  strong{color:#000}
+  th{background:#efe9d8;color:#4a3f22;border-bottom:1px solid #8a7038}
+  td,li,p{color:#222}
+  table{background:#fff}
+  code,pre{background:#f4f1e8;border:1px solid #d5cdb8;color:#333}
+  blockquote{background:#f6f2e6;border-left:3px solid #8a7038;color:#3a352c}
+  a{color:#6b5a2e;border:0}
+  footer{color:#777}
+}
+</style></head><body>
+<div class="topbar">
+  <b>WORLD OF WARCRAFT</b><span>FOREVER · CLASSIC+</span>
+  <span class="sp">国服上线 2026-11-05</span>
+</div>
+<header class="hero">
+  <div class="crest"></div>
+  <div class="eyebrow">Classic+ 永久分支 · 等级上限锁 60</div>
+  <h1>《魔兽世界》：无限</h1>
+  <div class="sub">World of Warcraft: Forever — 单人开荒资料库</div>
+  <div class="meta">
+    <span>共 <i>12</i> 份文档</span>
+    <span>国服上线 <i>2026-11-05 约 07:00</i></span>
+    <span>生成于 <i>2026-09-24 09:04</i></span>
+  </div>
+  <div class="diamond"></div>
+</header>
+<div id="app">
+  <nav><div class="ttl">目录 / Contents</div><button data-t="README_md" class="on">项目总览</button>
+<button data-t="beta_findings_md" class=""><span class="star">★</span>外服实测与捷径</button>
+<button data-t="leveling_gold_route_md" class=""><span class="star">★</span>升级赚钱路线</button>
+<button data-t="talents_and_gear_md" class=""><span class="star">★</span>天赋配点与装备</button>
+<button data-t="stats_and_gear_md" class=""><span class="star">★</span>属性体系与配装</button>
+<button data-t="macros_and_ui_md" class=""><span class="star">★</span>一键输出与宏</button>
+<button data-t="efficiency_guide_md" class="">效率指南</button>
+<button data-t="timeline_md" class="">关键时间线</button>
+<button data-t="reference_sites_md" class="">参考网站</button>
+<button data-t="prep_checklist_md" class="">准备检查表</button>
+<button data-t="intel_digest_md" class="">情报摘要</button>
+<button data-t="update_playbook_md" class="">更新待命手册</button></nav>
+  <main>
+    <div class="bar">
+      <button onclick="window.print()">打印 / 导出 PDF</button>
+      <span class="info">离线可用 · 单文件 · 点击左侧切换</span>
+    </div>
+    <section class="doc on" id="README_md"><h1>项目总览</h1><blockquote>目标：在 <strong>2026 年 11 月 5 日（国服全球同步上线）</strong> 顺利开玩《魔兽世界》："无限"。 本文档为个人准备台账，所有信息来自 2026-09-18 当日的官方与权威媒体公开资料，临近上线请以官网为准。</blockquote>
+<hr>
+<h2>一、这到底是什么</h2>
+<ul><li><strong>官方中文名</strong>：《魔兽世界》："无限"（部分媒体译为"永恒"；英文 <strong>World of Warcraft: Forever</strong>）。</li><li><strong>定位</strong>：暴雪在 2026 暴雪嘉年华公布的 <strong>"Classic+（经典+）"永久分支</strong>，与 <strong>正式服（Modern）</strong>、<strong>怀旧服（Classic）</strong> 并行存在，是"第三条路"。<strong>长线运营、非赛季制</strong>。</li><li><strong>核心形态</strong>：回到经过全面画面升级的<strong>原版艾泽拉斯</strong>，等级上限<strong>锁定 60 级</strong>，采用<strong>横向扩展</strong>（加区域/任务/副本/职业玩法/装备，而非提升等级上限）。剧情设定在 2004 原版第一年附近的分叉平行世界线。</li><li><strong>去服务器化</strong>：不再有传统独立服务器，改为选择<strong>规则集</strong>——普通 / PvP / 角色扮演 / 专家模式（Hardcore，一命）。</li><li><strong>画面</strong>：更新光照、全局光照、水体、实时阴影；可选 <strong>HD/SD 角色模型</strong>、经典动画还原、<strong>官方手柄支持</strong>。</li></ul>
+<hr>
+<h2>二、关键事实速览</h2>
+<div class="tw"><table><thead><tr><th>项目</th><th>内容</th></tr></thead><tbody><tr><td>公布时间</td><td>2026-09-13 暴雪嘉年华</td></tr><tr><td>全球上线</td><td>2026-11-04 15:00 PST = <strong>北京时间 11-05 约 07:00</strong></td></tr><tr><td>国服删档 Beta</td><td>2026-10-06 开启，等级上限 30，<strong>10-27 凌晨结束</strong>（史诗礼包专享）</td></tr><tr><td>名称预留/提前建角色</td><td>2026-11-03 ~ 11-04（英雄/史诗礼包专享）</td></tr><tr><td>首个团本层级</td><td>2026-12-09 / 12-10（深穴 10 人 / 海加尔峰 20 人；部分来源提及奥妮克希亚巢穴 40 人）</td></tr><tr><td>基础准入</td><td><strong>含在现有《魔兽世界》月卡/游戏时间内</strong>；但"天裔"种族 + 泽风岛起始需购礼包</td></tr><tr><td>新种族</td><td><strong>天裔（Skyborne）</strong>：联盟/部落双阵营可选，起始泽风岛</td></tr><tr><td>新职业组合</td><td>矮人萨满、被遗忘者圣骑士（专属职业坐骑）、侏儒牧师、人类猎人、兽人法师、巨魔术士（后续更多）</td></tr><tr><td>新区域</td><td>泽风岛、河林、海加尔山</td></tr><tr><td>新内容量</td><td>1000+ 新任务、9 个新地下城、2 个满级团本、1 个新战场（暗矛群岛 15v15）</td></tr><tr><td>新系统</td><td>传承账号奖励（账号通用）、露营系统（野外营火社交）、专业重构（600+ 新配方）</td></tr><tr><td>飞行</td><td><strong>无飞行坐骑</strong>；坐骑改学骑术即送（类似 TBC 收费方式）</td></tr></tbody></table></div>
+<hr>
+<h2>三、开玩前准备清单（按优先级）</h2>
+<h3>A. 账号与准入（最优先，建议在 10 月前完成）</h3>
+<ul><li><span class="cb "></span><strong>确认/找回暴雪战网账号</strong>：国服账号由网易运营，官网首页有"账号找回"（实名/账号两种方式，约 3 分钟）。</li><li><span class="cb "></span><strong>确保有《魔兽世界》游戏时间（月卡）</strong>：基础版"无限"已含在月卡内；若你已有正式服月卡，基础准入已满足。</li><li><span class="cb "></span><strong>决定是否购买礼包</strong>（想玩天裔/进 Beta/抢名必买）：</li>  <li><strong>天裔英雄礼包 ¥218</strong>：天裔种族 + 泽风岛起始 + 名称预留资格（11-03~11-04）+ 幻化/坐骑/玩具/战袍 + 1 个邀请好友资格。</li>  <li><strong>天裔史诗礼包 ¥388</strong>：英雄礼包全部内容 + <strong>国服 Beta 资格（10-06 删档）</strong> + <strong>30 天游戏时间（11-05 到账）</strong> + 更多宠物/装饰 + 3 个邀请好友资格。</li><li><span class="cb "></span><strong>官网预约</strong>（免费）：上线后首个角色背包送 <strong>4 格背包</strong>。务必做。</li><li><span class="cb "></span><strong>准备 3 个备选角色名</strong>：名称先到先得，11-03~11-04 预留期可抢注。</li></ul>
+<h3>B. 客户端与硬件（建议 10 月 6 日 Beta 前就绪）</h3>
+<ul><li><span class="cb "></span>安装/更新 <strong>战网桌面应用</strong>（Battle.net）。</li><li><span class="cb "></span>安装/更新 <strong>《魔兽世界》客户端</strong>（"无限"与正式服大概率共用客户端），预留 <strong>≥128GB SSD</strong> 空间（官方明确 HDD 会影响体验）。</li><li><span class="cb "></span><strong>核对配置</strong>（见下"配置要求"小节；最低可玩，推荐更流畅）。</li><li><span class="cb "></span>决定 <strong>视觉预设</strong>（HD 或 SD 模型、是否开经典动画）与 <strong>输入方式</strong>（键鼠 / 手柄）。</li></ul>
+<h3>C. 角色规划（上线前定好，避免抢注时纠结）</h3>
+<ul><li><span class="cb "></span>阵营：联盟 / 部落。</li><li><span class="cb "></span>种族 + 职业：是否选新组合（矮人萨满、被遗忘者圣骑士等）或天裔（需礼包）。</li><li><span class="cb "></span>规则集：普通 / PvP / 角色扮演 / 专家模式（一命，慎选）。</li><li><span class="cb "></span>专业路线：专业已重构（600+ 新配方），提前想好采集/制造搭配。</li><li><span class="cb "></span>关注全职业<strong>天赋树深度重做</strong>信息（保留经典结构，但专精重做）。</li></ul>
+<h3>D. 知识储备（可选但推荐）</h3>
+<ul><li><span class="cb "></span>因是 60 级封顶的 Classic+，建议温习<strong>原版/经典怀旧服</strong>的练级路线、职业手法、常用插件。</li><li><span class="cb "></span>观看官方 <strong>深度解析座谈会（09-13/09-14）</strong> 回放，了解系统与玩法。</li><li><span class="cb "></span>提前物色<strong>公会/社群</strong>，上线不孤单。</li></ul>
+<h3>E. Beta 体验（10-06 ~ 10-27，买了史诗礼包才有）</h3>
+<ul><li><span class="cb "></span>进国服删档 Beta（等级上限 30），试玩目标职业、熟悉系统、提反馈。</li><li><span class="cb "></span><strong>注意：删档</strong>，不要过度投入；Beta 结束数据清空。</li></ul>
+<h3>F. 上线日（11-05）</h3>
+<ul><li><span class="cb "></span>约 07:00 北京时间开服，登录 → 用预留名建角色 → 开始练级。</li><li><span class="cb "></span>首个团本层级 12 月解锁，可提前规划满级路线。</li></ul>
+<hr>
+<h2>四、配置要求（Windows，来源：暴雪支持 000386366 / 国服商城）</h2>
+<p><strong>最低配置</strong></p>
+<ul><li>系统：Windows 10 64-bit（2019-05 或之后更新）</li><li>CPU：4 核 3.0GHz（Intel Haswell / AMD Ryzen Zen）</li><li>显卡：DX12 兼容 4GB GPU（GTX 10 系 / AMD RDNA 1 / Intel Iris Xe2-LPG）</li><li>内存：8 GB</li><li>存储：SSD 128GB 可用</li><li>输入：键鼠</li></ul>
+<p><strong>推荐配置</strong></p>
+<ul><li>系统：Windows 11</li><li>CPU：8 性能核 5.2GHz（Intel Core Ultra 2 代 / AMD Ryzen Zen 5）</li><li>显卡：DX12 兼容 8GB GPU（RTX 40 系 / AMD RDNA 3 / Intel Arc B 系）</li><li>内存：16 GB</li><li>存储：SSD 128GB 可用</li><li>输入：多按键滚轮鼠标</li></ul>
+<blockquote>macOS 亦支持（M2/M4 等，详见暴雪支持文档）。</blockquote>
+<hr>
+<h2>五、文档索引</h2>
+<ul><li><code>beta-findings.md</code> —— <strong>★ 外服 Beta 实测与捷径</strong>（官方蓝贴等级带、三条新航线、露营、经济红线）</li><li><code>leveling-gold-route.md</code> —— <strong>★ 最快升级 + 赚钱一体路线攻略</strong>（核心攻略）</li><li><code>talents-and-gear.md</code> —— <strong>★ 天赋配点与装备选择</strong>（热门职业配点 + 属性权重框架；<strong>含"BIS 为何不存在"的官方说明</strong>）</li><li><code>stats-and-gear.md</code> —— <strong>★ 属性体系与配装</strong>（<strong>全职业必备属性骨架</strong> + 九职业属性关键 + 按职责取舍 + 官方样张装备解读 + 装备来源优先级）</li><li><code>macros-and-ui.md</code> —— <strong>★ 一键输出、宏与界面工具</strong>（<strong>宏系统的四条硬限制</strong> + 三种合法形态 + Forever 的现代 API 与"秘密值"限制 + <strong>合规红线</strong> + 各场景实操建议）</li><li><code>efficiency-guide.md</code> —— 游戏内效率指南（职业 / 天赋 / 赚钱 / 方法 / 工具）</li><li><code>timeline.md</code> —— 关键时间节点一览（含 Beta 分阶段与 Server Slam）</li><li><code>reference-sites.md</code> —— 必看官网与攻略/社区网站</li><li><code>prep-checklist.md</code> —— 可勾选的逐条准备表（打印/对照用）</li><li><code>intel-digest.md</code> —— 专区情报摘要（人工触发更新）</li><li><code>update-playbook.md</code> —— <strong>资讯更新待命手册</strong>（发指令才执行，无自动监控）</li><li><code>index.html</code> —— 以上全部内容的单文件网页版（离线可用、可打印）</li></ul>
+<blockquote>上述文档全部严格锚定 Forever 的独有机制。<strong>本项目未启用任何自动监控</strong>：需要更新情报时，按 <code>update-playbook.md</code> 下达指令即可（如"更新无限专区情报"）。</blockquote></section>
+<section class="doc " id="beta_findings_md"><h1>★ 外服实测与捷径</h1><blockquote>采集时间：<strong>2026-09-19</strong>（国际服 Beta 自 2026-09-17 开启）。 来源：官方蓝色帖子（Kaivax，9-15）、BlizzCon 深度座谈官方回顾、Destin 开发者访谈（Wowhead 整理），以及 Icy Veins、Wowhead、LFCarry、BoostRoom、AccountShark、ExpCarry、PixelNitro 的实测/报道。 可信度分级：<strong>【官方确认】</strong> = 座谈/蓝贴/官方明确表述；<strong>【媒体整理】</strong> = 媒体据官方资料作的解读；<strong>【社区推测】</strong> = 尚未证实，勿据此下注。 ⚠️ Beta 尚未到 60 级（上限 30），<strong>所有涉及 40-60 与满级团本的内容均为预告性质</strong>。</blockquote>
+<hr>
+<h2>一、官方确认的硬数据（最高可信度）</h2>
+<h3>1. 九个新五人本的官方等级带【官方确认】</h3>
+<blockquote>来源：Kaivax 蓝色帖子（9-15），其中 <strong>克罗多克要塞为 9-15 修正值</strong>。因<strong>没有等级缩放</strong>，副本<strong>只在等级窗口内的首次通关才有价值</strong>。</blockquote>
+<div class="tw"><table><thead><tr><th>副本（中）</th><th>副本（EN）</th><th>官方等级带</th><th>位置 / 备注</th></tr></thead><tbody><tr><td>领主大厅</td><td>The Hall of Thanes</td><td><strong>13-18</strong></td><td>铁炉堡地下；最早的副本任务</td></tr><tr><td>洛丹伦废墟</td><td>Ruins of Lordaeron</td><td><strong>15-20</strong></td><td>幽暗城地下；与领主大厅重叠，按阵营二选一</td></tr><tr><td>维尔加挖掘场</td><td>Excavation Site: Wetlands</td><td><strong>24-29</strong></td><td>湿地；搭配扩建后的湿地内容</td></tr><tr><td>达拉然城</td><td>City of Dalaran</td><td><strong>28-33</strong></td><td>希尔斯布莱德；<strong>Beta 目前能触及的最后一个本</strong></td></tr><tr><td>沉没之城</td><td>The Drowned City</td><td><strong>35-40</strong></td><td>河林窗口开启处</td></tr><tr><td>克罗多克要塞</td><td>Krol'dok Stronghold</td><td><strong>40-45</strong>（9-15 修正）</td><td>河林窗口收尾处</td></tr><tr><td>奥卡兹监狱</td><td>Alcaz Prison</td><td><strong>48-53</strong></td><td>尘泥沼泽外海；建议&lt;｜hy_place▁holder▁no▁813｜&gt;一次首通</td></tr><tr><td>黑喉要塞</td><td>Blackmaw Hold</td><td><strong>55-60</strong></td><td>满级前装备与任务交付</td></tr><tr><td>塑造者之台</td><td>Shaper's Terrace</td><td><strong>58-60</strong></td><td>安戈洛环形山泰坦主题；<strong>最后一个首通</strong></td></tr></tbody></table></div>
+<h3>2. 经济与付费红线【官方确认】</h3>
+<ul><li><strong>没有 WoW 代币（Token），也没有角色直升</strong>（Destin 访谈，Wowhead 整理）→ <strong>金币完全由玩家驱动，无法用钱官方兑换</strong>。这意味着金币有真实价值，也意味着不能靠氪金解决装备与金价。</li><li><strong>坐骑为 TBC 式</strong>：<strong>骑术训练即为金币开销，学骑术时一并获得坐骑</strong>（官方确认含包装类坐骑）。<strong>具体金价未公布</strong> → 必须预留"骑术储备金"。</li><li>官方重申：<strong>无飞行坐骑、无等级缩放</strong>。</li><li>战斗节奏：官方口径约 <strong>10-15 秒一个普通怪</strong>。</li></ul>
+<h3>3. Beta 本身的边界【官方确认 / 媒体整理】</h3>
+<div class="tw"><table><thead><tr><th>事项</th><th>内容</th></tr></thead><tbody><tr><td>等级上限</td><td><strong>30 级</strong>（有访谈报道称可能先开 <strong>20 级</strong>，两周后抬到 30 ——【媒体整理】）</td></tr><tr><td>角色继承</td><td><strong>不会继承</strong>到正式服（预期如此）→ Beta 是学操作流程，不是攒家底</td></tr><tr><td>名称预留（全球窗口）</td><td><strong>10-27 ~ 11-03 PST</strong>，任意升级礼包（英雄/史诗/典藏）均可创建<strong>最多 3 个</strong>角色，先到先得【官方确认】&lt;br&gt;⚠️ 与国服口径（<strong>11-03 ~ 11-04</strong>）不同，以国服官网为准</td></tr><tr><td>好友邀请码</td><td><strong>10-20 PST 起</strong>邮件发放；受邀者 <strong>11-04 ~ 11-11</strong> 无需订阅即可游玩；英雄礼包 1 个 / 史诗·典藏共 3 个</td></tr><tr><td>Beta 中的天裔</td><td>天裔与泽风岛绑在礼包上；<strong>免费抽选获得的测试资格是否包含天裔，官方未明确</strong>【待验证】</td></tr></tbody></table></div>
+<hr>
+<h2>二、★ 最有价值的捷径（实测/官方信息提炼）</h2>
+<h3>捷径 1：三条新航线 —— 媒体解读为"<strong>终结了湿地死亡跑图</strong>"【官方确认存在 / 媒体解读价值】</h3>
+<div class="tw"><table><thead><tr><th>航线</th><th>意义</th></tr></thead><tbody><tr><td><strong>暴风城港口 → 奥伯丁（Auberdine）</strong></td><td>联盟跨海不再绕米奈希尔</td></tr><tr><td><strong>米奈希尔港 → 南海镇 → 奥伯丁</strong></td><td>湿地—南海—黑海岸串成线</td></tr><tr><td><strong>塔纳利斯 → 河林·热砂港（Powderfuse Port）</strong></td><td>★ 打通东部王国与卡利姆多南部，且直连 40-45 级核心练级区</td></tr></tbody></table></div>
+<blockquote><strong>用法</strong>：40 级前把<strong>鸟点优先解锁 + 这三条航线记牢</strong>，等于凭空多出大量移动效率；热砂港航线还让"塔纳利斯（矿草富集）↔ 河林（150+ 任务）"可以来回切。</blockquote>
+<h3>捷径 2：食物给 <strong>+5% 击杀经验</strong>【媒体整理，Icy Veins / Wowhead 一致】</h3>
+<ul><li>这是 Forever 里<strong>最便宜的永久加成</strong>；配合 600+ 新配方，建议<strong>从吃到 60，永远不要裸着练级</strong>。</li><li>自己不会做就买 —— 烹饪专业在 Forever 因此具备额外战略价值。</li></ul>
+<h3>捷径 3：露营系统 = 移动后勤站【官方确认】</h3>
+<ul><li><strong>烹饪火 → 基础营火</strong>：放置后生成营地，提供<strong>商人、修理、专业工作台</strong>，以及 <strong>持续 1 小时的增益</strong>。</li><li>每个营火最多容纳 <strong>3 件专业物品</strong>（<strong>每人限 1 件</strong>）；<strong>专业等级 20</strong>解锁第一个；<strong>高级图纸（Blueprint）由特定副本 BOSS 掉落</strong>。</li><li>各专业对应物品（已公布示例）：</li></ul>
+<div class="tw"><table><thead><tr><th>专业</th><th>营火物品</th></tr></thead><tbody><tr><td>锻造</td><td>磨刀轮（Sharpening Wheel）</td></tr><tr><td>裁缝</td><td>阵营旗帜（Faction Banner）</td></tr><tr><td>草药</td><td>熏香烛（Incense Candle）</td></tr><tr><td>炼金</td><td>炼金台（Alchemy Lab）</td></tr><tr><td>制皮</td><td>鞣革架（Tanning Rack）</td></tr><tr><td>烹饪</td><td>可解锁<strong>升级营火</strong>（容纳更多物品）</td></tr></tbody></table></div>
+<ul><li>⚠️ <strong>磨刀轮 / 阵营旗帜 / 熏香烛是相应职业技能的变体，与职业技能不叠加</strong> → <strong>队伍里缺那个职业时价值最大</strong>。</li></ul>
+<h3>捷径 4：副本"首通制"（等级不缩放的必然推论）</h3>
+<ul><li>因为<strong>没有等级缩放</strong>，越级刷本效率极低 → <strong>每个本严格在其等级窗口内接满任务打一次</strong>，之后不再回头。顺序见上表。</li></ul>
+<h3>捷径 5：传承点数是稀缺资源，别乱点【官方确认】</h3>
+<ul><li><strong>传承点数账号获取，但按角色花费；首发上限 16 点</strong>（UI 另有"赛季上限 10"的表述，以实装为准）。</li><li><strong>经济派</strong> vs <strong>练级派</strong>直接冲突：</li>  <li>练级派：<strong>Well Rested</strong>（休息经验获取与上限 ↑）、天赋异禀（第 9 级起每级给天赋点）</li>  <li>经济派：<strong>Bountiful Harvest 丰收</strong>（采矿/草药/剥皮产量 ↑）</li><li>→ 建议：<strong>主号先点练级线</strong>，采集/赚号再走丰收线。</li></ul>
+<h3>捷径 6：不要打橙/红色怪【社区共识】</h3>
+<ul><li>无等级缩放 → 越级会大量未命中、被抵抗、被打得更疼、消耗暴增。<strong>当下区间不舒服就换区</strong>，Forever 新增 1000+ 任务正是为此提供替代路径。</li></ul>
+<h3>捷径 7：精英与长途任务 —— 就地组队 / 炉石动态管理</h3>
+<ul><li>精英任务、洞穴护送、抢名怪：<strong>看见有人在打同一个目标就直接组队</strong>（官方设计意图就是促成这种相遇）。</li><li><strong>炉石位置要跟着当前任务走</strong>，别长期绑死在一个城。</li></ul>
+<hr>
+<h2>三、职业：Beta 实测倾向梯队【社区推测 + 官方改动佐证】</h2>
+<blockquote>⚠️ 仅覆盖 <strong>Beta 上限 30 级</strong>，且官方只公布了一个职业（圣骑士）的完整改动。<strong>满级结论待定。</strong> 官方明确的设计意图：让<strong>全部 27 系</strong>天赋在五人本与团本中都具备实战价值。</blockquote>
+<div class="tw"><table><thead><tr><th>梯队</th><th>专精</th><th>关键理由（Beta 依据）</th></tr></thead><tbody><tr><td><strong>S</strong></td><td><strong>增强萨满</strong></td><td>★ 改动最大受益：<strong>先知之怒（Rage of the Farseer）</strong>≈ 个人版嗜血/英勇；<strong>漩涡武器（Maelstrom Weapon）</strong>→ 近战攻击可触发瞬发闪电箭；<strong>更早拿到双手武器专精</strong>。爆发 + 续航兼备</td></tr><tr><td><strong>S</strong></td><td><strong>兽王猎人</strong></td><td>宠物坦怪、几乎零消耗；新天赋<strong>耐久训练 / 释放之怒</strong>提升宠物坦度仇恨，<strong>灵魂联结（Spirit Bond）</strong>持续治疗人与宠 → <strong>大幅减少吃喝停顿</strong></td></tr><tr><td><strong>S</strong></td><td><strong>痛苦术士</strong></td><td>DOT + 生命吸取续航，<strong>拉连锁</strong>能力强；DOT 可暴击</td></tr><tr><td><strong>A</strong></td><td>冰霜法师</td><td>控制与 AoE，风筝流</td></tr><tr><td><strong>A</strong></td><td>奥术法师</td><td>法力效率</td></tr><tr><td><strong>A</strong></td><td>野性德鲁伊</td><td>机动性与多功能</td></tr><tr><td><strong>A</strong></td><td><strong>惩戒骑士</strong></td><td>★ 重构最大受益：<strong>6 级即会圣光打击（Holy Strike）</strong>、<strong>20 级奉献变基础技能</strong>、<strong>圣印不再被审判消耗</strong>、惩戒树重做并新增 <strong>Twist of Light（无需插件即可圣印舞）</strong> → 练级体验远好于 1.12</td></tr></tbody></table></div>
+<blockquote><strong>重要范式转变</strong>：经典旧世里"法师 AoE 刷野最快"的结论，建立在<strong>刷本/集中拉怪的引擎</strong>之上；Forever 削弱了这条路径，官方让"任务密度 + 首通经验"抹平职业差距。 <strong>结论：选你到 60 还想继续玩的职业</strong>（来自 LFCarry 的判断），别只看练级速度。</blockquote>
+<hr>
+<h2>四、赚钱：Beta 验证后的经济原则【媒体整理 + 官方系统佐证】</h2>
+<h3>核心前提</h3>
+<ul><li><strong>没有 Token</strong> → 金币完全玩家驱动；<strong>炼金与烹饪专业会成为团队社交基础设施</strong>（替代了"用 Token 换金"的路径）。建议<strong>在首个团本（海加尔峰）开荒前，每个固定队至少备一条消耗品线</strong>。</li><li>每个<strong>规则集是独立生态</strong> → AH 是否互通<strong>待验证</strong>，定价必须以你实际所在规则集为准。</li></ul>
+<h3>最稳策略：边练级边采集</h3>
+<ul><li>三个采集专业中：</li>  <li><strong>剥皮</strong>：已经在杀野兽了，顺手剥 → <strong>零绕路</strong>，最适合混进练级主线（与本项目此前的推荐一致）。</li>  <li><strong>采矿 / 草药</strong>：顺路采，但别为了一个节点大幅绕路（"绕 1 小时专门采"远不如"路过 10 秒采一个"）。</li><li><strong>丰收（Bountiful Harvest）</strong> 传承天赋提升三采集产量 —— 但会挤占练级流点数。</li></ul>
+<h3>新传导链：必须吃透</h3>
+<blockquote><strong>副本图纸（Blueprint）→ 对应专业 → 所需材料 → 玩家需求</strong></blockquote>
+<ul><li>高级 Blueprint 由<strong>特定副本 BOSS</strong>掉落，可以形成稀缺加工位。</li><li>但<strong>不要预设所有图纸都值钱</strong>：优先盯"玩家真的想要的那件东西"所需材料。</li><li>交易前先在 Beta 确认物品可否交易（部分服务端设为绑定则 AH 倒卖不成立）。</li></ul>
+<h3>AH 实操原则（新服特征：有需求但玩家手里没钱）</h3>
+<div class="tw"><table><thead><tr><th>情形</th><th>做法</th></tr></thead><tbody><tr><td>常见材料走得快</td><td>直接卖，保持金币流动性</td></tr><tr><td>原材料价 &gt; 成品价</td><td>卖原料（别为上升技能点而买贵材料）</td></tr><tr><td>成品有明确毛利</td><td><strong>先小批量试，别一上来量产</strong></td></tr><tr><td>恶性压价</td><td>屯一部分别跟着砸</td></tr><tr><td>新图纸突发需求</td><td>上架前重新核价</td></tr></tbody></table></div>
+<ul><li><strong>低等级材料照样有人买</strong>（高等级玩家补专业会回头买低级材料）→ 别全丢商店。</li><li><strong>不要盲信"每小时 X 金"的攻略</strong>：Forever 实际收益取决于服务器供给、规则集人群、图纸获取情况。</li></ul>
+<h3>每次游戏的固定循环</h3>
+<ol><li>出发前：查 AH 里当前等级区间的贵价材料。</li><li>练级中：采途径节点、捡人形怪布料、顺手剥皮（<strong>不做长距离绕路</strong>）。</li><li>回城前：用剩余背包位再清一轮附近资源。</li><li>回城后：丢商店杂物、挂材料与 BOE、比较"原料价 vs 成品价"。</li><li>打完副本：检查是否新图纸推高了某种材料需求。</li></ol>
+<hr>
+<h2>五、对本项目既有文档的修正清单（修正：原写 → 实际）</h2>
+<div class="tw"><table><thead><tr><th>主题</th><th>原写</th><th>Beta 后的修正</th></tr></thead><tbody><tr><td>九个新本等级带</td><td>仅有"13-60 覆盖"的模糊说法</td><td><strong>已有官方精确等级带</strong>（含克罗多克要塞修正为 40-45）</td></tr><tr><td>跨大陆旅行</td><td>只写了"热砂港 → 加基森"</td><td><strong>实为三条新航线</strong>，暴风城港/米奈希尔/塔纳利斯均有新航路</td></tr><tr><td>坐骑花费</td><td>未提及</td><td><strong>TBC 式：骑术即为金币开销，学骑术赠坐骑</strong>；金额未公布，需预留</td></tr><tr><td>是否有代币</td><td>未提及</td><td><strong>明确无 Token、无直升</strong></td></tr><tr><td>传承点数上限</td><td>未提上限</td><td><strong>按角色花费，首发 16 点上限</strong>；新增可选天赋"丰收 Bountiful Harvest"</td></tr><tr><td>名称预留时间</td><td>只写了国服 11-03~11-04</td><td>补：全球窗口为 <strong>10-27 ~ 11-03 PST</strong></td></tr><tr><td>职业梯队</td><td>猎人/术士/德鲁伊/法师 为 T0</td><td><strong>增强萨与惩戒骑显著上升</strong>（均为重做受益者），此梯队仍待 30 级以上验证</td></tr><tr><td>食物</td><td>未提及</td><td><strong>食物 +5% 击杀经验</strong>（最便宜的永久加成）</td></tr><tr><td>露营/营火</td><td>只写了"休息 + 社交"</td><td>实为<strong>移动功能站</strong>：商人/修理/专业工作台/<strong>1 小时增益</strong> + 图纸体系</td></tr></tbody></table></div>
+<hr>
+<h2>六、国服 Beta（10-06 ~ 10-27）你要亲自核验的清单</h2>
+<blockquote>Beta 角色会删档，因此<strong>重点是把下面这些"记下来"，而不是攒金币装备</strong>。</blockquote>
+<ul><li><span class="cb "></span>三条新航线的实际走向与可用性（是否能大幅替代湿地跑图）</li><li><span class="cb "></span>食物 +5% 经验的<strong>说明文字原文</strong>及其适用范围（是否对任务经验也生效）</li><li><span class="cb "></span>营火：修缮/商人/1 小时增益的实测价值；各专业第一个物品是否确为技能 20 解锁</li><li><span class="cb "></span><strong>AH 在你所选规则集内是否互通</strong>、早期是否有足够流动性</li><li><span class="cb "></span>各等级段<strong>节点密度</strong>（矿石/草药/皮革），定你的采集线</li><li><span class="cb "></span>训练费 vs 材料价的对比（决定"卖原料还是做成品"）</li><li><span class="cb "></span>传承 UI 的<strong>实际点数上限</strong>与"丰收 / Well Rested"的花费差</li><li><span class="cb "></span>副本首通任务的经验体感（验证"接满任务打一次"是否真划算）</li><li><span class="cb "></span>组队：天裔之外的老种族能否进泽风岛、能否接那里任务</li><li><span class="cb "></span>插件：正式服框架的战斗限制是否真的生效（决定 WA/Details 能否用）</li></ul>
+<hr>
+<h2>六、9-19 补充：Beta 阶段计划、已知问题与设计师访谈确认【官方确认 / 媒体整理】</h2>
+<blockquote>采集时间：2026-09-19 13:55。来源：官方 Beta 蓝贴（mmo-champion 转载）、官方 Known Issues（9-17）、Kotaku 对首席设计师 Tim Jones 与首席战斗/关卡设计师 Mike Nuthals 的采访（网易/搜狐转述）、官方预购页（timesaver.gg 核对）。</blockquote>
+<h3>1. Beta 是分阶段的，不是一次开到 30 级【官方确认】</h3>
+<div class="tw"><table><thead><tr><th>阶段</th><th>时间</th><th>等级上限</th><th>新增内容</th></tr></thead><tbody><tr><td>第 1 周</td><td>9-17 起</td><td><strong>20</strong></td><td>天裔 + 泽风岛、领主大厅（13-18）、洛丹伦废墟（15-20）、20 级以内全部区域</td></tr><tr><td>第 2 阶段</td><td>约 10-01（开测两周后）</td><td><strong>30</strong></td><td>湿地挖掘场（28-29）等</td></tr></tbody></table></div>
+<ul><li>测试期至 <strong>10-21（PST）</strong>，官方称其为"最后一个完整测试日"（路线图图示为 22 日，末日以官方文字为准）。</li><li><strong>30 级是 Beta 的天花板</strong>，31-60 的爬升要到正式上线才有；<strong>本次 Beta 看不到满级终局、新团本与大部分新五人本</strong>。</li><li>进度<strong>全部删档</strong>，不继承到 11-04/11-05。</li></ul>
+<h3>2. Server Slam：无资格也能进的窗口【官方确认】</h3>
+<p>官方表示测试期内会<strong>开放数小时</strong>，让<strong>任何人</strong>进入 Beta。<strong>关键限定（9-24 澄清）</strong>：无需 Beta 邀请或购买礼包，但<strong>必须持有有效战网账号 + 有效《魔兽世界》游戏时间/月卡</strong>——纯零成本但有账号门槛。这对不打算买礼包、只想提前摸清手感与跑图的玩家是唯一机会——<strong>具体时间待官方公布，需持续盯公告</strong>。</p>
+<h3>3. 资格与礼包的坑（重申）【官方确认】</h3>
+<ul><li><strong>含 Beta 资格</strong>：天裔史诗礼包（$59.99）、魔兽无限典藏（$79.99）。</li><li><strong>不含 Beta 资格</strong>：天裔英雄礼包（$29.99 / ¥218）。两者名称高度相似，付款前务必核对礼包内容行。</li><li>本体仍<strong>只需有效月卡/游戏时间</strong>，礼包是可选升级。</li></ul>
+<h3>4. 已知问题（9-17）【官方确认】</h3>
+<ul><li>理发椅触发 LUA 错误；好友功能在 Beta 中禁用；小地图可能部分出屏。</li><li><strong>补给箱（Waylaid Crate）对"堆叠上限小于需求数量"的物品无效</strong>；学徒奇物箱不接受强效魔法精华、却错误地允许次级魔法精华 —— 均在下个版本修复。（→ 说明补给箱机制尚不稳定，短期内不要把它当稳定收入来源。）</li><li>泰达希尔任务"逃离班尼希尔"中，哨兵 NPC 跑得过快且频繁使用打击技能。</li><li>星界碎片（暗夜精灵牧师种族技能）不吃"暮光聚焦"天赋；复仇（惩戒骑天赋）可被周期性暴击触发。</li></ul>
+<h3>5. 设计师访谈：四条影响效率决策的确认【官方确认】</h3>
+<ol><li><strong>萨满坦克不做</strong>。开发团队明确：探索赛季那种"职业大改造"不适合 Forever 的定位与职业辨识度，本作回归更贴近原版的思路。→ <strong>修正</strong>：此前个别外媒（infinitestart）称"萨满获得威胁生成天赋可承担坦克"，<strong>不可采信</strong>。</li><li><strong>插件限制落在底层战斗接口</strong>。受限的不是某个具体插件，而是插件能获取与处理的战斗信息本身。→ 由"待验证"升级为<strong>确认</strong>。</li></ol>
+<p><strong>9-19 第三次更正（更精确，请以此为准）</strong>：官方开发者问答中，首席软件工程师 <strong>Nora Mills</strong> 明确回答 Forever <strong>"选择了现代 API 方案"</strong>；官方补充：<strong>与主分支共用界面架构、包含 12.1.5 绝大部分 API</strong>，<strong>Midnight 的插件限制（含"秘密值 secret values"）同样生效</strong>。</p>
+<ul>  <li><strong>修正</strong>：此前写"<strong>WeakAuras 不可用</strong>"——<strong>不准确</strong>。实际是 <strong>WeakAuras 仍然存在</strong>，但只能做<strong>关于你自己的</strong>部分（自身 buff / 冷却 / 资源）；<strong>读取敌方施法条、战斗日志事件、其他玩家状态来推导"该按什么"被限制</strong>。</li>  <li><strong>Hekili 式"下一个技能"提示按原方式确实做不出来</strong>（需读取冷却/资源/敌方状态做计算，属被限制类别）——<strong>是接口层面的限制，不是天赋重做导致的失准</strong>。</li>  <li><strong>官方补偿</strong>：<strong>内置伤害统计 + 冷却管理器随游戏发布</strong>（Mills 原话），<strong>挥砍计时器"即将推出"</strong>。详细边界见 <code>macros-and-ui.md</code>。</li>  <li><strong>Beta 期状态补充（9-24 classicwow.gg 转述官方 9-18 Known Issues）</strong>：冷却管理器<strong>当前仍"进行中"，按职业不同实现方式有差异</strong>（与"正式发布随游戏"不矛盾，后者指正式上线时点，Beta 中尚不完善）。德鲁伊还存在"消耗品/buff 护甲加成被熊形态护甲乘算"等已知问题，均待修复。</li></ul>
+<ol><li><strong>集合石（召唤石）移除召唤功能</strong>，改为"寻求组队工具"（发布/浏览招募）。<strong>除非队里有术士，否则必须自己跑图汇合</strong>。→ 直接后果：<strong>组队成本上升 → 鸟点全开、航线与炉石布置的收益进一步提高</strong>。</li><li><strong>团本规模与首发名单（12-09/12-10）</strong>：无弹性难度；首个层级三个团本已具名 —— <strong>Barrow Deeps 深穴（10 人）/ Hyjal Summit 海加尔峰（20 人）/ Onyxia's Lair 奥妮克希亚巢穴（40 人）</strong>；官方保证 <strong>10 人团本有足够挑战与对等奖励，且永久保留</strong>。→ 对小团队/散人是明确利好。</li></ol>
+<h3>6. 早期实测数据点【媒体整理 · 勿外推】</h3>
+<ul><li>组队到 <strong>10 级约 5 小时</strong>；单人兽人法师到 <strong>10 级约 4 小时</strong>。</li><li>早期<strong>任务密度显著提高</strong>，很少出现"跑过整片空地图无事可做"的情况。</li><li><strong>怪物伤害依旧很高</strong>：同时拉 2-4 只通常意味着跑尸体；控场与组队仍然重要。</li><li><strong>3-4 级有任务直接赠送专业手册</strong>（可选草药 / 采矿 / 剥皮 / 裁缝）→ <strong>开局即可获得采集能力</strong>（待二次确认）。</li><li>排队严重；HD/SD 模型可在主菜单切换；光追阴影在 Beta 中被禁用。</li><li>硬件最低门槛：GPU 需支持 <strong>RGBA16F UAV（计算着色器）</strong>，<strong>GTX 760 / 770 / 780 被排除</strong>。</li></ul>
+<h3>7. 本次产生的修正（原写 → 实际）</h3>
+<div class="tw"><table><thead><tr><th>项目</th><th>原写</th><th>实际</th></tr></thead><tbody><tr><td>Beta 等级上限</td><td>30（全程）</td><td><strong>首周 20，约 10-01（开测两周后）升至 30</strong></td></tr><tr><td>名称预留时间</td><td>11-03 ~ 11-04</td><td><strong>10-27 ~ 11-03</strong></td></tr><tr><td>萨满坦克</td><td>（未记，外媒流传可坦）</td><td><strong>明确不做</strong></td></tr><tr><td>插件限制</td><td>待验证</td><td><strong>确认：采用现代（Midnight）API 与战斗限制</strong>（含秘密值）。<strong>WeakAuras 存在但受限</strong>（仅能读自身 buff/冷却/资源）；<strong>Hekili 式计算类做不出来</strong>。内置伤害统计+冷却管理器随游戏发布</td></tr><tr><td>河林等级带</td><td>30-45</td><td><strong>多来源为 35-45</strong>（仍待官方最终确认）</td></tr><tr><td>湿地挖掘场</td><td>24-29</td><td><strong>28-29</strong>，且 Beta 30 级阶段才开放</td></tr><tr><td>集合石</td><td>（沿用原版认知）</td><td><strong>移除召唤功能，改为寻求组队工具</strong></td></tr><tr><td>GDKP / 第三方购金</td><td>（沿用原版"金团生态保留"认知）</td><td><strong>确认：官方禁止 GDKP 拍团；第三方购金永久封号</strong>（社区经理 Kaivax 与首席设计师 Greenfield 直播明确）</td></tr><tr><td>Server Slam 进入条件</td><td>无资格限制、所有人可进</td><td><strong>修正：无需邀请/礼包，但需有效战网账号 + 有效游戏时间</strong>（9-24 vanilla.games 澄清）</td></tr><tr><td>团本具体名称</td><td>深穴/海加尔峰，部分提及奥妮克希亚</td><td><strong>Barrow Deeps 深穴(10) / Hyjal Summit 海加尔峰(20) / Onyxia's Lair 奥妮克希亚巢穴(40)</strong></td></tr><tr><td>名称预留时间</td><td>10-27~11-03</td><td><strong>⚠️ 仍存冲突</strong>：onlinedown/citreport(9-24) 记为 11-03~11-04，与 10-27~11-03 并存，待官方最终确认</td></tr></tbody></table></div>
+<h3>8. 设计哲学定调（世界构建师 Matthew Armstrong，9-22）【官方确认】</h3>
+<p>Armstrong 在 9-22 进一步说明 Forever 的设计取向，解释了此前多项"反便利"决策背后的统一逻辑：</p>
+<ul><li><strong>忠实还原原版体验</strong>，不因正式服玩家习惯而改造；开发团队为此重新学习 20 多年前的制作方式。</li><li><strong>保留"摩擦与不便"是有意为之</strong>：认为"便利会让旅程失去意义""每次改动都会欠下真实性的债"，明确反对显得违和的内容。</li><li><strong>社交是支柱</strong>：寻找朋友、与陌生人组队、社交摩擦是《魔兽世界》的核心；多年"方便单人游玩"的改动削弱了这部分，故刻意保留。</li><li><strong>对玩家的影响</strong>：这解释了为何<strong>经验不加速、集合石移除召唤、不提供飞行、团本无弹性难度</strong>——这些不是疏漏，而是设计取舍。开荒期应<strong>接受"跑图成本、组队协调成本"为常态</strong>，提前与朋友统一规则集/阵营（见 <code>leveling-gold-route.md</code> 规则集约束）。</li></ul>
+<hr>
+<blockquote>本文件由人工触发更新（未启用自动监控）。需要拉取最新情报时，见 <code>update-playbook.md</code>。</blockquote></section>
+<section class="doc " id="leveling_gold_route_md"><h1>★ 升级赚钱路线</h1><blockquote>适用版本：<strong>《魔兽世界》："无限"（World of Warcraft: Forever）——永久 60 级、横向扩展的 Classic+ 独立产品线</strong>。 本攻略的每一条结论都建立在 Forever <strong>已确认的独有机制</strong>之上，不套用正式服/普通怀旧服的通用经验。 信息来源截止时间：2026-09-19（含 9-13/9-14 座谈会、太阳报开发者访谈、国服官网与商城）。标注「待验证」的条目需在国服 Beta（10-06~10-27）或上线后确认。 🔗 <strong>已依据外服 Beta 实测修订</strong>：九个新副本的<strong>官方精确等级带</strong>（含克罗多克要塞修正为 40-45）、<strong>三条新航线</strong>、坐骑为 TBC 式金币开销等，均见 <strong><code>beta-findings.md</code></strong>；完整修正清单见该文件第五章。 🔗 <strong>9-19 第二次更新</strong>：<strong>集合石已移除召唤功能</strong>（组队必须自己跑图汇合）、<strong>挖掘场等级带修正为 28-29</strong>、<strong>河林多来源为 35-45</strong>、<strong>3-4 级即可通过任务白拿专业手册</strong> —— 详见 <code>beta-findings.md</code> 第六章。</blockquote>
+<hr>
+<h2>零、先说结论（一句话路线）</h2>
+<blockquote><strong>不要指望"升级变快"——经验曲线完全没改；真正的提速空间全部来自"少走弯路 + 不断档 + 吃透新区域"。</strong> 最优解：<strong>任务为主线 → 每个五人本只打一次且接满任务 → 35-45 进新区域「河林」替代反复刷本 → 40 级立刻买骑术 → 沿途靠剥皮零成本换第一桶金。</strong></blockquote>
+<hr>
+<h2>一、决定路线的 7 条硬约束（Forever 独有，务必先吃透）</h2>
+<div class="tw"><table><thead><tr><th>#</th><th>约束</th><th>确切含义</th><th>对路线的影响</th></tr></thead><tbody><tr><td>1</td><td><strong>经验曲线完全沿用原版，未加速</strong></td><td>开发者明确：00级到 60 级基线约 <strong>160 小时</strong>（路线不熟 200+ 小时）</td><td>Forever 不会让你"更快满级"，只能靠效率抹平；别信"几天满级"</td></tr><tr><td>2</td><td><strong>副本：杀怪经验大幅下调，地下城任务经验巨幅提升</strong></td><td>首次通关收益丰厚；<strong>反复刷同一副本不再是高效手段</strong></td><td><strong>经典"血色/祖尔法拉克无限刷本"捷径在 Forever 基本废掉</strong></td></tr><tr><td>3</td><td><strong>不鼓励纯刷怪练级</strong></td><td>设计师明确希望玩家做任务、游历世界</td><td>AoE 单刷只能当补充，不能当主线</td></tr><tr><td>4</td><td><strong>没有飞行坐骑</strong></td><td>官方原话：飞行会彻底破坏 60 级的世界探索感</td><td>40 级才有地面坐骑；此前靠<strong>鸟点 + 炉石</strong>；<strong>优先开全鸟点 = 核心效率杠杆</strong></td></tr><tr><td>5</td><td><strong>没有等级缩放、没有直升服务</strong></td><td>等级压制仍然存在</td><td>越级打怪效率极低，必须严格按等级带推进</td></tr><tr><td>6</td><td><strong>规则集取代服务器</strong>（普通/PvP/角色扮演；专家模式后续开放）</td><td><strong>同规则集 + 同阵营才能组队</strong></td><td>开荒主号选<strong>普通</strong>；与朋友开荒前必须先统一规则集与阵营，否则无法同队</td></tr><tr><td>7</td><td><strong>没有个人拾取</strong>（保留队长分配/需求贪婪）</td><td>金团、DKP 生态保留</td><td>装备可以买，金币有真实购买力</td></tr></tbody></table></div>
+<blockquote>这 7 条叠加的直接推论：<strong>Forever 的练级 meta 完全不同于普通怀旧服</strong>——带刷失效、AoE 削弱、"续航强 + 能持续做任务"的职业（猎人/术士）价值上升，"依赖副本刷怪"的打法贬值。</blockquote>
+<hr>
+<h2>二、地图等级带（Forever 新/重做区域）</h2>
+<div class="tw"><table><thead><tr><th>区域</th><th>等级带</th><th>关键内容</th><th>练级价值</th></tr></thead><tbody><tr><td><strong>泽风岛</strong></td><td><strong>1-12</strong></td><td>新种族"天裔"专属新手区（悬浮孤岛）；联盟天裔可选法师、部落天裔可选萨满</td><td>天裔玩家的 1-12 区；非天裔仍是经典新手区</td></tr><tr><td><strong>河林（Riverglades）</strong></td><td><strong>35-45</strong>（另有 30-45 说法，待官方确认）</td><td>赤脊山北侧；<strong>150+ 新任务</strong>；含 <strong>黑市拍卖行</strong>、<strong>热砂港码头（乘船直达加基森）</strong>；五人本「克罗多克要塞」</td><td>★★★ <strong>练级最大红利</strong>：原版 30-45 只能反复刷 SM/ZF，现在有完整任务带</td></tr><tr><td><strong>辛德拉（Shen'dralas）</strong></td><td>约 40+（待验证）</td><td>凄凉之地南端；联动厄运之槌、玛格拉姆/吉尔吉斯半人马</td><td>中后段补充</td></tr><tr><td><strong>海加尔山</strong></td><td><strong>偏满级后段</strong></td><td>从冬泉谷进入；60 级野外区 + 世界任务 + 声望 + 野外BOSS；20 人团本「海加尔峰会」、10 人团本「深穴/荒穴深地」入口之一</td><td>⚠️ <strong>设计师刻意让此处升级进一步放缓</strong> → 它是满级后的装备/声望区，<strong>不是效率练级区</strong></td></tr></tbody></table></div>
+<h3>9 个新五人本（13-60 覆盖）</h3>
+<p>领主大厅（13-18，铁炉堡地下）· 洛丹伦废墟（幽暗城地下低级本）· 维尔加挖掘场（湿地）· 达拉然城（希尔斯布莱德）· 沉没之城（纳迦/海盗）· 克罗多克要塞（河林附近，约 40-45）· 奥卡兹监狱（尘泥沼泽外海）· 黑喉要塞（熊怪/费伍德相关）· 塑造者之台（安戈洛环形山，58-60）。</p>
+<blockquote><strong>关键打法</strong>：这些本的<strong>任务经验被巨幅提升</strong> → 每个本务必「<strong>先接满全任务 → 只打一次</strong>」，这是 Forever 里少数能显著加速的机会点。</blockquote>
+<hr>
+<h2>三、1-60 最快路线表</h2>
+<blockquote>各地图精确等级带请以游戏内实测、Wowhead/NGA 的 Forever 专区为准；下表为主流排法，标注 ★ 的是 Forever 新增/关键插入点。</blockquote>
+<div class="tw"><table><thead><tr><th>阶段</th><th>联盟推荐</th><th>部落推荐</th><th>Forever 要点</th></tr></thead><tbody><tr><td><strong>1-12</strong></td><td>艾尔文森林 / 丹莫罗 / 泰达希尔</td><td>杜隆塔尔 / 莫高雷 / 提瑞斯法林地</td><td>★ 天裔玩家走<strong>泽风岛</strong>（需购礼包）</td></tr><tr><td><strong>12-20</strong></td><td>西部荒野 / 洛克莫丹 / 黑海岸</td><td>贫瘠之地 / 银松森林</td><td>顺势开鸟点</td></tr><tr><td><strong>18-25</strong></td><td>赤脊山 / 暮色森林 / 湿地 / 灰谷</td><td>贫瘠之地(续) / 石爪山 / 千针石林</td><td>赤脊山是进入河林的前置</td></tr><tr><td><strong>25-32</strong></td><td>湿地 / 阿拉希高地 / 荆棘谷(初探)</td><td>千针石林 / 希尔斯布莱德 / 阿拉希</td><td>插入本：洛丹伦废墟、达拉然城</td></tr><tr><td><strong>★ 35-45</strong></td><td>进入<strong>河林</strong>（150+任务）</td><td>同左</td><td>★★★ <strong>替代 SM/ZF 循环的最大红利</strong>；同步推凄凉之地；插入本：克罗多克要塞</td></tr><tr><td><strong>40-50</strong></td><td>塔纳利斯 / 菲拉斯 / 辛特兰 / 艾萨拉</td><td>同左</td><td>★ 用<strong>热砂港码头乘船直达加基森</strong>，跨大陆效率质变；插入<strong>辛德拉</strong></td></tr><tr><td><strong>50-58</strong></td><td>安戈洛环形山 / 费伍德 / 西瘟疫 / 东瘟疫 / 燃烧平原 / 希利苏斯</td><td>同左</td><td>插入本：塑造者之台（58-60）、黑喉要塞</td></tr><tr><td><strong>58-60</strong></td><td>优先 冬泉谷 / 东瘟疫 / 希利苏斯</td><td>同左</td><td>⚠️ <strong>纯速通用别选海加尔山</strong>（刻意放慢）；它是满级后的装备区</td></tr></tbody></table></div>
+<h3>提速原则（8 条）</h3>
+<ol><li><strong>每个五人本：接满任务 + 只打一次</strong>（对应硬约束 2）。</li><li><strong>35-45 直接进河林</strong>，别回头刷 SM/ZF（等级带仍待最终确认，进图前看任务等级）。</li><li><strong>40 级第一时间买骑术</strong>（坐骑附着在骑术训练里，一次性解决移动力），这是最大的单点时间杠杆。</li><li><strong>集合石已移除召唤功能</strong>（9-19 确认）：组队<strong>必须自己跑图汇合</strong>，除非队里有术士 → <strong>每张新图第一件事：把鸟点全开</strong>，并把炉石绑在常用主城；约本前先约定集合点（无飞行，鸟点就是生命线）。</li><li><strong>炉石绑定策略</strong> + 善用热砂港码头航线打通东西大陆。</li><li>主号选<strong>普通规则集</strong>；且与朋友开荒前必须<strong>先统一规则集与阵营</strong>（同规则集 + 同阵营才能组队，这是 Forever 取代服务器的核心机制，详见 <code>beta-findings.md</code> 设计哲学小节）。</li><li><strong>不要越级打怪</strong>（无等级缩放），保持与等级带对齐。</li><li><strong>多在旅店下线</strong>吃休息经验（配合下方传承点数）。</li></ol>
+<h3>传承系统（重点：这是 Forever 独有的练级效率杠杆）</h3>
+<p>点数按分支投入，官方明确<strong>只给便利性、不加战斗强度</strong>，下列已曝光节点对练级价值最高：</p>
+<ul><li><strong>冒险·天赋异禀</strong>：<strong>从第 9 级开始每升一级都给天赋点</strong>（总上限仍 51）→ <strong>越早点，前期越强</strong>。</li><li><strong>冒险·休息充足</strong>：休息经验积累速度 +4%、上限 +4%（每级）→ 配合旅店下线。</li><li><strong>冒险·冒险快感</strong>：对非普通敌人致命一击后 10 秒回 1% 最大生命/法力（<strong>地下城/团本/战场无效</strong>）→ 野外练级的白嫖续航。</li><li><strong>足智多谋·生死之间</strong>：死亡移速 +5%，复活后 1 分钟内/战斗前辅助法术<strong>免资源</strong> → 跑尸更快、免费补 buff。</li><li><strong>足智多谋·永久效果</strong>：自身长期增益技能 +50%、<strong>营地篝火休息增益 +50%</strong> → 常去<strong>露营/篝火系统</strong>补 buff。</li><li><strong>职业·绩效考核</strong>：向"艾泽拉斯商业管理局 / 杜隆塔尔补给与物流处"上交箱子时，5% 几率获得 100% 商人好感度 → 经济线。</li><li><strong>职业·加班</strong>：主/副职业技能升级几率 +4% → 练专业更快。</li></ul>
+<blockquote><strong>推荐投入顺序：天赋异禀 → 休息充足 → 冒险快感 → 生死之间/永久效果 → 经济类（绩效考核/加班）。</strong></blockquote>
+<hr>
+<h2>四、赚钱路线（Forever 经济）</h2>
+<h3>影响经济的 Forever 特定因素</h3>
+<ul><li><strong>带刷/代刷服务贬值</strong>：副本刷怪收益被砍 → 金币主来源回归<strong>材料 + 任务奖励 + 补给箱</strong>。</li><li><strong>专业新增 600+ 配方</strong>（含物品的全面重做）→ 材料需求结构性上升。</li><li><strong>没有飞行</strong> → 采集绕路成本高，尤其 40 级前。</li><li><strong>黑市拍卖行（河林）</strong> → 新经济节点，可能存在溢价空间（待验证）。</li><li><strong>热砂港码头 → 加基森航线</strong> → 塔纳利斯（经典矿/草富集区）可达性提升。</li><li><strong>补给箱 / 商人好感度系统</strong>（上交箱子给"商业管理局/补给与物流处"）→ 可能是稳定的 repeatable 金币与声望来源（机制待验证，传承「绩效考核」能放大）。</li><li><strong>主城拍卖行是否互通待验证</strong> → 若不通，则存在<strong>跨城 AH 价差套利</strong>。</li></ul>
+<h3>分阶段变现</h3>
+<div class="tw"><table><thead><tr><th>阶段</th><th>时间</th><th>高价物资</th><th>打法</th></tr></thead><tbody><tr><td><strong>首发周</strong></td><td>上线第 1-7 天</td><td>亚麻/毛料布、轻/中皮、铜/锡矿、低级草药（银叶/宁神/地根/魔皇）、低级急救材料、小袋子</td><td>全员练级 + 冲急救/裁缝，低级物资溢价最高；<strong>顺手捡布剥皮卖出，零成本第一桶金</strong></td></tr><tr><td><strong>中段</strong></td><td>第 2-4 周</td><td>铁/秘银/瑟银、中级草药（卡德加胡须/金棘/活根花等）、重皮/厚皮</td><td>主力逼近 60、冲专业高峰；关注<strong>黑市 AH 与跨城价差</strong></td></tr><tr><td><strong>团本前</strong></td><td>12 月团本解锁前</td><td>药水/精炼/附魔材料、团本消耗品、稀缺配方代工</td><td>10/20/40 人团本并存 → <strong>团本消耗品与代工需求爆发</strong>（GDKP 已禁，但材料/消耗品/代工仍是最稳变现）；有配方者收代工费</td></tr></tbody></table></div>
+<blockquote><strong>9-19 新信息</strong>：Beta 实测显示 <strong>3-4 级就有任务直接赠送专业手册</strong>（可选草药 / 采矿 / 剥皮 / 裁缝）→ <strong>采集能力的启动比原版早得多</strong>，开局即可边练边攒材料（待二次确认）。</blockquote>
+<h3>专业搭配决策表（单人"升级+赚钱"一体）</h3>
+<div class="tw"><table><thead><tr><th>组合</th><th>练级绕路成本</th><th>早期收益</th><th>中后期</th><th>建议</th></tr></thead><tbody><tr><td><strong>剥皮 + 制皮</strong></td><td><strong>≈0（杀怪顺手剥）</strong></td><td>中高</td><td>高（600 新配方 + 装备自给）</td><td>★ <strong>主号首选</strong>：零绕路，效率与收益兼顾</td></tr><tr><td><strong>草药 + 炼金</strong></td><td>中（需绕路采）</td><td>高（低级草贵）</td><td>极高（药水/转化CD/团本消耗品）</td><td>想要后期收益最大化的玩家</td></tr><tr><td><strong>采矿 + 锻造/工程</strong></td><td>中高</td><td>高（矿贵）</td><td>高（工程玩具/装备）</td><td>有组织/副业倾向</td></tr><tr><td><strong>裁缝 + 附魔</strong></td><td>低（人形怪区顺路捡布）</td><td>高（袋子 + 分解循环）</td><td>高（附魔材料垄断）</td><td>偏向副本党的玩家</td></tr><tr><td><strong>双采（草+矿）</strong></td><td><strong>高（大量绕路）</strong></td><td>最高（纯材料）</td><td>高</td><td>⚠️ <strong>不建议用在主号</strong>：无飞行，绕路吃掉大量练级时间</td></tr></tbody></table></div>
+<blockquote><strong>推荐配置</strong>：<strong>主号＝剥皮 + 制皮</strong>（把顺手剥到的皮换成启动资金）；<strong>银行号/第二号＝草药 + 炼金或双采</strong>，专职铺采集。</blockquote>
+<h3>单人日常循环</h3>
+<p>旅店下线（休息经验）→ 出门前接满本地图 + 副本任务 → 沿单向路线推进避免折返 → 顺手剥皮/采集 → 满包回城清包并挂 AH → 每入新图先开鸟点 → 见到营地/篝火就补增益 → 每个本只打一次 → 回旅店下线。</p>
+<hr>
+<h2>五、单人最高效"组合包"</h2>
+<ul><li><strong>职业</strong>：猎人 ≈ 术士 &gt; 德鲁伊 &gt; 法师。（理由：Forever 削弱了依赖副本/AoE 的打法，<strong>"续航强、无停顿、能稳定做完任务链"</strong>成为核心指标；猎人的宠物 + 无消耗最契合"任务为主线"的设计。）</li><li><strong>规则集</strong>：普通（专家模式首发不开放）；<strong>组队前提：朋友必须同为普通规则集 + 同阵营</strong>，否则无法同队——先把人凑齐再聊职业搭配。</li><li><strong>专业</strong>：主号 剥皮 + 制皮；第二号 草药 + 炼金。</li><li><strong>传承点数</strong>：天赋异禀 → 休息充足 → 冒险快感 → 生死之间/永久效果 → 经济类。</li><li><strong>工具</strong>：见下"注意"。</li><li>⚠️ <strong>工具注意</strong>：有报道指出 <strong>Forever 采用正式服框架，正式服那套战斗插件限制预计会沿用</strong>（待验证）。因此不要假设所有经典怀旧服战斗类插件都能照常工作，<strong>优先使用官方原生功能</strong>（冷却管理器、任务追踪、焦点目标、更清晰姓名板），插件兼容清单以 Beta/上线后 Wowhead、NGA 的确认为准。</li></ul>
+<hr>
+<h2>六、待验证与更新事项（Beta/上线后确认）</h2>
+<ul><li><span class="cb "></span>泽风岛是否允许<strong>非天裔</strong>接任务/练级（社区已提出该疑问）</li><li><span class="cb checked"></span>~~河林精确建议等级带（30-45 vs 35-45）~~ → <strong>多来源为 35-45</strong>，仍待官方最终确认</li><li><span class="cb "></span>辛德拉对应等级段</li><li><span class="cb "></span>主城拍卖行是否互通（决定跨城套利可行性）</li><li><span class="cb "></span>补给箱 / 商人好感度系统的具体机制与收益</li><li><span class="cb "></span>黑市拍卖行的实际功能</li><li><span class="cb checked"></span>~~插件兼容清单（正式服框架限制是否适用）~~ → <strong>确认受限</strong>：WeakAuras / Hekili 无法按原方式工作</li><li><span class="cb "></span>双天赋是否实装</li><li><span class="cb checked"></span>~~9 个新五人本的精确等级段~~ → 官方蓝贴已确认（湿地挖掘场修正为 28-29），见「外服实测与捷径」第一章</li><li><span class="cb "></span>组队经验加成规则</li><li><span class="cb "></span>1-60 各地图的任务经验 / 怪物经验是否相较原版有微调</li><li><span class="cb "></span>野外营地、世界任务与日常类内容的实际产出</li></ul>
+<blockquote>本文件由「专区资讯常驻监控」自动化任务持续更新；详见同目录 <code>intel-digest.md</code>。</blockquote></section>
+<section class="doc " id="talents_and_gear_md"><h1>★ 天赋配点与装备</h1><blockquote>适用版本：<strong>《魔兽世界》："无限"（World of Warcraft: Forever）</strong>，永久 60 级、横向扩展的 Classic+ 独立产品线。 采集时间：<strong>2026-09-19</strong>（国际服 Beta 第 3 天）。 可信度标注：<strong>【官方确认】</strong> = 座谈/蓝贴/官方访谈明确表述；<strong>【第三方实测】</strong> = 攻略站依据 Beta 客户端与实战整理的配点；<strong>【框架推断】</strong> = 依据官方机制变化推导，非官方数值。</blockquote>
+<hr>
+<h2>零、先看这三条，否则会白花时间</h2>
+<h3>1）BIS 装备清单<strong>现在不存在，而且是被官方刻意设计成不存在的</strong>【官方确认】</h3>
+<p>高级游戏设计师 Josh Greenfield（Aggrend）在 MMORPG.com 采访中明确：</p>
+<ul><li><strong>物品属性在"掉落"之前完全不可见</strong>——你、或你所在服务器上的任何人拿到它之前，看不到任何属性。datamining 挖不到数值表（Beta 已开启挖掘，目前只挖出名衔、坐骑、配方，<strong>没有物品属性表</strong>）。</li><li><strong>首发没有地下城手册</strong>；<strong>进团本之前不知道会打哪些首领</strong>。</li><li>官方<strong>刻意取消了传统的团本 PTR 测试</strong>，就是不让攻略站提前解完。</li><li>因此：<strong>第一团本层级（12-09 / 12-10 开启）不会存在预先写好的 BIS 列表</strong>。Greenfield 形容首周是"西部荒野"，玩家一边掉落一边在 Wowhead 上补数据。</li><li>他还强调 Forever <strong>"不是一个不做的世界"</strong>：职业和内容会持续调整，所以<strong>任何攻略都会随时间漂移</strong>。</li></ul>
+<blockquote><strong>直接结论</strong>：任何在 12-09 之前发布、声称给出"Forever 满级 BIS 清单"的内容，<strong>都是猜测</strong>。本文件因此<strong>不编造 BIS 清单</strong>，而是给你<strong>属性权重框架 + 装备来源优先级 + 自建 BIS 的方法</strong>——这才是在这个游戏里真正有效的东西。</blockquote>
+<h3>2）天赋配点<strong>可以给</strong>，但要区分两个层次</h3>
+<ul><li><strong>10-20 级</strong>：有 Beta 实战验证的配点（下表，可信度高，但只覆盖到 20 级）。</li><li><strong>21-60 级</strong>：只有方向性顺序（第三方依据天赋树推演），<strong>官方会调整，届时以 Beta 30 级阶段和上线后为准</strong>。</li></ul>
+<h3>3）天赋系统的基础规则（先记住，否则看不懂配点）【官方确认】</h3>
+<div class="tw"><table><thead><tr><th>项目</th><th>规则</th></tr></thead><tbody><tr><td>首个天赋点</td><td><strong>10 级</strong></td></tr><tr><td>获取速度</td><td>10 级后<strong>每级 1 点</strong></td></tr><tr><td>60 级总量</td><td><strong>51 点</strong></td></tr><tr><td>排数解锁</td><td><strong>每系每投入 5 点，解锁下一排</strong></td></tr><tr><td>结构</td><td>原版三系 7 排结构；保留 11/21/31 点金牌天赋，<strong>新增 16 点档位单点天赋</strong></td></tr><tr><td>双配置</td><td>天赋界面已见 <strong>Primary + Secondary</strong> 两套配置，但<strong>副配置如何解锁官方尚未说明</strong>（不要假设是正式服式的随时切专精）</td></tr></tbody></table></div>
+<hr>
+<h2>一、热门职业天赋配点（练级向）</h2>
+<blockquote>配点来源：wowforeverbuilds.com（2026-09-19 发布的 20 级 Beta 配点，逐级顺序表）、Mobalytics（Forever 职业攻略）、kami-labs（27 系满级配点数据库）、BoostRoom（治疗职业天赋方向）。 ⚠️ <strong>中文天赋名为暂译</strong>——国服客户端未上线，官方中文名未公布，请以括号内英文原名为准。</blockquote>
+<h3>A. 20 级 Beta 实装配点（可直接照抄）【第三方实测】</h3>
+<div class="tw"><table><thead><tr><th>职业</th><th>天赋顺序（10 → 20 级）</th><th>要点</th></tr></thead><tbody><tr><td><strong>兽王猎</strong></td><td>致命瞄准 Deadly Aspects → 寻路 Pathfinding → 集中火力 Focused Fire → 强化复活宠物 Improved Revive Pet</td><td>攻略站普遍把猎人列为<strong>最容易练级的职业</strong>；核心是宠物扛伤 + 零消耗</td></tr><tr><td><strong>惩戒骑</strong></td><td>神恩 Benediction → 信念 Conviction → <strong>20 级 命令圣印 Seal of Command</strong></td><td><strong>Beta 公认最强的练级职业</strong>（社区评价"过强"）；神恩解决蓝耗</td></tr><tr><td><strong>痛苦术</strong></td><td>强化腐蚀术 Improved Corruption → 灵魂收割 Soul Harvesting → 咒逐 Malediction → 瘟疫 Pandemic</td><td><strong>DOT 可暴击</strong>（Forever 独有改动）；续航靠吸血</td></tr><tr><td><strong>冰法</strong></td><td>强化冰霜箭 Improved Frostbolt → 冰碎片 Ice Shards → 刺骨冰寒 Piercing Ice</td><td>保留经典控制链；法师在梯队榜接近顶部</td></tr><tr><td><strong>增强萨</strong></td><td>雷霆打击 Thundering Strikes → 强化幽魂之狼 Improved Ghost Wolf → 精神敏捷 Mental Dexterity → 萨满专注 Shamanistic Focus</td><td>精神敏捷＝<strong>智力转攻强</strong>；社区同时在试精神迅捷 / 熔岩爆裂</td></tr><tr><td><strong>野性德</strong></td><td>凶猛 Ferocity → 野性迅捷 Feral Swiftness → 厚皮 Thick Hide → 锐利之爪 Sharpened Claws</td><td>Beta 德鲁伊<strong>用猫/熊练级，避开愤怒</strong>；形态旅行＝采集优势</td></tr><tr><td><strong>战斗贼</strong></td><td>强化邪恶攻击 Improved Sinister Strike → 强化剔骨 Improved Eviscerate → 精准 Precision → 刺穿伤口 Puncturing Wounds</td><td>Beta 盗贼<strong>能量偏紧张</strong>，低等级体感一般</td></tr><tr><td><strong>戒律牧</strong></td><td>魔杖专精 Wand Specialization → 精神分流 Spirit Tap → 双生戒律 Twin Disciplines → 强化真言术盾 Improved Power Word: Shield</td><td>低停机的"魔杖流"练级；暗影系当时尚在修</td></tr><tr><td><strong>狂暴战</strong></td><td>残酷 Cruelty → 无羁狂怒 Unbridled Wrath → 刺耳怒吼 Piercing Howl</td><td>Beta 战士<strong>怒气偏慢</strong>，是全职业里练级体感最吃力的</td></tr></tbody></table></div>
+<h3>B. 21-60 级延伸顺序（方向性，非定稿）【第三方实测 + 框架推断】</h3>
+<div class="tw"><table><thead><tr><th>职业</th><th>40-60 关键节点</th><th>备注</th></tr></thead><tbody><tr><td><strong>兽王猎</strong></td><td>释放之怒 + 凶暴（宠物能扛能杀）→ <strong>31 级 威吓</strong> → 狂乱 → <strong>40 级 狂野怒火</strong> → 精准瞄准 / 效率 / 迅猛杀戮</td><td>与德鲁伊组队时改走<strong>耐力训练 + 灵魂联结</strong>（宠物持续回复）</td></tr><tr><td><strong>惩戒骑</strong></td><td>沿 Retribution 主干推<strong>圣印/审判联动</strong>（Forever 已改为<strong>审判不消耗圣印</strong>）→ 圣光打击 6 级即有、奉献 20 级变基础技能</td><td>无需插件辅助"圣印舞"，这是本次重做最大的体验改善</td></tr><tr><td><strong>痛苦术</strong></td><td><strong>31 级 虹吸生命</strong> → <strong>40 级 吸取希望</strong>；配合虚空行者坦克</td><td>打法核心是"多目标 DOT + 吸血续航"，停机体感最低</td></tr><tr><td><strong>冰法</strong></td><td>沿 Frost 主干推<strong>冰枪/暴风雪</strong>（AoE 单刷路线）</td><td>满级向：0/41/10（火系取 10 点）为第三方常见配比</td></tr><tr><td><strong>增强萨</strong></td><td><strong>25 级 乱舞</strong> → <strong>30 级 灵武器</strong>（保仇恨）→ 先知之怒（≈个人嗜血）</td><td><strong>官方确认不做萨满坦克</strong>，别按坦克思路配点</td></tr><tr><td><strong>野性德</strong></td><td>猫（输出）/ 熊（扛）分线；满级向 9/38/4</td><td>德鲁伊四系通吃，是小号与采集的最优解</td></tr><tr><td><strong>战斗贼</strong></td><td>30 级 剑刃乱舞 → 40 级 冲动（满级向 18/33/0）</td><td>练级路线"武器宽容"，先用<strong>当前最好的武器</strong>，别锁死武器类型</td></tr><tr><td><strong>戒律牧</strong></td><td>30 级 忏悔（伤害或应急治疗两用）</td><td>满级前不必凑齐治疗配点，混合练级即可</td></tr><tr><td><strong>防骑</strong></td><td>43 点 Protection + 8 点 Retribution（第三方满级向）</td><td><strong>防骑已具主坦能力</strong>（审判附嘲讽 + 奉献变基础）</td></tr></tbody></table></div>
+<h3>C. 天赋配点的四条纪律</h3>
+<ol><li><strong>不要照搬经典 / TBC / 巫妖王 / 探索赛季 / 正式服的配点</strong>——Forever 改动了<strong>排数、位置、效果、武器交互</strong>和整个装备环境，名字像不等于机制一样。</li><li><strong>不要按探索赛季的思路配</strong>：官方明确<strong>萨满坦克这类改造不做</strong>，Forever 回归更贴近原版的职业辨识度。</li><li><strong>低等级优先"降停机"</strong>：Forever 练级<strong>怪物伤害依旧很高</strong>（拉 2-4 只通常要跑尸体），续航与减伤 &gt; 极限输出。</li><li><strong>配点是给"到 60 还想继续玩"的职业</strong>：官方刻意用<strong>任务密度与首通任务经验</strong>抹平职业差距，<strong>别为了开荒速度选一个你 60 级就不想碰的职业</strong>。</li></ol>
+<hr>
+<h2>二、装备：官方把装备系统改成了什么样</h2>
+<blockquote>以下机制来自 Blizzard 深度座谈会（Deep Dive）的整理报道【官方确认】。它们<strong>直接决定属性权重</strong>，比任何抄来的 BIS 列表都重要。</blockquote>
+<h3>1）四项改变属性权重的机制改动</h3>
+<div class="tw"><table><thead><tr><th>改动</th><th>含义</th><th>对你的影响</th></tr></thead><tbody><tr><td><strong>命中与暴击在近战 / 远程 / 法术之间统一</strong></td><td>不再有"法系命中装""近战暴击装"的分家</td><td>装备通用性大幅提高，<strong>跨职业捡装更容易</strong>；堆命中的边际价值需要重新评估</td></tr><tr><td><strong>武器技能被分散 / 取消绝对最优武器类型</strong></td><td>不再存在"剑专精所以只能拿剑"的唯一解</td><td><strong>拿到什么武器用什么</strong>，练级期不必为武器类型放弃更高秒伤</td></tr><tr><td><strong>治疗装备约 1/3 价值转化为伤害</strong></td><td>治疗不再"零输出"</td><td>治疗系练级<strong>不必完全另备一套输出装</strong></td></tr><tr><td><strong>饰品绑定生物群系 / 生物类型，而非通用属性块</strong></td><td>饰品是<strong>情境化的</strong>，不是通用强度件</td><td><strong>需要多套饰品按场景换</strong>——这也是官方把<strong>银行默认扩到约 96 格</strong>（原版 2-4 倍）的原因</td></tr></tbody></table></div>
+<h3>2）掉落体系本身也被重做【官方确认】</h3>
+<ul><li><strong>每一个五人本掉落都被重新审查</strong>，并<strong>新增数百件奖励</strong>。</li><li><strong>世界掉落的史诗装备被改进</strong>；<strong>任务奖励按角色定位做了扩展</strong>（不再只有一条通用线）。</li><li><strong>每个团本首领都有"chase items"（值得追的稀有掉落）</strong>，且藏在隐藏表里。</li></ul>
+<h3>3）属性优先级框架【框架推断 · 非官方数值】</h3>
+<blockquote>🔗 <strong>本节已独立展开为专文 <code>stats-and-gear.md</code></strong>——含<strong>全职业必备属性骨架、九职业逐专精属性关键、按职责（近战/远程/法系/治疗/坦克）的取舍顺序、官方样张七件装备的设计语言解读</strong>。以下为速览版，详细论证与来源见该文件。 依据上述改动推导，用于<strong>上线后自己判断装备好坏</strong>，不是可以直接照抄的权重表。</blockquote>
+<ol><li><strong>主属性（力量/敏捷/智力）永远第一</strong>——这一点没有变。</li><li><strong>命中：堆到"不再明显未命中"即停</strong>。因为命中在三种伤害类型间统一，<strong>命中装的获取面比原版宽</strong>，但也更容易堆过头。</li><li><strong>暴击的通用性上升</strong>：原先"法系暴击"与"近战暴击"分家，现在统一 → <strong>暴击装可以跨用途使用</strong>，性价比相对提升。</li><li><strong>耐力在练级期权重高于满级期</strong>：Forever 野外怪物伤害高、<strong>无飞行</strong>（跑尸成本高），多一点血就是少一次跑尸。</li><li><strong>治疗向：不要照搬经典治疗 BIS</strong>（官方明确提醒）——治疗强度<strong>附带约 1/3 伤害转化</strong>，纯治疗堆到极致不如"治疗 + 少量伤害"混合。</li><li><strong>饰品按场景配</strong>：同一件饰品在不同生物群系/生物类型下价值不同 → <strong>留 2-3 件备用</strong>，而不是只认一件"最强"。</li></ol>
+<h3>4）装备来源优先级（1-60 与满级初期）</h3>
+<div class="tw"><table><thead><tr><th>阶段</th><th>最优来源</th><th>说明</th></tr></thead><tbody><tr><td><strong>1-20</strong></td><td>任务奖励</td><td>早期任务密度已被显著提高；<strong>3-4 级就有任务白送专业手册</strong>（草药/采矿/剥皮/裁缝）</td></tr><tr><td><strong>13-60</strong></td><td><strong>九个新五人本</strong>（等级带严格对齐）</td><td>每个本<strong>接满任务只打一次</strong>：杀怪经验被砍，但<strong>副本任务经验被巨幅提高</strong></td></tr><tr><td><strong>全程</strong></td><td>世界掉落史诗（已改进）</td><td>别再低估世界掉落</td></tr><tr><td><strong>满级初期</strong></td><td>五人本 + 世界内容 + 新区域声望阵营</td><td><strong>海加尔山</strong>是满级后段区域（刻意放慢，不是练级区）</td></tr><tr><td><strong>12-09 / 12-10 起</strong></td><td>团本：深穴（10 人）/ 海加尔峰（20 人）；另传奥妮克希亚巢穴（40 人）</td><td><strong>10 人团本奖励不天然更差，且永久保留</strong>——小团队不必硬凑 40 人</td></tr></tbody></table></div>
+<h3>5）在这个"没有 BIS 列表"的游戏里，你该怎么准备装备</h3>
+<ol><li><strong>练级期别为装备停下</strong>：Forever 的经验曲线<strong>完全没加速</strong>（约 160 小时到 60），装备会随等级被替换，<strong>过度刷装是净亏损</strong>。</li><li><strong>把银行当成装备库</strong>：默认约 96 格 → 留出空间放<strong>多套情境装备（饰品、抗性、生物类型克制件）</strong>，这比原版重要得多。</li><li><strong>上线后自己做第一份数据</strong>：官方设计意图就是"第一周靠玩家发现"。你的公会/固定队<strong>用一张共享表记录每次掉落</strong>（名字 + 属性 + 出处），两周内就能形成自己的 BIS——这在首周的实际价值高于任何外部攻略。</li><li><strong>进团本前带 2-3 套</strong>：<strong>没有地下城手册、不知道会打哪些首领</strong>，抗性与生物类型克制的价值大幅上升（例：达拉然城中<strong>奥术免疫奥术、火元素免疫火焰</strong>，队伍伤害类型搭配在大秘境式场景里是真实约束）。</li><li><strong>不要为"预购装"付费</strong>：不存在提前拿到 BIS 的途径，<strong>没有直升、没有代币</strong>。</li></ol>
+<hr>
+<h2>三、待验证清单（Beta 与上线后逐条核实）</h2>
+<ul><li><span class="cb "></span>天赋副配置（Secondary）如何解锁、能否在副本内切换</li><li><span class="cb "></span>20 级以上天赋的<strong>实际效果与排位</strong>是否被官方调整（已知官方会持续调）</li><li><span class="cb "></span>物品属性隐藏是否也适用于<strong>五人本掉落</strong>（或仅团本），以及"你的服务器"在无服务器架构下指规则集还是区域</li><li><span class="cb "></span>命中/暴击统一后，<strong>命中阈值的实际数值</strong></li><li><span class="cb "></span>治疗装备伤害转化的<strong>实际比例</strong>（报道为约 1/3，需实测）</li><li><span class="cb "></span>饰品与生物群系绑定的<strong>具体判定方式</strong></li><li><span class="cb "></span>银行 96 格的<strong>实际容量</strong>与是否可继续扩容</li><li><span class="cb "></span>九个新五人本的<strong>掉落表</strong>（首通任务奖励是否给关键件）</li><li><span class="cb "></span>团本首周的实际掉落与"西部荒野"状态持续时间</li></ul>
+<hr>
+<blockquote>本文件由人工触发更新（未启用自动监控）。需要拉取最新情报时，见 <code>update-playbook.md</code>。 相关文件：<code>beta-findings.md</code>（实测与捷径）、<code>leveling-gold-route.md</code>（升级赚钱路线）、<code>efficiency-guide.md</code>（效率指南）。</blockquote></section>
+<section class="doc " id="stats_and_gear_md"><h1>★ 属性体系与配装</h1><blockquote>适用版本：<strong>《魔兽世界》："无限"（World of Warcraft: Forever）</strong>，永久 60 级 Classic+ 独立产品线。 采集时间：<strong>2026-09-19</strong>（国际服 Beta 第 3 天，等级上限 20）。 可信度标注：<strong>【官方确认】</strong> = 暴雪嘉年华深度座谈（Kris Zierhut 主讲战斗/物品/职业）与官方访谈明确表述；<strong>【第三方实测】</strong> = 攻略站依据 Beta 客户端与实战整理；<strong>【框架推断】</strong> = 依据官方机制变化推导，不是游戏内数值。 ⚠️ <strong>中文属性名为暂译</strong>——国服客户端未上线，官方中文名未公布，请以括号内英文原名为准。</blockquote>
+<hr>
+<h2>零、官方原话：Forever 的属性盘子长什么样</h2>
+<p>首席游戏设计师 <strong>Kris Zierhut</strong> 在暴雪嘉年华《"无限"》深度座谈的 <strong>「物品与装备：属性（Items and Gear: Stats）」</strong> 幻灯片上，列出的属性是这五项：</p>
+<div class="tw"><table><thead><tr><th>幻灯片属性</th><th>中文（暂译）</th><th>说明</th></tr></thead><tbody><tr><td>Hit Chance</td><td>命中几率</td><td><strong>近战 / 远程 / 法术三者合并为一项</strong></td></tr><tr><td>Crit Chance</td><td>暴击几率</td><td><strong>三种暴击同样合并</strong></td></tr><tr><td>Weapon Skill</td><td>武器技能</td><td><strong>机制保留</strong>，但单件装备给的更少</td></tr><tr><td>Bonus Healing</td><td>治疗加成</td><td>现在<strong>附带等值约 1/3 的伤害加成</strong></td></tr><tr><td>Expertise</td><td>精准</td><td><strong>新属性</strong>：降低攻击被<strong>闪避 / 招架</strong>的几率，面向坦克与近战</td></tr></tbody></table></div>
+<p>Zierhut 的原话口径【官方确认】：</p>
+<ul><li><strong>"经典属性保留，后续资料片的属性也会引入——但我不打算加韧性（Resilience）。"</strong></li><li><strong>命中合并</strong>："在经典里它被拆成近战、远程和法术三份，对增强萨、惩戒骑，甚至对<strong>想让嘲讽命中</strong>的战士来说都很别扭。"合并后<strong>一项属性覆盖所有攻击，毒药和陷阱也算在内</strong>。</li><li><strong>暴击合并</strong>：同样的处理方式。<strong>混合型专精（同时用物理和法术的职业）受益最大。</strong></li><li><strong>武器技能</strong>：Zierhut 说它在经典里"<strong>有点太容易获得、也有点太强</strong>"，因此重新平衡——<strong>"你不能像以前那样在单件装备上拿那么多，但你还是能拿到。"</strong></li><li><strong>治疗加成</strong>：经典的痛点是"你出去做任务，根本杀不死东西"，所以<strong>每一件治疗装都带伤害加成</strong>。</li></ul>
+<blockquote><strong>一句话结论</strong>：Forever 的属性表<strong>没有变复杂</strong>，反而<strong>因为合并而变简单了</strong>；真正的变化在于<strong>每一件装备的价值被重新分配</strong>——武器技能贬值、治疗装升值、施法者武器升值、饰品专精化、<strong>装备开始和"环境与生物类型"挂钩</strong>。</blockquote>
+<hr>
+<h2>一、全职业"必备属性"：那副不变的骨架</h2>
+<h3>1.1 通用骨架（除极少数例外，所有职业都要）</h3>
+<div class="tw"><table><thead><tr><th>序位</th><th>属性</th><th>为什么是全职业通用</th><th>证据强度</th></tr></thead><tbody><tr><td>①</td><td><strong>主属性</strong>（力量 / 敏捷 / 智力）</td><td><strong>这一条没有变</strong>。主属性直接乘算伤害与资源，任何专精都排第一</td><td>【官方确认】</td></tr><tr><td>②</td><td><strong>命中（到上限即停）</strong></td><td><strong>全游戏唯一有明确"达标线"的次要属性</strong>；因为合并，<strong>一件命中装能同时改善你的物理与法术部分</strong></td><td>【官方确认】机制 +【第三方实测】数值</td></tr><tr><td>③</td><td><strong>耐力</strong></td><td>Forever <strong>无飞行、怪物伤害高</strong>（野外拉 2-4 只需跑尸），练级期<strong>多一截血 = 少一次跑尸</strong></td><td>【框架推断】</td></tr><tr><td>④</td><td><strong>暴击</strong></td><td>合并后<strong>通用性上升</strong>；很多专精的核心机制<strong>绑定暴击</strong>（惩戒骑的复仇、萨满的乱舞、盗贼的多重触发等）</td><td>【官方确认】机制 +【第三方实测】</td></tr><tr><td>⑤</td><td><strong>武器技能 / 精准</strong></td><td>近战与坦克的"可靠性"属性；<strong>武器技能贬值但没消失</strong>，精准是新增的一环</td><td>【官方确认】</td></tr></tbody></table></div>
+<h3>1.2 命中：为什么它是"全职业第一优先的次要属性"</h3>
+<p>因为<strong>未命中 = 零收益</strong>，而其他任何属性都只在"打中"之后才起作用。</p>
+<div class="tw"><table><thead><tr><th>场景</th><th>命中需求</th><th>来源</th></tr></thead><tbody><tr><td>对 63 级团队首领</td><td><strong>9%</strong></td><td>继承经典数学（Beta 数值出来前的基准）【第三方实测】</td></tr><tr><td>投入 3 点「精准」类命中天赋</td><td><strong>装备只需 6%</strong></td><td>惩戒骑 Precision 为例【第三方实测】</td></tr><tr><td>萨满「潮汐专注 Tidal Focus」5/5</td><td><strong>+5% 命中</strong>（法术与攻击通用）</td><td>Beta 天赋文本【第三方实测】</td></tr><tr><td>猎人「稳固步伐 Surefooted」（生存）</td><td><strong>最多 +3% 命中</strong></td><td>【第三方实测】</td></tr><tr><td>牛头人种族特长「耐久 Endurance」</td><td><strong>+1% 命中</strong>（并列最大生命）</td><td>【第三方实测】</td></tr></tbody></table></div>
+<p><strong>合并带来的四条具体红利【官方确认】</strong>：</p>
+<div class="tw"><table><thead><tr><th>职业</th><th>官方点名的收益</th></tr></thead><tbody><tr><td><strong>惩戒骑 / 增强萨</strong></td><td>混伤专精<strong>一件装备同时改善物理与法术</strong>，不必再二选一</td></tr><tr><td><strong>战士</strong></td><td><strong>嘲讽（Taunt）这类技能变得可靠</strong>——这是合并最被低估的收益</td></tr><tr><td><strong>猎人</strong></td><td><strong>陷阱</strong>的命中一并改善</td></tr><tr><td><strong>盗贼</strong></td><td><strong>毒药</strong>的命中一并改善</td></tr></tbody></table></div>
+<blockquote>⚠️ <strong>一条重要例外</strong>：<strong>治疗不需要"进攻命中"</strong>。官方与攻略站口径一致——<strong>攻击与法术各有自己的命中要求，治疗不占</strong>。所以奶装不该为命中付溢价。</blockquote>
+<h3>1.3 合并之后，最该改掉的两个旧习惯</h3>
+<ol><li><strong>别再用经典口径评估"混合装"</strong>：一件在经典里"对谁都不够好"的装备，在 Forever 里<strong>可能对混伤专精就是正解</strong>。</li><li><strong>别再把命中堆过头</strong>：命中装的<strong>获取面比原版宽</strong>（因为不再分家），但也因此<strong>更容易堆爆</strong>。工具的提示一旦到上限，<strong>再堆一点收益都是零</strong>。</li></ol>
+<hr>
+<h2>二、九个职业的属性关键（按专精）</h2>
+<blockquote><strong>可信度说明</strong>：只有<strong>圣骑士</strong>被官方逐条讲透（座谈专门用了骑士做范例）；<strong>萨满</strong>因为有第三方抓取的完整天赋树，可比对验证；<strong>猎人与惩戒骑</strong>有攻略站的明确优先级表述；其余职业目前多数为<strong>依据官方机制变化的框架推断</strong>，请在 Beta 升到 30 级后自行复核。</blockquote>
+<div class="tw"><table><thead><tr><th>职业</th><th>主属性</th><th>次要属性顺序</th><th>该职业特有的关键点</th></tr></thead><tbody><tr><td><strong>战士</strong></td><td><strong>力量</strong>（攻强）；防战另需耐力与护甲</td><td>命中 → 暴击 → 攻强 → 耐力/格挡</td><td><strong>嘲讽命中可靠性上升</strong>（合并红利）；防战靠<strong>格挡/躲闪/招架产生怒气</strong>，避免属性堆成"纯挨打"；狂暴战<strong>副手权重提升</strong>（额外伤害、命中、怒气、旋风斩联动）→ 双持装两把武器都要看</td></tr><tr><td><strong>圣骑士</strong></td><td><strong>力量</strong>（惩戒/防护）；<strong>智力</strong>（神圣）</td><td>命中 → 力量 → 暴击 → 攻强 → 智力 → 敏捷</td><td>【第三方实测】顺序。<strong>智力经「光明勇士」转法伤</strong>，不再是纯蓝条；<strong>神圣系施法回蓝 → 精神价值提升</strong>（官方座谈明说）；防骑有新坦克圣印<strong>「狂怒圣印」</strong>（无视武器速度、带小额吸收盾、审判触发嘲讽）；<strong>骑士嘲讽射程 10 码，其他职业只有 5 码</strong></td></tr><tr><td><strong>猎人</strong></td><td><strong>敏捷</strong>（攻强 + 暴击）</td><td><strong>远程命中到上限</strong> → 敏捷 → 暴击 → 攻强 → 智力 → 耐力</td><td>【第三方实测】顺序。<strong>远程没有暴击上限</strong>（远程判定是命中/暴击/普通三种，无偏斜无闪避）；<strong>智力经「谨慎瞄准」转攻强</strong>；近战武器<strong>只看印在它上面的属性</strong>（你基本不会挥它）；<strong>弹袋的远程攻速加成是硬指标</strong></td></tr><tr><td><strong>盗贼</strong></td><td><strong>敏捷</strong></td><td>命中 → 敏捷 → 暴击 → 攻强</td><td>毒药吃统一命中；<strong>「武器专精」天赋已改为降低被闪避/招架几率</strong>（不再给武器技能）；<strong>武器技能仍是独立的配装考量</strong>，且<strong>换武器类型会换掉适用的技能加成</strong></td></tr><tr><td><strong>牧师</strong></td><td><strong>智力</strong>（法力池）</td><td>智力 → <strong>精神</strong> → 耐力 → 法术强度 → 命中（仅暗影输出）</td><td>【第三方实测】智力=法力池、精神=回蓝、耐力=生存；<strong>暗影输出才需要进攻命中，治疗不需要</strong>；<strong>魔杖是练级核心件，要持续换</strong>（魔杖专精）；<strong>「神圣之灵」已变基础技能</strong>，不必再花天赋点只为给团队上 buff</td></tr><tr><td><strong>萨满</strong></td><td><strong>智力</strong>（三系通吃）</td><td>智力 → 命中/暴击 → 攻强/法伤</td><td><strong>全职业唯一"一属性养三系"</strong>：<strong>「精神敏捷 Mental Dexterity」智力 100% 转攻强</strong>，<strong>「精神迅捷 Mental Quickness」智力 30% 转法伤与治疗</strong>；配合合并后的命中/暴击，<strong>同一套装备同时支撑武器伤害、闪电箭与应急治疗</strong>；<strong>「潮汐专注」5 点给 5% 命中</strong></td></tr><tr><td><strong>法师</strong></td><td><strong>智力</strong></td><td>命中 → 法术强度 → 暴击 → 智力 → 耐力</td><td>保持经典控制链（变形术、冰霜新星等）；<strong>施法者武器从 10 级起就给法伤治疗</strong> → 练级途中换武器是<strong>真实提升</strong>，不再只是属性棒</td></tr><tr><td><strong>术士</strong></td><td><strong>智力</strong></td><td>命中 → 法术强度 → 暴击 → 耐力</td><td><strong>DOT 可暴击</strong>是 Forever 独有改动 → <strong>暴击的性价比上升</strong>；<strong>「压制 Suppression」已改为"提升所有法术与攻击的命中并降低全部仇恨"</strong>（经典只降痛苦系抗性），因此对混合流派也有用；<strong>耐力是资源的一部分</strong>（生命分流、引导、灵魂链接让血条参与循环）；治疗装 1/3 转伤害可作<strong>过渡件</strong></td></tr><tr><td><strong>德鲁伊</strong></td><td><strong>力量</strong>（熊）/<strong>敏捷</strong>（猫）/<strong>智力</strong>（鸟·树）</td><td>命中 → 主属性 → 暴击 → 耐力</td><td><strong>四系属性需求分裂最严重</strong>：一套装备无法覆盖熊(力量)/猫(敏捷)/鸟(智力)/树(智力+精神)，<strong>换形态即换装</strong>；正因如此德鲁伊是<strong>采集与小号的最优解</strong>（旅行形态），但<strong>主号养四套装成本最高</strong></td></tr></tbody></table></div>
+<hr>
+<h2>三、按"职责"看属性关键（跨职业通用）</h2>
+<h3>3.1 近战物理（战/贼/惩戒骑/增强萨/野德）</h3>
+<p><strong>顺序</strong>：命中（到上限）→ 主属性 → 暴击 → 攻强 → 武器技能/精准 → 耐力 <strong>核心变化</strong>：</p>
+<ul><li><strong>武器技能不再是"必刷品"</strong>——官方明确要终结"几件武器技能装永久占位"的局面，<strong>单件给的更少</strong>。所以<strong>别为一把老武器技能装砸冤枉钱</strong>，先看清楚它的 Forever 版本。</li><li><strong>"拿到什么用什么"</strong>：官方已取消"唯一正确武器类型"。练级期<strong>不要为了武器类型放弃更高秒伤</strong>。</li><li><strong>精准（降低被闪避/招架）</strong> 让近战输出的"实际命中率"更平滑，坦克更稳。</li><li>但<strong>别急着买</strong>：换武器类型会换掉适用的武器技能加成，<strong>武器技能仍是一个独立的配装变量</strong>。</li></ul>
+<h3>3.2 远程物理（猎人）</h3>
+<p><strong>顺序</strong>：远程命中到上限 → 敏捷 → 暴击 → 攻强 → 智力 → 耐力</p>
+<ul><li><strong>远程判定最"干净"</strong>：没有偏斜与闪避，<strong>没有实际暴击上限</strong>，所以<strong>堆命中到 9% 之后，全速堆敏捷与暴击</strong>。</li><li><strong>近战武器只为属性存在</strong>，别为它牺牲远程件。</li><li>猎人练级被普遍评为<strong>最轻松</strong>，但<strong>装备依赖度低于战士</strong>——这本身就是效率优势。</li></ul>
+<h3>3.3 法系输出（法/术/暗牧/元素萨/鸟德）</h3>
+<p><strong>顺序</strong>：命中（到上限）→ 法术强度 → 暴击 → 智力 → 耐力 <strong>核心变化</strong>：</p>
+<ul><li><strong>暴击变"通用"</strong>：法术暴击与近战暴击合并 → <strong>暴击装的适用面变宽，性价比相对上升</strong>。</li><li><strong>DOT 可暴击</strong>（官方改动）→ <strong>持续伤害职业不再"天然不吃暴击"</strong>。</li><li><strong>施法者武器进入升级序列</strong>：10 级起就带法术伤害与治疗 → <strong>武器是法系第一个该评估的部位</strong>，别再当"属性棒"。</li><li><strong>别只看法术强度</strong>：命中没满时，<strong>一点命中胜过若干法伤</strong>。</li></ul>
+<h3>3.4 治疗（神圣骑/恢复萨/恢复德/神圣与戒律牧）</h3>
+<p><strong>顺序</strong>：<strong>治疗加成 → 智力/精神（续航）→ 暴击 → 耐力</strong>；<strong>不需要进攻命中</strong> <strong>核心变化</strong>：</p>
+<ul><li><strong>治疗装带约 1/3 的伤害加成</strong>（例：官方样张「野性之皮」+42 治疗 / <strong>+14 法术伤害</strong>，14 ≈ 42÷3）。</li><li>所以<strong>治疗系不必再养一整套输出装</strong>——野外做任务、刷声望、打钱时直接穿治疗装。</li><li><strong>但别走到另一个极端</strong>：官方与攻略站都提醒<strong>不要照搬经典治疗 BIS</strong>。纯治疗堆到极致，不如"<strong>治疗为主 + 少量伤害/暴击</strong>"的混合件。</li><li><strong>精神对部分治疗的回蓝价值上升</strong>（神圣骑士明确：施法回蓝，<strong>精神价值提升</strong>）；萨满则多了<strong>水盾 / 正念 / 法力之潮</strong>三条替代回蓝路径 → <strong>精神的相对权重因职业而异</strong>。</li></ul>
+<h3>3.5 坦克（防战/防骑/熊德）</h3>
+<p><strong>顺序</strong>：耐力 → 护甲 → <strong>精准（降低被闪避/招架）</strong> → 格挡/闪避/招架相关 → 命中（仇恨） → 力量 → 防御技能 <strong>核心变化</strong>：</p>
+<ul><li><strong>新增「精准」类属性直指坦克的痛点</strong>：降低被<strong>闪避 / 招架</strong>的几率 → <strong>仇恨生成更稳定</strong>。</li><li><strong>命中对坦克的价值上升</strong>：官方点名"<strong>想让嘲讽命中的战士</strong>"——<strong>嘲讽不中 = 团灭风险</strong>。</li><li><strong>防御技能、抗性仍保留</strong>（经典属性不删）。</li><li><strong>圣骑士的坦克工具箱被专门补齐</strong>（新坦克圣印、审判嘲讽、10 码嘲讽距离、奉献对前 4 目标高伤以防一次拉满）→ <strong>防骑从"能凑合"变成"正经主坦"</strong>。</li></ul>
+<hr>
+<h2>四、官方样张：七件装备，读懂 Forever 的配装语言</h2>
+<p>座谈现场给出了七件<strong>具体装备</strong>（属性为幻灯片原文口径）【官方确认】。<strong>读懂它们的"设计语言"，比背任何 BIS 清单都有用</strong>。</p>
+<div class="tw"><table><thead><tr><th>装备</th><th>类型/等级</th><th>属性</th><th>它示范了什么</th></tr></thead><tbody><tr><td><strong>狮心头盔 Lionheart Helm</strong></td><td>板甲头 / 56 级</td><td><strong>+18 力量，命中 +2% 且暴击 +2%</strong></td><td><strong>合并后单件可同时给命中与暴击</strong>——混伤专精的核心件形态</td></tr><tr><td><strong>剑师护手 Edgemaster's Handguards</strong></td><td>锁甲手 / 44 级</td><td><strong>被闪避/招架几率 −1.0%，+1 武器伤害，+1 斧/匕首/剑技能</strong></td><td><strong>武器技能被"摊薄"到多个武器类型</strong>（不再是单一的"剑/斧/锤"技能）→ 完美印证"单件给的更少"</td></tr><tr><td><strong>野性之皮 Hide of the Wild</strong></td><td>披风 / 57 级</td><td><strong>+10 智力、+8 耐力，+42 治疗、+14 法术伤害</strong></td><td><strong>治疗装带 1/3 伤害</strong>的教科书案例（14 ÷ 42 = 1/3）</td></tr><tr><td><strong>西部荒野法杖 Staff of Westfall</strong></td><td>法杖</td><td><strong>+48 治疗、+16 法术伤害；在艾尔文森林/西部荒野/赤脊山/死亡矿井 +2% 移速</strong></td><td><strong>施法者武器 + 生物群系加成</strong>：在"对的地区"里，一件练级武器就是加速器</td></tr><tr><td><strong>完美符文 Rune of Perfection</strong></td><td>饰品 / 20 级</td><td><strong>法术穿透 +2；在森林与林地区域再 +3</strong></td><td><strong>饰品与地形绑定</strong>：换地图就换价值</td></tr><tr><td><strong>狼人杀手护符 Worgenbane Talisman</strong></td><td>饰品 / 21 级</td><td><strong>击晕狼人 4 秒，5 分钟冷却</strong></td><td><strong>饰品与生物类型绑定</strong>——"一袋子的把戏"，不是通用强度块</td></tr><tr><td><strong>石猪剑 X'caliboar</strong></td><td>双手剑 / 37 级</td><td><strong>+20 力量、+7 耐力；命中几率造成 33–53 神圣伤害，对亡灵与猪三倍</strong></td><td><strong>生物类型特攻</strong>：同一把剑，换个副本就是完全不同的价值</td></tr></tbody></table></div>
+<p><strong>从这七件能提炼出四条配装原则</strong>：</p>
+<ol><li><strong>一件装备回答一个问题</strong>——没有"万能最强件"，只有"在这个场景最强的件"。</li><li><strong>同一部位你会需要多件</strong>（这正解释了官方为什么把<strong>银行默认扩到约 96 格</strong>）。</li><li><strong>命中与暴击可以共存于一件</strong>（狮心头盔）→ 混合专精终于不必做痛苦取舍。</li><li><strong>武器技能类装备的估值要重算</strong>（剑师护手）→ <strong>别按经典价格买</strong>。</li></ol>
+<hr>
+<h2>五、装备选择：来源优先级与取舍规则</h2>
+<h3>5.1 掉落体系被整体重做【官方确认】</h3>
+<div class="tw"><table><thead><tr><th>改动</th><th>具体内容</th></tr></thead><tbody><tr><td>全量重审</td><td><strong>每一件地下城掉落都被重新审查</strong>，"保留令人难忘的特点、调整吸引力不足的物品"</td></tr><tr><td>新增数百件</td><td>地下城<strong>新增数百件掉落</strong></td></tr><tr><td>品质上移</td><td><strong>地下城首领的独有掉落统一为蓝色（稀有）品质</strong></td></tr><tr><td>套装强化</td><td><strong>套装效果得到强化</strong>，地下城套装比原版更有意义</td></tr><tr><td>任务奖励</td><td>按角色定位<strong>扩充</strong>——如暮色森林摩拉迪姆任务仍给双手剑，<strong>同时新增施法者戒指</strong>；荆棘谷奈辛瓦里任务<strong>新增「狩猎大师的魔剑」等选项</strong></td></tr><tr><td>世界掉落</td><td><strong>世界掉落的史诗装备被强化</strong>，稀有怪物<strong>新增数百件掉落</strong></td></tr></tbody></table></div>
+<h3>5.2 各阶段的最优装备来源</h3>
+<div class="tw"><table><thead><tr><th>阶段</th><th>首选</th><th>次选</th><th>说明</th></tr></thead><tbody><tr><td><strong>1-20</strong></td><td><strong>任务奖励</strong></td><td>拍卖行（只买武器/魔杖这类"效率件"）</td><td>早期任务密度已显著提高；<strong>3-4 级就有任务白送专业手册</strong></td></tr><tr><td><strong>13-60</strong></td><td><strong>九个新五人本</strong>（严格对齐等级带）</td><td>副本任务奖励</td><td><strong>接满任务、只打一次</strong>：杀怪经验被砍、副本任务经验被巨幅提高</td></tr><tr><td><strong>全程</strong></td><td><strong>世界掉落史诗</strong>（已强化）</td><td>稀有怪新掉落</td><td>别再低估世界掉落</td></tr><tr><td><strong>满级初期</strong></td><td>60 级五人本 + 任务链 + 专业制造 + 声望 + PvP 奖励</td><td>黑市拍卖行（河林）</td><td><strong>首发前五周没有团本</strong>，这就是全部来源</td></tr><tr><td><strong>12-09 / 12-10 起</strong></td><td>团本（十人「深穴」/ 二十人「海加尔峰」）/ 传奥妮克希亚巢穴（四十人）</td><td>—</td><td><strong>每个首领都有 chase items</strong>；<strong>十人本奖励对等且永久保留</strong></td></tr></tbody></table></div>
+<h3>5.3 五条取舍规则（在这个"没有 BIS"的游戏里真正管用）</h3>
+<ol><li><strong>练级期别为装备停下</strong>。Forever 经验曲线<strong>完全没加速</strong>（约 160 小时到 60），<strong>刷装是净亏损</strong>——装备会被等级替换掉。</li><li><strong>银行 = 装备库</strong>。默认约 96 格 → 留出空间放<strong>多套情境件（饰品、抗性、生物类型特攻）</strong>，这比原版重要得多。</li><li><strong>进团本前带 2-3 套</strong>。<strong>首发没有地下城手册、进团前不知道首领是谁</strong>，抗性与生物类型克制的价值大幅上升（例：达拉然城中<strong>奥术免疫奥术、火元素免疫火焰</strong>）。</li><li><strong>自己做第一份数据</strong>。官方设计意图就是"第一周靠玩家发现"——<strong>用一张公会/固定队共享表记录每次掉落</strong>（名称 + 属性 + 出处），两周内就能形成你们自己的 BIS。首周这比任何外部攻略都值钱。</li><li><strong>不要为"预购装"付费</strong>。<strong>没有直升、没有代币</strong>，不存在提前拿到 BIS 的途径。</li></ol>
+<h3>5.4 关于附魔与专业增益【第三方实测 · 待验证】</h3>
+<ul><li><strong>戒指现在可以附魔</strong>、<strong>腰带可以打锻造的扣环（buckle）</strong>。</li><li><strong>炼金「调酒术 Mixology」延长所有药剂持续时间</strong>。</li><li><strong>头/腿的敏捷秘药来自厄运之槌的贡品任务</strong>。</li><li>以上均为 Beta 期攻略站整理，<strong>国服上线前请复核</strong>。</li></ul>
+<hr>
+<h2>六、待验证清单（Beta 与上线后逐条核实）</h2>
+<ul><li><span class="cb "></span><strong>命中与暴击的实际转换数值</strong>——座谈<strong>明确没有给换算数字</strong>，目前所有百分比均为经典数学的继承</li><li><span class="cb "></span><strong>武器技能的单件上限</strong>——座谈<strong>没有给每件装备的武器技能上限</strong></li><li><span class="cb "></span><strong>「精准」是否是游戏内的正式属性名</strong>——座谈<strong>未确认 Expertise 就是降低闪避/招架这一属性的游戏内名称</strong></li><li><span class="cb "></span><strong>治疗装 1/3 伤害转化的精确比例</strong>（官方样张反推为 1/3，需实测）</li><li><span class="cb "></span>各职业<strong>命中天赋的折扣幅度</strong>是否与经典一致</li><li><span class="cb "></span><strong>精准属性的数值曲线</strong>（多少点 = 1% 降低被闪避/招架）</li><li><span class="cb "></span><strong>饰品与生物群系/生物类型的具体判定方式</strong>（叠不叠加？跨图失效？）</li><li><span class="cb "></span>德鲁伊是否也有<strong>智力转攻强</strong>类的转化天赋（目前未见）</li><li><span class="cb "></span><strong>精神对各治疗职业的实际回蓝权重</strong>（骑士官方已提升，其余待测）</li><li><span class="cb "></span>银行 <strong>96 格</strong>的实际容量与扩容方式</li><li><span class="cb "></span>九个新五人本的<strong>掉落表</strong>（首通任务是否给关键件）</li></ul>
+<hr>
+<blockquote>本文件由人工触发更新（未启用自动监控）。需要拉取最新情报时，见 <code>update-playbook.md</code>。 相关文件：<code>talents-and-gear.md</code>（天赋配点与装备机制总览）、<code>beta-findings.md</code>（外服实测与捷径）、<code>leveling-gold-route.md</code>（升级赚钱路线）、<code>efficiency-guide.md</code>（效率指南）。</blockquote></section>
+<section class="doc " id="macros_and_ui_md"><h1>★ 一键输出与宏</h1><blockquote>适用版本：<strong>《魔兽世界》："无限"（World of Warcraft: Forever）</strong>。 采集时间：<strong>2026-09-19</strong>（国际服 Beta 第 3 天）。 可信度标注：<strong>【官方确认】</strong> = 开发者问答 / 官方面谈明确表述；<strong>【第三方实测】</strong> = 攻略站依据 Beta 与正式服同代限制整理；<strong>【机制事实】</strong> = 暴雪自 2006 年起从未放开、跨版本稳定的系统约束。</blockquote>
+<hr>
+<h2>零、直接回答：真·"一键输出"做不到，而且不是 Forever 才做不到</h2>
+<p><strong>先把结论说死</strong>：</p>
+<div class="tw"><table><thead><tr><th>你想要的东西</th><th>能不能做到</th><th>原因</th></tr></thead><tbody><tr><td><strong>点一下，自动按最优循环打完整个战斗</strong></td><td>❌ <strong>做不到</strong></td><td>暴雪的宏系统<strong>没有变量、没有循环、没有 if 判断</strong>，这是 2006 年"安全执行（Secure Execution）"改造后就封死的，<strong>与版本无关</strong></td></tr><tr><td><strong>点一下，施放"当前优先级最高且可用"的那个技能</strong></td><td>✅ <strong>能做到</strong>（最接近的形态）</td><td><code>/cast</code> 多技能排队会跳过不可用的</td></tr><tr><td><strong>插件告诉你"下一个该按什么"</strong></td><td>⚠️ <strong>被严格限制</strong></td><td>Forever 采用<strong>现代（Midnight）战斗 API 限制</strong> + <strong>秘密值（secret values）</strong> 机制</td></tr><tr><td><strong>外部软件 / 硬件宏替你连续按键</strong></td><td>🚫 <strong>违规，会封号</strong></td><td>属于自动化，暴雪明令禁止</td></tr></tbody></table></div>
+<blockquote><strong>一句话</strong>：Forever 里你能得到的最好结果，是<strong>"一个键 = 施放优先级最高的可用技能"</strong>，外加<strong>官方内置的伤害统计、冷却管理器与即将到来的挥砍计时器</strong>。<strong>任何声称"一键自动循环"的方案，要么是骗人的，要么会赔上你的账号。</strong></blockquote>
+<hr>
+<h2>一、宏系统的四条硬限制（20 年没变）</h2>
+<p>这一节的结论<strong>跨所有版本稳定</strong>，包括 Forever【机制事实】。</p>
+<div class="tw"><table><thead><tr><th>限制</th><th>具体表现</th><th>后果</th></tr></thead><tbody><tr><td><strong>① 没有变量与循环</strong></td><td>宏里不能存值、不能计数、不能 while/for</td><td><strong>无法写"循环"</strong> —— 这是"一键循环"根本不存在的根本原因</td></tr><tr><td><strong>② 没有 if / then 分支</strong></td><td>只能使用<strong>静态可解析</strong>的 <code>[条件]</code> 前缀（目标、形态、姿态、战斗状态、修饰键等），且<strong>条件在施法前一次性求值</strong></td><td><strong>无法根据"这个 buff 还剩 3 秒"来决策</strong></td></tr><tr><td><strong>③ 一次按键受公共冷却约束</strong></td><td>每成功施放一个技能就进入 GCD</td><td><strong>宏不会替你压缩时间</strong>，连点也不能突破 GCD</td></tr><tr><td><strong>④ 宏读不到战斗数据</strong></td><td>不能读取敌方施法、不能读取战斗日志事件、不能读取冷却剩余时间做分支</td><td><strong>无法做"智能优先级"</strong></td></tr></tbody></table></div>
+<h3>由此推出的关键行为（决定你该怎么写宏）</h3>
+<p><strong><code>/cast</code> 多技能 = 优先级列表，不是循环。</strong> 系统会<strong>从上往下尝试，施放第一个能用的</strong>（不在冷却、资源够、条件满足）。这<strong>不是</strong>循环，每次按键都是<strong>一次全新的从上往下扫描</strong>。</p>
+<pre><code>#showtooltip
+/startattack
+/cast 技能A
+/cast 技能B
+/cast 技能C</code></pre>
+<p>行为：A 可用就放 A（B、C 因 GCD 不执行）；A 不可用则试 B；B 不可用则试 C。<strong>这就是 WoW 里"一键宏"的真实形态。</strong></p>
+<hr>
+<h2>二、三种合法形态（这就是上限了）</h2>
+<h3>形态 1：优先级兜底宏（最实用，练级首选）</h3>
+<pre><code>#showtooltip
+/startattack
+/cast 嗜血
+/cast 旋风斩
+/cast 英勇打击</code></pre>
+<ul><li><strong>用途</strong>：练级、五人本、日常。<strong>点一下 = 打当前最优可用技能</strong>。</li><li><strong>优点</strong>：不浪费 GCD、不会空放、单手可操作。</li><li><strong>缺点</strong>：<strong>没有"什么时候该续 DOT / 该不该开爆发"的判断</strong>——这部分永远需要你本人。</li></ul>
+<h3>形态 2：顺序宏（<code>/castsequence</code>）</h3>
+<pre><code>#showtooltip
+/castsequence reset=combat/target 技能A, 技能B, 技能C</code></pre>
+<ul><li><strong><code>reset=</code> 只能按"时间 / 换目标 / 脱离战斗"重置</strong>，<strong>不能按战斗状态重置</strong>。</li><li><strong>更适合</strong>：起手固定序列（如"标记 → DOT → 主输出"）或<strong>治疗的多级法术</strong>（低等级技能救急）。</li><li><strong>⚠️ 练级期反而降低效率</strong>：野外战况多变，固定顺序会卡在"技能 B 用不上"的死循环里。<strong>优先用形态 1。</strong></li></ul>
+<h3>形态 3：条件宏（一键两用，节省动作条）</h3>
+<pre><code>#showtooltip
+/cast [mod:shift] 技能B; 技能A          -- 平时A，按Shift放B
+/cast [harm] 技能X                      -- 目标敌对才放
+/use [target=focus] 技能Y               -- 对焦点目标使用
+/cast [@mouseover,help] 治疗技能        -- 治疗用：鼠标悬停目标</code></pre>
+<ul><li><strong>用途</strong>：把两三个功能压进一个键位；<strong>治疗职业几乎必用 <code>[@mouseover,help]</code></strong>。</li><li><strong>注意</strong>：条件是<strong>静态白名单</strong>，不是表达式。<strong>写不出"如果法力低于 30%"这类判断</strong>。</li></ul>
+<h3>常用零碎但收益高的写法</h3>
+<div class="tw"><table><thead><tr><th>写法</th><th>用途</th></tr></thead><tbody><tr><td><code>/startattack</code></td><td><strong>近战第一行必备</strong>：防止平砍中断（换目标、技能失败都会断平砍）</td></tr><tr><td><code>#showtooltip</code></td><td>让图标与提示随宏内容变化</td></tr><tr><td><code>/use 13</code> <code>/use 14</code></td><td>使用饰品（<strong>两件饰品可写进同一个宏，按可用性依次触发</strong>）</td></tr><tr><td><code>/cast [nomod] A; [mod:alt] B</code></td><td>同键两用</td></tr><tr><td><code>/targetenemy</code> / <code>/cleartarget</code></td><td>清理目标选择</td></tr></tbody></table></div>
+<blockquote><strong>附魔/饰品这类"主动性增益"建议单列一个键</strong>，而不是塞进输出宏——因为你需要决定<strong>什么时候</strong>开，而不是让它一到 CD 就自动开。</blockquote>
+<hr>
+<h2>三、Forever 的额外限制：连"插件提示"也被堵了</h2>
+<p><strong>这是 Forever 与经典怀旧服最大的不同，也是必须先搞清的前提。</strong></p>
+<h3>3.1 官方原话：用的是"现代 API"【官方确认】</h3>
+<p>首席软件工程师 <strong>Nora Mills</strong> 在开发者问答中，被直接问到"Forever 用的是 Midnight 的插件限制、经典 API，还是别的"时回答：</p>
+<blockquote><strong>"我们选择了现代 API 方案。"</strong></blockquote>
+<p>她给了<strong>三条理由</strong>与<strong>两条承诺</strong>：</p>
+<div class="tw"><table><thead><tr><th>类别</th><th>内容</th></tr></thead><tbody><tr><td>理由①</td><td>对插件开发者有同理心——<strong>现代 WoW 与 Forever 共用一套 API 更容易维护</strong></td></tr><tr><td>理由②</td><td>Forever 的首领战<strong>比现代版简化得多</strong>，所以战斗限制<strong>不该负面影响体验</strong></td></tr><tr><td>理由③</td><td><strong>不希望玩家"觉得必须装插件才能玩"</strong>——那会导致门槛与"守门"</td></tr><tr><td>承诺①</td><td><strong>随游戏内置伤害统计 + 冷却管理器</strong></td></tr><tr><td>承诺②</td><td><strong>"挥砍计时器（Swing Timer）可能即将推出"</strong></td></tr></tbody></table></div>
+<p>另据官方 UI 频道：<strong>Forever 与主分支共用界面架构，包含 12.1.5 的绝大部分 API</strong>；<strong>12.1.0 引入的 AuraContainer / AuraButton 改动同样可用</strong>；<strong>Midnight 的插件限制（含"秘密值"）在 Forever 同样生效</strong>。</p>
+<h3>3.2 "秘密值（secret values）"是什么意思</h3>
+<p>这是理解一切的关键【第三方实测，机制描述准确】：</p>
+<blockquote><strong>插件被允许"显示那个盒子、调整它的大小、把它挪个位置"，但被禁止"打开盒子、用里面的内容做决定"。</strong></blockquote>
+<p>落到实操上：</p>
+<div class="tw"><table><thead><tr><th>能做</th><th>不能做</th></tr></thead><tbody><tr><td>显示<strong>你自己的</strong> buff / debuff / 冷却 / 资源</td><td><strong>读取敌方施法条</strong>来判断"该打断了"</td></tr><tr><td>显示<strong>你自己</strong>的持续时间与层数</td><td>读取<strong>战斗日志事件</strong>来推算接下来的最优动作</td></tr><tr><td>UI 定制（动作条、框体、字体、背包、地图、拍卖行）</td><td>读取<strong>战斗中其他玩家的状态</strong>来发指令</td></tr><tr><td>首领模组的基础计时（DBM / BigWigs 在正式服同限制下可运行）</td><td><strong>"计算并给出结论"</strong> 类功能——被明确限制</td></tr></tbody></table></div>
+<p><strong>直接后果</strong>：</p>
+<ul><li><strong><code>Hekili</code> 式"下一个技能"提示按原方式做不出来</strong>——它需要读取冷却/资源/敌方状态去跑优先级，<strong>属于被限制的"计算"类别</strong>。</li><li><strong><code>WeakAuras</code> 仍然存在</strong>，但<strong>只能做"关于你自己的"那部分</strong>（buff、冷却、资源）。</li><li><strong>Classic / Era 插件不能直接加载</strong> → 需要 <strong>Forever 专用版本</strong>（Questie、Bagnon、拍卖行、大型 UI 套件已有作者在移植）。</li><li><strong><code>Details</code> / <code>Recount</code> 变成可选</strong>——因为<strong>官方内置伤害统计</strong>才是人人都有的那一个。</li></ul>
+<h3>3.3 官方为什么这么做（理解它，就不会走弯路）</h3>
+<p>官方口径非常一致：<strong>"插件应该帮你看见游戏，而不是替你玩一部分游戏。"</strong> 再加上 Forever 刻意追求"<strong>没有被解完的艾泽拉斯</strong>"——<strong>限制计算型插件，正是为了让首领机制在第一周保持未知</strong>。</p>
+<hr>
+<h2>四、官方给你的三条替代路径</h2>
+<p>既然宏做不了循环、插件又不能替你算，Forever 把原本靠外部工具补齐的部分<strong>做进了游戏里</strong>：</p>
+<div class="tw"><table><thead><tr><th>内置功能</th><th>状态</th><th>对谁最重要</th></tr></thead><tbody><tr><td><strong>伤害统计</strong></td><td><strong>已确认，随游戏发布</strong></td><td>所有人——<strong>别再为装哪个统计插件纠结</strong>，官方那个是人人都有</td></tr><tr><td><strong>冷却管理器</strong></td><td><strong>已确认</strong>（此前误记为"计划中"，已更正）</td><td>所有需要卡爆发窗口的职业</td></tr><tr><td><strong>挥砍计时器</strong></td><td><strong>"即将推出"</strong>（Mills 原话）</td><td><strong>依赖自动攻击节奏的职业</strong>：圣印舞骑士、增强萨</td></tr><tr><td><strong>天赋层面的"去插件化"</strong></td><td>已实装</td><td><strong>惩戒骑</strong>：圣印舞改为天赋<strong>「光之交织」</strong>，<strong>不再需要计时器插件</strong>；<strong>增强萨</strong>：漩涡武器把闪电箭节奏简化</td></tr></tbody></table></div>
+<blockquote><strong>最值得注意的一点</strong>：官方在<strong>用天赋和内置 UI 吃掉原本需要宏与插件的需求</strong>。这意味着你的"效率工具"策略应该从"找插件/写宏"转向"<strong>读透职业机制 + 用官方内置件</strong>"。</blockquote>
+<hr>
+<h2>五、合规红线（这一节请务必看完）</h2>
+<div class="tw"><table><thead><tr><th>做法</th><th>判定</th><th>后果</th></tr></thead><tbody><tr><td>游戏内宏（<code>/cast</code> / <code>/castsequence</code> / 条件宏）</td><td>✅ <strong>官方支持</strong></td><td>安全</td></tr><tr><td>游戏内合法插件（UI 定制、背包、任务、地图、拍卖行）</td><td>✅ <strong>官方支持</strong></td><td>安全</td></tr><tr><td><strong>AutoHotkey / 按键精灵等外部连点或循环脚本</strong></td><td>🚫 <strong>违规</strong></td><td><strong>账号处罚</strong></td></tr><tr><td><strong>鼠标 / 键盘自带的硬件宏做多键合一或连发</strong></td><td>🚫 <strong>违规</strong>（暴雪视同外部自动化）</td><td><strong>账号处罚</strong></td></tr><tr><td><strong>读屏 / 读内存来驱动决策的"智能宏"</strong></td><td>🚫 <strong>严重违规</strong></td><td><strong>账号处罚</strong></td></tr><tr><td><strong>绕开插件限制的规避手段</strong></td><td>🚫 <strong>被逐案严查</strong></td><td><strong>账号处罚</strong></td></tr></tbody></table></div>
+<p><strong>判断标准很简单</strong>：<strong>"这一个按键有没有替你做了本该由你做的判断或操作？"</strong> 有 → 违规。宏只做"按你指定顺序尝试施法"，<strong>判断始终在你</strong>，就安全。</p>
+<blockquote>⚠️ 顺便提醒：<strong>代练、金币交易、账号共享</strong>同样在禁止之列。Forever <strong>没有代币、没有直升</strong>，官方对经济与账号行为的监管只会更严。</blockquote>
+<hr>
+<h2>六、按场景给你的实际建议</h2>
+<h3>6.1 练级（1-60）</h3>
+<ul><li><strong>一个优先级兜底宏</strong>（形态 1）+ <strong><code>/startattack</code></strong> 就是全部所需。</li><li><strong>别写 <code>/castsequence</code> 做输出循环</strong>——野外战况多变，顺序宏会卡死。</li><li><strong>给"应急"单独立键</strong>：保命技能、解控、绷带/食物<strong>不要塞进输出宏</strong>（那会在你不需要的时候被消耗）。</li></ul>
+<h3>6.2 五人本</h3>
+<ul><li>优先级宏 + <strong>主动增益单独立键</strong>（饰品、爆发）。</li><li><strong>控制技能（变形/放逐/恐惧/定身）手动按</strong>——Forever <strong>明确保留控场价值</strong>，自动化的宏无法判断"该不该控"。</li><li>内置伤害统计够你复盘，不用急着找插件。</li></ul>
+<h3>6.3 团本（12-09 起）</h3>
+<ul><li><strong>推进度靠人，不靠工具</strong>。官方<strong>首发没有地下城手册、进团前不知道首领</strong>，且<strong>取消了团本 PTR 测试</strong> —— <strong>第一周没有任何工具能提前告诉你该怎么做</strong>。</li><li>把精力放在<strong>"读战斗"</strong>上：仇恨、控场、集火目标、抗性与生物类型克制（<strong>带 2-3 套装备</strong>）。</li><li><strong>DBM / BigWigs 能跑</strong>，但<strong>能播报多少取决于首领暴露了什么</strong> —— 不要当成默认保障。</li></ul>
+<h3>6.4 如果你想最大化操作效率</h3>
+<ol><li><strong>用条件宏压缩键位</strong>（<code>[mod:]</code>、<code>[@mouseover,help]</code>），把功能密度提上去。</li><li><strong>用内置冷却管理器 + 挥砍计时器</strong>替代过去的插件依赖。</li><li><strong>把"判断"留在自己手里</strong> —— 这是 Forever 刻意设计的方向，也是它和正式服手感最大的不同。</li><li><strong><code>/startattack</code> 放在每一个近战宏的第一行</strong>（微小但累积收益最大的一条）。</li></ol>
+<hr>
+<h2>七、待验证清单</h2>
+<ul><li><span class="cb "></span>Forever <strong>宏语法的具体支持范围</strong>是否与现代客户端完全一致（推测一致，因共用界面架构）</li><li><span class="cb "></span><strong>挥砍计时器</strong>的实际上线时间与形态</li><li><span class="cb "></span><strong>内置伤害统计</strong>能否记录团队全员、能否导出</li><li><span class="cb "></span><strong>内置冷却管理器</strong>是否支持自定义（多层充能、条件显示）</li><li><span class="cb "></span><code>WeakAuras</code> 的 <strong>Forever 专用版本</strong>实际能做什么 / 不能做什么（作者未发布）</li><li><span class="cb "></span><code>DBM</code> / <code>BigWigs</code> 在 Forever 上的<strong>实际播报能力</strong>（取决于首领暴露的数据）</li><li><span class="cb "></span>官方是否会公布<strong>完整的 Forever 插件 API 规则文档</strong>（Mills 称"上线前会分享更多技术细节"）</li><li><span class="cb "></span><code>Hekili</code> 类工具是否<strong>完全无法存在</strong>，或能以"允许范围内"的形式重构</li></ul>
+<hr>
+<blockquote>本文件由人工触发更新（未启用自动监控）。需要拉取最新情报时，见 <code>update-playbook.md</code>。 相关文件：<code>stats-and-gear.md</code>（属性与配装）、<code>talents-and-gear.md</code>（天赋配点）、<code>beta-findings.md</code>（外服实测与捷径）、<code>efficiency-guide.md</code>（效率指南）。</blockquote></section>
+<section class="doc " id="efficiency_guide_md"><h1>效率指南</h1><blockquote>聚焦<strong>游戏内</strong>效率：职业 / 技能（天赋）/ 赚钱 / 方法 / 单人最高效工具。 立场：你打算<strong>自己玩、追求开荒效率</strong>（快速到 60 + 早期自给自足 + 稳定金币）。 <strong>本文件全部结论严格锚定《魔兽世界》："无限"（Forever）的独有机制</strong>，不套用正式服/普通怀旧服的通用经验。 信息截至 2026-09-19。凡标「待验证」者，以国服 Beta（10-06~10-27）实测与上线后数据为准。 🔗 <strong>已依据外服 Beta（9-17 开测）实测修订</strong>：职业梯队（增强萨/惩戒骑上升）、传承点数上限 16、食物 +5% 经验、无代币无直升、坐骑为 TBC 式金币开销等，均见 <strong><code>beta-findings.md</code></strong>；完整修正清单见该文件第五章。 🔗 <strong>9-19 第二次更新</strong>：插件限制<strong>已确认</strong>、<strong>集合石移除召唤功能</strong>、<strong>萨满坦克明确不做</strong>、Beta 首周上限仅 20 级、名称预留改为 10-27~11-03 —— 详见 <code>beta-findings.md</code> 第六章。 🔗 <strong>9-19 第三次更正（属性 + 界面工具）</strong>：新增 <strong><code>stats-and-gear.md</code></strong>（全职业属性骨架与配装）与 <strong><code>macros-and-ui.md</code></strong>（一键输出、宏与插件边界）。<strong>两处推翻此前结论</strong>：① <strong>WeakAuras 并非"不可用"，而是"存在但受限"</strong>；② <strong>冷却管理器已确认随游戏发布</strong>（此前记为"计划中"）。官方口径为"<strong>采用现代 API</strong>"，非笼统的"正式服框架"。</blockquote>
+<hr>
+<h2>一、总原则：单人开荒效率 = 三件事</h2>
+<ol><li><strong>练级快</strong>：少死亡、少折返、任务链不断档（Forever <strong>不加速</strong>经验曲线，快只能靠"少走弯路"）。</li><li><strong>自给自足</strong>：能单挑、续航强、能源源不断做完任务链。</li><li><strong>早期金币</strong>：新区经济独立（角色/金币/装备<strong>不互通</strong>正式服与怀旧服），开服前几周物资紧缺、溢价最高。</li></ol>
+<blockquote>⚠️ <strong>决定 meta 的关键事实</strong>：Forever <strong>砍了副本杀怪经验、大幅提升了副本任务经验</strong>，且<strong>没有飞行、不鼓励纯刷怪</strong>。因此普通怀旧服那套"反复刷副本 / AoE 代刷 / 飞行拉采"的 shortcuts <strong>在 Forever 基本失效</strong>；真正吃香的是 <strong>"续航强、能稳定做任务"</strong> 的打法。详见 <code>leveling-gold-route.md</code>。</blockquote>
+<hr>
+<h2>二、职业推荐（单人效率向）</h2>
+<blockquote>排序依据已适配 Forever：由于带刷/AoE 刷本贬值，<strong>任务续航与单挑能力</strong>权重最高。</blockquote>
+<h3>T0：最稳单人开荒</h3>
+<div class="tw"><table><thead><tr><th>职业</th><th>为什么效率最高</th><th>注意</th></tr></thead><tbody><tr><td><strong>猎人</strong></td><td>宠物扛怪、几乎零消耗、远程风筝、单挑强；新解锁"人类猎人"</td><td>★ <strong>最契合"任务为主线"的 Forever 设计</strong>，综合最省心</td></tr><tr><td><strong>术士</strong></td><td>宠物 + 生命吸取 + 糖/石自给 + 群体恐惧控场；新版痛苦群 DOT、毁灭"烧尽"、DOT 可暴击</td><td>续航接近无限，野外极稳</td></tr><tr><td><strong>德鲁伊</strong></td><td>旅行形态跑图、采集效率顶级、四系通吃</td><td>无飞行版本下，变形机动性价值更高</td></tr><tr><td><strong>法师</strong></td><td>AoE 能力、造水造食、传送门省跑图；奥法连锁/火法点燃重做/冰法寒冰指深冻</td><td>脆；AoE 在 Forever 只是<strong>补充手段</strong>而非主线</td></tr></tbody></table></div>
+<h3>值得关注的新组合（玩法新鲜 + 机制补强）</h3>
+<ul><li><strong>矮人萨满</strong>：联盟终于有萨满；石像形态（解流血/毒/病 + 减伤）；增强萨独享"先知之怒"（专属嗜血）。</li><li><strong>亡灵圣骑士</strong>：防骑<strong>已有正经嘲讽</strong>（审判附带嘲讽 + 奉献改为基础技能），具团本主 T 能力；专属职业坐骑。</li><li><strong>兽人法师 / 侏儒牧师 / 巨魔术士 / 人类猎人</strong>：补齐当年种族壁垒。</li><li><strong>天裔（需购礼包 ¥218 起）</strong>：战/贼/猎/德 + 联盟法师 / 部落萨满；被动 <strong>1% 急速 + 5% 元素伤害</strong>，另有滑翔 + 续航/移速。颜值与数值兼得，但需额外付费。</li></ul>
+<blockquote>Forever <strong>支持双天赋</strong>（待最终验证）——开荒建议"练级天赋 + 满级天赋"两套。</blockquote>
+<hr>
+<h2>三、技能 / 天赋要点（Forever 的实装重构）</h2>
+<h3>1. 天赋树框架（沿用原版结构但大幅重构）</h3>
+<ul><li>沿用经典三系天赋树，<strong>每排需投 5 点解锁下一排，共 7 排</strong>；总天赋点仍为 <strong>51</strong>。</li><li>保留 11 / 21 / 31 点档位的金牌单点天赋，<strong>新增一个 16 点档位的单点特殊天赋</strong>。</li><li>每系现共有 <strong>4 个单点强力专属天赋</strong>（用来给各职业补全新能力）。</li><li>部分旧天赋移除/重做，官方目标是让<strong>全部 27 系天赋</strong>在五人本与团本中都有实战价值。</li></ul>
+<h3>2. 种族特长统一框架：每族 2 主动 + 2 被动</h3>
+<p>旧版"武器技能"统一改为<strong>对应武器类型的法术/技能暴击</strong>。重点：</p>
+<ul><li><strong>人类</strong>：生存意志（解昏迷）、感知（侦测潜行）、剑精（暴击 +2%）、人类精魂（精神 +5%）。</li><li><strong>矮人</strong>：石像形态（免疫流血中毒疾病 + 减伤）、寻宝、锤精（暴击 +1%）、大型猎物猎手（对野兽 +5%）。</li><li><strong>暗夜</strong>：艾露恩之光（15 秒 +10% 暴击）、影遁、迅捷、精灵之魂。</li><li><strong>侏儒</strong>：逃命专家、有了!（3 技能短爆发：消耗 -10% / 伤害治疗 +10%）、开阔思维（资源上限 +5%）、工程专精。</li><li><strong>兽人</strong>：血性狂暴（攻强法强 +10% / 15 秒）、粉碎诅咒、斧精（暴击 +1%）、坚韧（昏迷 -20%）。</li><li><strong>巨魔</strong>：狂暴（攻速施速 +10% / 10 秒）、极速再生、野兽杀手（对野兽 +5%）、再生（战斗回血 10%）。</li><li><strong>天裔</strong>：踏空而行（滑翔 10 秒）+ 联盟"解读地脉"（回血回蓝 +100% / 15 秒）或 部落"天穹之视"（移速 +10%）；被动 1% 急速 + 5% 元素伤害。</li></ul>
+<h3>3. 全职业天赋重做亮点（节选，终版以正式上线为准）</h3>
+<ul><li><strong>战士</strong>：武器系新"刺矛打击"（击落坐骑）；狂暴怒气获取更稳；防御天赋下可用冲锋、群拉加强。</li><li><strong>圣骑士</strong>：惩戒骑自带<strong>圣印舞</strong>；防骑新增愤怒圣印、<strong>审判附带嘲讽</strong>、奉献变基础技能 → 具主 T 能力；奶骑"圣光守望"。</li><li><strong>萨满</strong>：元素萨"熔岩爆裂" + 闪电过载；增强萨"漩涡武器" + 专属嗜血（先知之怒）；奶萨"激流" + 水盾回蓝。</li><li><strong>猎人</strong>：生存猎<strong>转近战输出</strong>（猛禽/猫鼬撕咬 + 撕裂打击）；射击猎"独来独往"（不带宠 +20% 伤害）；兽王召雄鹰。</li><li><strong>德鲁伊</strong>：鸟德简化版<strong>日月之蚀</strong>（愤怒减星火读条，且<strong>未获得星落</strong>）；野德/奶德新大招；猫德终结技可刷新撕碎；熊坦流血增伤。</li><li><strong>法师</strong>：奥法"奥术冲击"连锁；火法点燃重做；冰法"寒冰指""深度冻结"。</li><li><strong>术士</strong>：痛苦群 DOT 增益；恶魔牺牲改动；毁灭"烧尽"；持续伤害可暴击。</li><li><strong>盗贼</strong>：毒药可暴击 + "毒伤"；能量/终结技联动更强。</li></ul>
+<h3>4. 传承系统（14 个账号共享效果 —— 练级与小号的核心杠杆）</h3>
+<p>三分支：<strong>职业 / 冒险 / 足智多谋</strong>。官方明确<strong>只给便利性、不加战斗强度</strong>。</p>
+<ul><li><strong>冒险·天赋异禀</strong>：从第 9 级起每升一级都给天赋点（总上限仍 51）→ <strong>最优先</strong>。</li><li><strong>冒险·休息充足</strong>：休息经验积累速度 +4%、上限 +4% → 多在旅店下线。</li><li><strong>冒险·冒险快感</strong>：对非普通敌人致命一击后 10 秒回 1% 最大生命/法力（<strong>地下城/团本/战场无效</strong>）→ 野外续航。</li><li><strong>足智多谋·生死之间</strong>：死亡移速 +5%；复活后 1 分钟内或进战斗前，辅助法术技能<strong>免资源</strong>。</li><li><strong>足智多谋·永久效果</strong>：自身长期增益 +50%；<strong>营地篝火休息增益 +50%</strong>。</li><li><strong>足智多谋·外交官 / 为伟大的荣誉</strong>：声望 +2% / 荣誉 +2%。</li><li><strong>职业·绩效考核</strong>：向"艾泽拉斯商业管理局 / 杜隆塔尔补给与物流处"上交箱子时，5% 几率获得 100% 商人好感度。</li><li><strong>职业·加班</strong>：主/副职业技能升级几率 +4%。</li></ul>
+<blockquote><strong>推荐投入顺序：天赋异禀 → 休息充足 → 冒险快感 → 生死之间 / 永久效果 → 经济类。</strong></blockquote>
+<hr>
+<h2>四、赚钱方法（Forever 版本修正）</h2>
+<h3>核心结论（已按 Forever 独有条件修正）</h3>
+<ul><li><strong>没有飞行坐骑</strong> → 双采的"绕路成本"显著高于有飞行的版本；<strong>主号不建议双采</strong>（会吃掉大量练级时间）。</li><li><strong>主号最优 = 剥皮 + 制皮</strong>：杀怪顺手剥，<strong>绕路成本≈0</strong>，同时专业 600+ 新配方保证装备自给与销路。</li><li><strong>专门赚钱号 = 草药 + 炼金 / 或双采</strong>：中后期消耗品与转化 CD 的收益最高。</li><li><strong>官方禁止 GDKP + 严打第三方购金</strong>：现金拍团（GDKP）被明文禁止，通过第三方买金<strong>永久封号</strong>；合法金币只能源于材料/任务/代工/拍卖行——见 <code>leveling-gold-route.md</code> 硬约束第 7 条。</li><li><strong>带刷/代刷服务贬值</strong>（副本砍经验）→ 金币主来源回到<strong>材料 + 任务奖励 + 补给箱上交</strong>。</li></ul>
+<h3>具体路径</h3>
+<div class="tw"><table><thead><tr><th>路径</th><th>适合</th><th>Forever 特定要点</th></tr></thead><tbody><tr><td><strong>剥皮 + 制皮</strong>（主号）</td><td>所有人</td><td>零绕路；轻/中/重皮全程有价；制皮可自给装备</td></tr><tr><td><strong>草药 + 炼金</strong>（赚号）</td><td>想后期收益最大化</td><td>团本解锁前消耗品与转化 CD 收益爆发</td></tr><tr><td><strong>双采（草 + 矿）</strong></td><td>专号/第二号</td><td>⚠️ 无飞行 + 绕路，别放主号；需配合 GatherMate2 类工具规划环线（工具可用性待验证）</td></tr><tr><td><strong>裁缝 + 附魔</strong></td><td>副本党</td><td>布甲制作→分解循环，附魔材料长期有价</td></tr><tr><td><strong>补给箱 / 商人好感度</strong></td><td>所有人</td><td>向"商业管理局/补给与物流处"上交箱子可能成为稳定 repeatable 金币来源（<strong>机制与收益待验证</strong>）；传承「绩效考核」可放大</td></tr><tr><td><strong>黑市拍卖行（河林）</strong></td><td>倒爷</td><td>Forever 新经济节点，可能存在溢价空间（待验证）</td></tr><tr><td><strong>篝火系统衍生</strong></td><td>社交型</td><td>野外搭营火可制作/获增益/组队互动，不同职业提供不同篝火增益</td></tr></tbody></table></div>
+<blockquote><strong>Forever 经济完全独立</strong>于正式服/怀旧服，是全新新区；早期物资紧缺溢价高，但要防价格泡沫，别 All-in 单一物资。 具体分阶段变现见 <code>leveling-gold-route.md</code> 第四章。</blockquote>
+<hr>
+<h2>五、单人效率方法（操作层 · Forever 适配）</h2>
+<ol><li><strong>规则集选"普通"</strong>：专家/硬核一命首发<strong>暂不开放</strong>（后续补丁），主号选普通最稳。</li><li><strong>任务为主线</strong>：配合 Questie 类插件指路减少迷路；每个五人本<strong>接满任务后只打一次</strong>（这是 Forever 少数能显著加速的机会点）。</li><li><strong>AoE 单刷</strong>：仅作<strong>补充</strong>——Forever 明确不鼓励纯刷怪，且无飞行导致集中拉怪难度上升。</li><li><strong>移动力优先</strong>：40 级立刻买骑术；每入新图先开全鸟点；善用<strong>河林热砂港码头 → 加基森</strong>航线打通东西大陆。</li><li><strong>30-45 直奔新区域「河林」</strong>（150+ 任务），替代原版反复刷 SM/ZF 的空档。</li><li><strong>别把海加尔山当练级区</strong>：设计师刻意让其节奏放缓，它是满级后的装备/声望区。</li><li><strong>多在旅店下线 + 勤用篝火</strong>：吃休息经验与营地增益（配合传承「休息充足」「永久效果」）。</li><li><strong>Beta 先试</strong>：国服删档 Beta（10-06~10-27，上限 30 级）先把目标职业手法摸熟、验证天赋手感。</li></ol>
+<hr>
+<h2>六、效率工具（Forever 版本修正）</h2>
+<blockquote>⚠️ <strong>已确认（9-19 第三次更正，请以本次为准）</strong>：官方开发者问答中，首席软件工程师 <strong>Nora Mills</strong> 被直接问到"Forever 用 Midnight 的插件限制、经典 API，还是别的"，明确回答： <strong>"我们选择了现代 API 方案。"</strong> 官方同期补充：<strong>Forever 与主分支共用界面架构，包含 12.1.5 的绝大部分 API</strong>；<strong>Midnight 的插件限制（含"秘密值 secret values"）在 Forever 同样生效</strong>。 <strong>这不是"插件被禁"，而是"插件不能替你算"</strong>：插件仍可显示<strong>你自己的</strong> buff / 冷却 / 资源、仍可做界面与背包定制，但<strong>读取敌方施法条、战斗日志事件、战斗中其他玩家状态来推导该按什么</strong>——这类"计算型"功能被限制。 <strong>修正记录</strong>：此前本文件写"<strong>WeakAuras / Hekili 不可用</strong>"，<strong>不够准确</strong>。实际是 <strong>WeakAuras 仍然存在</strong>（受同一战斗限制，只能做"关于你自己"的部分）；<strong>Hekili 式"下一个技能"提示按原方式确实做不出来</strong>（它需要读取冷却/资源/敌方状态去计算，属于被限制的类别）。 <strong>当前策略</strong>：优先依赖官方原生功能；<strong>不要现在就整理"必装插件清单"</strong>，等适配新接口的版本出现后再定。<strong>宏与插件的详细边界见 <code>macros-and-ui.md</code>。</strong> <strong>官方原生已带</strong>（可在无插件情况下用）：<strong>内置伤害统计</strong>、<strong>冷却管理器</strong>（<strong>均已确认随游戏发布</strong>）、优化后的任务追踪、更清晰的姓名板、焦点目标，以及<strong>全面更新的现代风格 UI</strong>。 <strong>官方称"即将推出"</strong>：<strong>挥砍计时器（Swing Timer）</strong> —— 对依赖自动攻击节奏的<strong>圣印舞骑士与增强萨</strong>意义重大。 <strong>修正记录</strong>：此前本文件写"<strong>冷却管理器是计划中而非首发</strong>"，<strong>该说法已被推翻</strong>——Mills 原话是 Forever <strong>"ships with a built-in damage meter and cooldown manager"</strong>。 <strong>官方明确没有</strong>：原生不带法术报警类功能，插件系统仍开放。</blockquote>
+<h3>插件候选（<strong>均需 Beta 验证可用性</strong>）</h3>
+<div class="tw"><table><thead><tr><th>用途</th><th>候选</th><th>说明</th></tr></thead><tbody><tr><td>任务/导航</td><td>Questie</td><td>Classic 任务指引（是否适配 Forever 新任务待验）</td></tr><tr><td>探索</td><td>HandyNotes + TomTom</td><td>宝藏/稀有/隐藏点 + 坐标导航</td></tr><tr><td>采集规划</td><td>GatherMate2 + Routes</td><td>记录采集点、生成环线（无飞行版本下更重要）</td></tr><tr><td>拍卖行</td><td>Auctionator / TSM</td><td>历史价、快速挂单、倒卖</td></tr><tr><td>首领警报</td><td>DBM 或 BigWigs</td><td>团本/地下城技能倒计时</td></tr><tr><td>自定义提示</td><td>WeakAuras</td><td>⚠️ <strong>存在但受限</strong>：只能跟踪<strong>你自己的</strong> buff/冷却/资源；读敌方施法条/战斗日志来"告诉你按什么"的做法被限制。<strong>优先用官方冷却管理器</strong></td></tr><tr><td>伤害统计</td><td>Details! / Recount</td><td><strong>官方内置统计才是人人都有那一个</strong> → 第三方变可选</td></tr><tr><td>界面/背包</td><td>ElvUI / Bartender4 / Bagnon</td><td>界面与背包整理（<strong>需 Forever 专用版本</strong>，Classic/Era 版不能直接加载）</td></tr><tr><td>多号管理</td><td>Altoholic</td><td>小号资源一览</td></tr><tr><td>插件管理</td><td>WowUp / CurseForge</td><td>一键更新</td></tr></tbody></table></div>
+<blockquote>旋转辅助类插件（如 Hekili）在 Forever <strong>做不出来</strong>：它需要读取冷却、资源与敌方状态来"计算下一个技能"，正属于被限制的类别。<strong>这不是天赋树重做导致的失准问题，而是接口层面的限制。</strong> <strong>换来的补偿</strong>：官方把原本需要计时器插件的玩法<strong>做成了天赋</strong>（惩戒骑圣印舞 → 天赋「光之交织」，不再需要宏或插件）。<strong>策略应从"找插件/写宏"转向"读透职业机制 + 用好官方内置件"。</strong></blockquote>
+<h3>外部工具</h3>
+<ul><li><strong>Wowhead</strong>：数据库、任务/路线、Forever 专区（上线后快速成型）。</li><li><strong>Icy Veins</strong>：天赋/练级/团本攻略。</li><li><strong>NGA（nga.cn）</strong>：国服第一手攻略与物价讨论。</li><li><strong>官方座谈会回放</strong>（09-13 深度解析 / 09-14 旧影拾遗）：系统与数值最权威来源。</li><li><strong>178 魔兽（wow.178.com）</strong>：国服资讯补充。</li></ul>
+<hr>
+<h2>七、倒计时行动清单</h2>
+<ul><li><span class="cb "></span>10-06 前：决定主玩职业（参考第二章）；<strong>若只为 Beta，须买史诗礼包（¥388），英雄礼包（¥218）不含 Beta</strong>。</li><li><span class="cb "></span>盯官方公告：<strong>Server Slam 压测窗口</strong>（开放数小时、无资格限制）是零成本上手的机会。</li><li><span class="cb "></span>10-06 ~ 10-27：进国服删档 Beta，验证职业手感、天赋、<strong>并实测插件可用性</strong>（首周上限仅 20 级）。</li><li><span class="cb "></span>10-27 ~ 11-03：用预留名提前建角色，备好 3 个备选名（<strong>时间已修正</strong>）。</li><li><span class="cb "></span>11-05 上线：先装原生可用的家伙，再按实测清单补插件；主号 <strong>剥皮 + 制皮</strong> 起手。</li><li><span class="cb "></span>练级中：每本接满任务只打一次；30-45 进河林；40 级买骑术；传承点按推荐顺序投。</li><li><span class="cb "></span>12 月团本前：赚号成型采集/制造闭环，备好消耗品。</li></ul>
+<blockquote>一句话：<strong>主号（猎人/术士/德鲁伊）剥皮练级 → 30-45 吃河林红利 → 40 级骑术 → 传承点优先天赋异禀 → 赚号双采/炼金铺后端 → 12 月团本。</strong> 完整路线与等级带见 <code>leveling-gold-route.md</code>。</blockquote></section>
+<section class="doc " id="timeline_md"><h1>关键时间线</h1><blockquote>截至 2026-09-18 的公开信息整理。国际服与国服 Beta 时段不同，已分别标注。</blockquote>
+<div class="tw"><table><thead><tr><th>日期</th><th>节点</th><th>备注</th></tr></thead><tbody><tr><td>2026-09-13</td><td>暴雪嘉年华公布 + "深度解析"座谈会</td><td>正式官宣 Forever（无限）</td></tr><tr><td>2026-09-14</td><td>"旧影拾遗"座谈会回顾</td><td>系统/内容答疑</td></tr><tr><td>2026-09-17</td><td>国际服 Beta 开始</td><td><strong>首周等级上限 20</strong>；史诗/典藏礼包持有者专享</td></tr><tr><td>2026-09-20</td><td><strong>GDKP 拍团被禁 + 第三方购金永久封号</strong></td><td>官方直播确认：首发不允许金币拍团，第三方买金永久封号</td></tr><tr><td>2026-09-28</td><td><strong>国服预购礼包购买截止</strong></td><td>天裔英雄 ¥218 / 史诗 ¥388 / 典藏礼包均截止购买（已购权益不变）</td></tr><tr><td>2026-10-01（约，开测两周后）</td><td>国际服 Beta <strong>上限升至 30</strong></td><td>同步开放湿地挖掘场（28-29）</td></tr><tr><td>2026-10-06</td><td><strong>国服删档 Beta 开启</strong></td><td>史诗礼包专享（英雄礼包<strong>不含</strong> Beta 资格）</td></tr><tr><td>2026-10-20</td><td>受邀好友激活码开始邮件发放</td><td>英雄/史诗礼包的邀请资格</td></tr><tr><td>2026-10-21</td><td>国际服 Beta 结束</td><td>官方口径（路线图图示为 22 日）</td></tr><tr><td>2026-10-27</td><td><strong>国服 Beta 结束（凌晨）</strong></td><td>删档，数据清空</td></tr><tr><td>待公布</td><td><strong>Server Slam 压测</strong></td><td>开放数小时，<strong>无需 Beta 邀请/礼包，但需有效战网账号 + 有效游戏时间</strong>（所有人可进，不买礼包也能试玩）</td></tr><tr><td>2026-10-31</td><td>礼包"时光服"内容到账</td><td>礼包内部分物品延迟至此到账</td></tr><tr><td>2026-10-27 ~ 11-03（待确认）</td><td><strong>名称预留 &amp; 提前建角色</strong></td><td>英雄/史诗礼包专享；先到先得。<strong>⚠️ 来源冲突</strong>：timesaver(9-19) 与 classicwow.gg(9-24) 记为 10-27~11-03；onlinedown/citreport(9-24) 记为 11-03~11-04，待官方最终确认</td></tr><tr><td>2026-11-05</td><td><strong>全球正式上线（北京约 07:00）</strong></td><td>史诗礼包 30 天游戏时间到账</td></tr><tr><td>2026-11-05 当周</td><td>受邀好友免费畅玩</td><td>英雄/史诗礼包的邀请资格</td></tr><tr><td>2026-12-09 / 12-10</td><td><strong>首个团本层级解锁</strong></td><td><strong>Barrow Deeps 深穴（10 人）/ Hyjal Summit 海加尔峰（20 人）/ Onyxia's Lair 奥妮克希亚巢穴（40 人）</strong>；10 人本奖励对等且永久保留</td></tr><tr><td>2027 春季</td><td>重大更新</td><td>2 个新团本、2 个新地下城、新区域、传说任务线、PVP 赛季焕新</td></tr><tr><td>2027 夏季</td><td>重大更新</td><td>重制经典团本、新团本、2 新地下城、专业与传承更新</td></tr></tbody></table></div>
+<blockquote>提示：上线后还有长线内容规划（"多年分阶段"），属持续运营版本，无需赶首杀也可从容体验。</blockquote></section>
+<section class="doc " id="reference_sites_md"><h1>参考网站</h1><blockquote>分类整理。当前（2026-09）离上线尚有约 7 周，攻略站多处于"待填充"状态；<strong>官方源 + Wowhead / Icy Veins 的陆续建设</strong>是当前最有价值的信息渠道。</blockquote>
+<h2>一、官方（必看，信息最权威）</h2>
+<ul><li><strong>国服官网（含倒计时、预约、预购、账号找回、新闻/座谈会回顾）</strong></li></ul>
+<p><a href="https://wow.blizzard.cn/" target="_blank" rel="noopener">https://wow.blizzard.cn/</a></p>
+<ul><li><strong>国服商城（礼包对比、配置要求、商品详情）</strong></li></ul>
+<p><a href="https://shop.battlenet.com.cn/product/world-of-warcraft-forever" target="_blank" rel="noopener">https://shop.battlenet.com.cn/product/world-of-warcraft-forever</a></p>
+<ul><li><strong>全球官网（含中文 zh-cn 版）</strong></li></ul>
+<p><a href="https://worldofwarcraft.blizzard.com/zh-cn/" target="_blank" rel="noopener">https://worldofwarcraft.blizzard.com/zh-cn/</a></p>
+<ul><li><strong>暴雪新闻中心</strong></li></ul>
+<p><a href="https://news.blizzard.com/" target="_blank" rel="noopener">https://news.blizzard.com/</a></p>
+<ul><li><strong>暴雪支持 · 配置要求（文档 000386366）</strong></li></ul>
+<p><a href="https://us.support.blizzard.com/en/help/article/386366" target="_blank" rel="noopener">https://us.support.blizzard.com/en/help/article/386366</a></p>
+<h2>二、数据库 / 攻略（上线前后最实用）</h2>
+<ul><li><strong>Wowhead</strong>（全球最大 WoW 数据库与社区，预计会开设 Forever 专区）</li></ul>
+<p><a href="https://www.wowhead.com/" target="_blank" rel="noopener">https://www.wowhead.com/</a></p>
+<ul><li><strong>Icy Veins</strong>（职业/练级/团本攻略）</li></ul>
+<p><a href="https://www.icy-veins.com/" target="_blank" rel="noopener">https://www.icy-veins.com/</a></p>
+<ul><li><strong>百度百科《魔兽世界：无限》</strong>（中文事实汇总，适合快速了解设定）</li></ul>
+<p><a href="https://baike.baidu.com/item/魔兽世界：无限" target="_blank" rel="noopener">https://baike.baidu.com/item/魔兽世界：无限</a></p>
+<h2>三、中文社区（国服玩家首选）</h2>
+<ul><li><strong>NGA 玩家社区</strong>（国内最大 WoW 论坛）</li></ul>
+<p><a href="https://nga.cn/" target="_blank" rel="noopener">https://nga.cn/</a></p>
+<ul><li><strong>178 魔兽世界</strong></li></ul>
+<p><a href="https://wow.178.com/" target="_blank" rel="noopener">https://wow.178.com/</a></p>
+<ul><li><strong>多玩魔兽世界</strong></li></ul>
+<p><a href="https://wow.duowan.com/" target="_blank" rel="noopener">https://wow.duowan.com/</a></p>
+<ul><li><strong>艾泽拉斯快讯（微信公众号）</strong> —— 国服每日资讯，适合移动端追更</li></ul>
+<h2>四、国际社区 / 资讯</h2>
+<ul><li><strong>Reddit r/wow、r/classicwow</strong></li></ul>
+<p><a href="https://www.reddit.com/r/wow/" target="_blank" rel="noopener">https://www.reddit.com/r/wow/</a> ｜ <a href="https://www.reddit.com/r/classicwow/" target="_blank" rel="noopener">https://www.reddit.com/r/classicwow/</a></p>
+<ul><li><strong>searchforloot（发售倒计时与关键日期）</strong></li></ul>
+<p><a href="https://searchforloot.com/wow-forever-release-date-countdown" target="_blank" rel="noopener">https://searchforloot.com/wow-forever-release-date-countdown</a></p>
+<ul><li><strong>wow-tracker（BlizzCon 公告与指南汇总）</strong></li></ul>
+<p><a href="https://wow-tracker.com/guides/blizzcon-2026-wow-whats-next-announcements" target="_blank" rel="noopener">https://wow-tracker.com/guides/blizzcon-2026-wow-whats-next-announcements</a></p>
+<ul><li><strong>ScreenRant / Techtroduce 等媒体深度报道</strong>（检索 "World of Warcraft: Forever" 即可）</li></ul>
+<h2>五、视频 / 直播</h2>
+<ul><li><strong>YouTube / Twitch：官方 World of Warcraft 频道</strong> —— 深度解析座谈会、CG、实机演示</li><li><strong>B 站 / 抖音：国服内容创作者</strong> —— 上线前后会有大量中文前瞻与攻略</li></ul>
+<blockquote>建议：上线前 2 周（10 月下旬起）重点盯 <strong>官网公告 + Wowhead + NGA</strong>，攻略与数据库内容会在那时快速成型。</blockquote></section>
+<section class="doc " id="prep_checklist_md"><h1>准备检查表</h1><blockquote>打印或对照勾选。状态：⬜ 未做 / 🔶 进行中 / ✅ 完成</blockquote>
+<h2>账号与准入（10 月前搞定）</h2>
+<ul><li><span class="cb "></span>确认/找回暴雪战网国服账号（官网首页"账号找回"，约 3 分钟）</li><li><span class="cb "></span>确认有《魔兽世界》游戏时间（月卡）—— 基础版"无限"已含在月卡内</li><li><span class="cb "></span>决定并购买礼包（玩天裔 / 进 Beta / 抢名需买）：</li>  <li><span class="cb "></span>天裔英雄礼包 ¥218（天裔种族 + 泽风岛 + 名称预留 + 1 邀请）</li>  <li><span class="cb "></span>天裔史诗礼包 ¥388（+ 国服 Beta 资格 + 30 天游戏时间 + 3 邀请）</li><li><span class="cb "></span>官网免费预约（上线送首个角色 4 格背包）</li><li><span class="cb "></span>备好 3 个备选角色名（11-03~11-04 抢注，先到先得）</li></ul>
+<h2>客户端与硬件（10-06 Beta 前就绪）</h2>
+<ul><li><span class="cb "></span>安装/更新战网桌面应用</li><li><span class="cb "></span>安装/更新《魔兽世界》客户端，预留 ≥128GB SSD</li><li><span class="cb "></span>核对 PC 配置（最低：Win10 / 4核3GHz / GTX10系4GB / 8GB；推荐：Win11 / 8核 / RTX40 8GB / 16GB）</li><li><span class="cb "></span>决定视觉预设（HD/SD 模型、经典动画）与输入方式（键鼠/手柄）</li></ul>
+<h2>角色规划（上线前定稿）</h2>
+<ul><li><span class="cb "></span>阵营：联盟 / 部落</li><li><span class="cb "></span>种族 + 职业（是否新组合 / 天裔）</li><li><span class="cb "></span>规则集：普通 / PvP / 角色扮演 / 专家模式（一命）</li><li><span class="cb "></span>专业路线（专业重构，600+ 新配方）</li><li><span class="cb "></span>了解全职业天赋树重做</li></ul>
+<h2>知识储备</h2>
+<ul><li><span class="cb "></span>温习原版/怀旧服练级与职业手法、常用插件</li><li><span class="cb "></span>看官方深度解析座谈会回放（09-13/09-14）</li><li><span class="cb "></span>提前找好公会/社群</li></ul>
+<h2>Beta 体验（仅史诗礼包，10-06 ~ 10-27）</h2>
+<ul><li><span class="cb "></span>进国服删档 Beta（上限 30 级），试职业、熟悉系统、提反馈</li><li><span class="cb "></span>记住：删档，不深度投入</li></ul>
+<h2>上线日（11-05 约 07:00 北京）</h2>
+<ul><li><span class="cb "></span>开服登录 → 用预留名建角色 → 开练</li><li><span class="cb "></span>规划满级路线（首个团本 12 月解锁）</li></ul></section>
+<section class="doc " id="intel_digest_md"><h1>情报摘要</h1><blockquote>由「魔兽世界无限·专区资讯常驻监控」自动化任务每日 09:00 追加维护。 规则：只记录可核实信息，绝不臆造；Beta 阶段信息标注「待验证」；与既有文档冲突时写明"修正"。</blockquote>
+<hr>
+<h2>2026-09-19 情报摘要（项目建立日 · 基线快照）</h2>
+<ul><li><strong>[官方公告]</strong> 《魔兽世界》:"无限"（World of Warcraft: Forever）定于 <strong>2026-11-05 北京时间约 07:00</strong> 全球同步上线；国服删档 Beta <strong>10-06 ~ 10-27</strong>（上限 30 级，史诗礼包专享）；<strong>名称预留 11-03~11-04</strong>；首个团本 <strong>12-09/12-10</strong> 解锁。 —— 来源：wow.blizzard.cn</li><li><strong>[官方公告]</strong> 收费模式：<strong>拥有《魔兽世界》游戏时间/月卡即可游玩本体</strong>；天裔种族、Beta 资格、名称预留绑在礼包内（<strong>天裔英雄礼包 ¥218 / 天裔史诗礼包 ¥388</strong>）。官网免费预约送首个角色 4 格背包。 —— 来源：shop.battlenet.com.cn</li><li><strong>[职业天赋]</strong> 天赋树沿用原版三系 7 排结构（每排 5 点解锁），总点数仍 <strong>51</strong>；保留 11/21/31 点金牌天赋并<strong>新增 16 点档位单点天赋</strong>；每系 4 个单点专属天赋。目标：全部 <strong>27 系</strong>天赋均有实战价值。 —— 来源：官方座谈会 / 前瞻整理（数值待验证）</li><li><strong>[职业天赋]</strong> 全职业约 <strong>30% 天赋改动</strong>，新增 600+ 配方与物品。重点：惩戒骑自带<strong>圣印舞</strong>；防骑<strong>审判附带嘲讽 + 奉献变基础技能 → 具主 T 能力</strong>；增强萨专属嗜血；生存猎转<strong>近战</strong>；鸟德简化日月之蚀（<strong>未获得星落</strong>）；元素萨熔岩爆裂；术士 DOT 可暴击；盗贼毒药暴击。 —— 待 Beta 验证</li><li><strong>[练级路线]</strong> <strong>经验曲线完全沿用原版，未加速</strong>（官方访谈：约 160 小时到 60，路线不熟 200+ 小时）；<strong>副本杀怪经验大幅下调、地下城任务经验巨幅提升</strong>；<strong>不鼓励纯刷怪</strong>；<strong>无飞行、无等级缩放、无直升</strong>。—— 来源：开发者访谈 / Icy Veins、Wowhead</li><li><strong>[练级路线]</strong> 新区域等级带：<strong>泽风岛 1-12</strong>（天裔新手区）、<strong>河林 约 30-45</strong>（150+ 任务，含黑市拍卖行 + 热砂港码头→加基森航线）、<strong>辛德拉 约 40+</strong>（待验证）、<strong>海加尔山 偏满级后段</strong>（刻意放缓）。9 个新五人本覆盖 13-60。 —— 等级带待 Beta 确认</li><li><strong>[职业天赋]</strong> 传承系统（14 个账号共享效果）实装节点已曝光：<strong>天赋异禀（第 9 级起每级给天赋点）</strong>、休息充足、冒险快感（野外致命一击回血蓝）、生死之间、永久效果（营地增益 +50%）、绩效考核（上交箱子好感度）、加班（技能升级 +4%）。官方明确<strong>只给便利性、不加战斗强度</strong>。—— 来源：嘉年华试玩 UI 曝光</li><li><strong>[经济赚钱]</strong> 关键转折：<strong>副本/带刷收益被砍</strong> → 金币主来源回归材料、任务奖励与<strong>补给箱上交</strong>（机制待验证）；且<strong>无飞行</strong>使双采绕路成本高 → <strong>主号不宜双采</strong>。河林新增<strong>黑市拍卖行</strong>为全新经济节点（待验证）。</li><li><strong>[插件工具]</strong> ⚠️ 有报道称 <strong>Forever 采用正式服框架，正式服那套战斗插件限制预计会沿用</strong>（待验证）——已据此修正 <code>efficiency-guide.md</code>：不能假设 Classic 插件全部可用，首推官方原生功能（冷却管理器/任务追踪/优化姓名板/焦点目标），插件清单以 Beta 实测为准。</li></ul>
+<hr>
+<h2>2026-09-19 情报摘要（第二次更新 · 13:55）</h2>
+<ul><li><strong>[官方公告]</strong> <strong>Beta 阶段计划明确</strong>：9-17 开启 → <strong>首周等级上限 20 级</strong>，约两周后（Phase 2，约 10-08）升至 <strong>30 级</strong>，并开放"湿地挖掘场"；测试持续至 <strong>10-21（PST）</strong>。第 1 周可玩内容：天裔 + 泽风岛、领主大厅（13-18）、洛丹伦废墟（15-20）、20 级以内全部区域。—— 来源：官方 Beta 蓝贴（mmo-champion 转载）</li><li><strong>[官方公告]</strong> ⚠️ <strong>Server Slam（服务器压测）</strong>：测试期内将开放<strong>数小时</strong>窗口，<strong>无需任何资格、所有人可进</strong>。这是不买礼包也能上手体验的唯一机会，具体时间待官方公布。—— 同上</li><li><strong>[官方公告]</strong> <strong>修正</strong>：名称预留为 <strong>10-27 ~ 11-03</strong>（原写 11-03~11-04）；受邀好友激活码 <strong>10-20</strong> 起邮件发放。Beta 资格<strong>仅</strong>天裔史诗礼包（$59.99）/ 魔兽无限典藏（$79.99）含，<strong>天裔英雄礼包（$29.99 / ¥218）不含 Beta</strong>。—— 来源：官方预购页 / timesaver.gg</li><li><strong>[官方公告]</strong> Beta 已知问题（9-17）：理发椅触发 LUA 错误、好友功能禁用、小地图可能出屏；<strong>补给箱对"堆叠上限小于需求数量"的物品无效</strong>、学徒奇物箱不接受强效魔法精华（均在下个版本修复）；星界碎片（暗夜牧师种族技能）不吃"暮光聚焦"天赋；复仇（惩戒骑）可被周期性暴击触发。—— 来源：官方 Known Issues</li><li><strong>[职业天赋]</strong> <strong>修正</strong>：Kotaku 采访首席设计师 Tim Jones 与首席战斗/关卡设计师 Mike Nuthals 明确表示——<strong>萨满坦克这类探索赛季式改造不会照搬</strong>，Forever 回归更贴近原版的职业思路。此前个别外媒"萨满获得威胁天赋可坦克"的说法<strong>不可采信</strong>。—— 来源：Kotaku 访谈（网易/搜狐转述）</li><li><strong>[插件工具]</strong> ⚠️ <strong>由"待验证"升级为确认</strong>：限制的是<strong>底层战斗插件 API</strong>，因此 <strong>WeakAuras、Hekili、一键输出类插件均无法按原方式工作</strong>；现有怀旧服插件可能需大规模重做，插件生态将向正式服靠拢。建议<strong>等适配新接口的版本出现后再整理插件清单</strong>。—— 来源：Kotaku 访谈转述</li><li><strong>[练级路线]</strong> <strong>移除集合石召唤功能</strong>，改为"寻求组队工具"（发布/浏览招募）。<strong>除非队里有术士，否则必须自己跑图汇合</strong>。官方设计意图：赶路的空档是社交机会。→ 直接后果：<strong>跑图成本上升，鸟点与航线的价值进一步提高</strong>。—— 同上</li><li><strong>[练级路线]</strong> 团本规模确定：<strong>无弹性难度</strong>，每阶段至少 1 个 <strong>10 人</strong> + 1 个 <strong>20 人</strong>，部分阶段有 <strong>40 人</strong>；官方明确 <strong>10 人团本奖励不天然更差，且永久保留</strong>。—— 同上</li><li><strong>[经济赚钱]</strong> 坐骑经济进一步明确：金币成本<strong>转移到骑术训练</strong>，坐骑本体不贵（设计师访谈）。→ 40 级前须预留的仍是<strong>骑术训练费</strong>，具体金额仍未公布。—— 同上</li><li><strong>[练级路线]</strong> 实测数据点：组队到 <strong>10 级约 5 小时</strong>，单人兽人法师到 <strong>10 级约 4 小时</strong>；早期任务密度显著提高，但<strong>怪物伤害依旧高</strong>（拉 2-4 只易死）。⚠️ 该时耗为 Beta 早期低等级观察值，<strong>不可线性外推到 60 级</strong>。—— 来源：gamingcoven 实测</li><li><strong>[专业制造]</strong> 重要变动：<strong>3-4 级就有任务直接赠送专业手册</strong>（可选草药/采矿/剥皮/裁缝），开局即可获得采集能力。→ 直接影响赚钱路线：采集可以比预期更早启动。—— 来源：gamingcoven 实测（待 Beta 二次确认）</li><li><strong>[练级路线]</strong> <strong>修正（待定）</strong>：河林（Riverglades）等级带，多来源记为 <strong>35-45</strong>（此前本库记 30-45）；湿地挖掘场记为 <strong>28-29</strong>（此前记 24-29），且 Beta 30 级阶段才开放。两处均已标注，待官方最终确认。—— 来源：wow.gg 中英文页 / 官方 Beta 阶段说明</li><li><strong>[插件工具]</strong> 硬件门槛补充：官方公布最低 GPU 需支持 <strong>RGBA16F UAV（计算着色器）</strong>，<strong>GTX 760 / 770 / 780 被排除</strong>。—— 来源：howtovideogame（转述官方 Beta 公告）</li><li><strong>[排除项]</strong> 9-19 流传的"职业调整蓝贴（血 DK 削弱、唤魔师/暗牧加强，9-24 上线）"属<strong>正式服</strong>内容，<strong>不适用于"无限"</strong>，勿混用。—— 来源：腾讯新闻转载正式服蓝贴</li></ul>
+<h3>补充（同日 17:50 · 天赋与装备专题）</h3>
+<ul><li><strong>[官方公告]</strong> ⚠️ <strong>决定性机制：物品属性在掉落前完全隐藏</strong>。高级游戏设计师 Josh Greenfield 明确：<strong>你或你所在服务器的任何人拿到之前，看不到任何属性</strong>；datamining 挖不到数值表（Beta 已开启挖掘，目前只挖出名衔/坐骑/配方，无物品属性表）。<strong>首发无地下城手册</strong>、<strong>进团本前不知道会打哪些首领</strong>、<strong>官方刻意取消传统团本 PTR 测试</strong>。→ <strong>第一团本层级（12-09/12-10）不会有预先存在的 BIS 列表</strong>；任何在此之前发布的"Forever 满级 BIS 清单"都是猜测。—— 来源：MMORPG.com 采访（Icy Veins / wowsod.pro / gamefragger 转述）</li><li><strong>[职业天赋]</strong> 天赋系统基础规则确认：<strong>10 级拿第一点</strong>、之后每级 1 点、<strong>60 级共 51 点</strong>、<strong>每系每 5 点解锁下一排</strong>。天赋界面已见 <strong>Primary + Secondary</strong> 两套配置，但<strong>副配置解锁方式官方未说明</strong>。—— 来源：wowforeverbuilds.com 天赋数据</li><li><strong>[职业天赋]</strong> 20 级 Beta 实装配点已出（9-19 发布）：<strong>兽王猎</strong>＝致命瞄准→寻路→集中火力→强化复活宠物；<strong>惩戒骑</strong>＝神恩→信念→20 级命令圣印（<strong>Beta 公认最强练级职业</strong>）；<strong>痛苦术</strong>＝强化腐蚀→灵魂收割→咒逐→瘟疫（<strong>DOT 可暴击</strong>）；<strong>冰法</strong>＝强化冰霜箭→冰碎片→刺骨冰寒；<strong>增强萨</strong>＝雷霆打击→强化幽魂之狼→精神敏捷→萨满专注；<strong>野性德</strong>＝凶猛→野性迅捷→厚皮→锐利之爪（<strong>避开愤怒，用猫/熊练级</strong>）；<strong>战斗贼</strong>＝强化邪恶攻击→强化剔骨→精准→刺穿伤口；<strong>戒律牧</strong>＝魔杖专精→精神分流→双生戒律→强化真言术盾；<strong>狂暴战</strong>＝残酷→无羁狂怒→刺耳怒吼（<strong>Beta 怒气偏慢</strong>）。详见 <code>talents-and-gear.md</code>。—— 来源：wowforeverbuilds.com（中文译名待国服客户端确认）</li><li><strong>[官方公告]</strong> 装备系统改动（<strong>决定属性权重</strong>）：<strong>命中与暴击在近战/远程/法术间统一</strong>；<strong>武器技能分散、无唯一正确武器类型</strong>；<strong>治疗装备约 1/3 价值转化为伤害</strong>；<strong>饰品绑定生物群系/生物类型</strong>（情境化）；<strong>全部五人本掉落重新审查 + 新增数百件奖励</strong>；世界掉落史诗改进；<strong>银行默认约 96 格（原版 2-4 倍）</strong>。—— 来源：Blizzard 深度座谈会整理</li><li><strong>[插件工具]</strong> 修正：<strong>冷却管理器为"计划中"</strong>（Greenfield 称未来会加，很可能不在首个 Beta 版本内），此前误记为"官方原生已带"；<strong>内置伤害统计已确认</strong>。</li></ul>
+<h2>2026-09-19 情报摘要（补充 · 属性与配装专题）</h2>
+<ul><li><strong>[官方公告]</strong> 座谈「物品与装备：属性」幻灯片原文确认——属性盘为 <strong>命中几率 / 暴击几率 / 武器技能 / 治疗加成 / 精准（Expertise）</strong> 五项；<strong>保留经典属性并引入后续资料片属性，但不加入韧性</strong>。Zierhut 明确<strong>未给出合并属性的换算数值</strong>，也<strong>未确认 Expertise 就是降低闪避/招架属性的游戏内正式名称</strong>。—— 来源：Blizzard 深度座谈整理（outputlag.com 逐条转述）、NGA 座谈会回顾</li><li><strong>[官方公告]</strong> <strong>命中与暴击合并</strong>的官方定位：受益方点名 <strong>惩戒骑 / 增强萨等混伤专精</strong>，以及<strong>战士的嘲讽、猎人的陷阱、盗贼的毒药</strong>；官方原话是"一项属性覆盖所有攻击"。<strong>治疗不占进攻命中</strong>。—— 来源：同上</li><li><strong>[官方公告]</strong> <strong>武器技能重平衡</strong>："经典里有点太容易获得、也有点太强"→ <strong>单件装备给的武器技能减少</strong>，但机制保留；<strong>精准</strong>为新增的"降低被闪避/招架"属性，面向坦克。<strong>施法者武器从 10 级起就提供法术伤害与治疗</strong>。—— 来源：同上</li><li><strong>[官方公告]</strong> 座谈现场给出<strong>七件样张装备</strong>（属性为幻灯片口径）：<strong>狮心头盔</strong>（56 板甲头，+18 力量 / 命中 +2% 且暴击 +2%）、<strong>剑师护手</strong>（44 锁甲手，被闪避招架 −1%、+1 武器伤害、+1 斧/匕首/剑技能）、<strong>野性之皮</strong>（57 披风，+10 智力 +8 耐力 / +42 治疗 +14 法术伤害）、<strong>西部荒野法杖</strong>（+48 治疗 +16 法伤，艾尔文/西部荒野/赤脊山/死亡矿井 +2% 移速）、<strong>完美符文</strong>（20 饰品，法术穿透 +2、森林林地再 +3）、<strong>狼人杀手护符</strong>（21 饰品，击晕狼人 4 秒 / 5 分钟）、<strong>石猪剑</strong>（37 双手剑，+20 力量 +7 耐力，命中几率 33–53 神圣伤害、对亡灵与猪三倍）。—— 来源：同上</li><li><strong>[职业天赋]</strong> 属性优先级（第三方，Beta 阶段）：<strong>惩戒骑</strong>＝命中(到上限) &gt; 力量 &gt; 暴击 &gt; 攻强 &gt; 智力 &gt; 敏捷；<strong>命中上限 9%</strong>（对 63 级首领），<strong>3 点精准天赋后装备只需 6%</strong>；<strong>双手武器白字暴击上限约 45%</strong>。<strong>射击猎</strong>＝远程命中到上限 &gt; 敏捷 &gt; 暴击 &gt; 攻强 &gt; 智力 &gt; 耐力；<strong>远程无暴击上限</strong>；牛头人「耐久」+1% 命中、生存「稳固步伐」最多 +3%。来源方均自述为<strong>继承经典数学、临时性质</strong>。—— 来源：worstguidesever.com</li><li><strong>[职业天赋]</strong> <strong>萨满＝全职业唯一"一属性养三系"</strong>：「精神敏捷」<strong>智力 100% 转攻强</strong>、「精神迅捷」<strong>智力 30% 转法伤与治疗</strong>；「潮汐专注」5 点给 <strong>5% 命中</strong>、「雷霆打击」5 点给 <strong>5% 暴击</strong>；<strong>治疗装伤害加成可直接用于野外输出</strong>。—— 来源：classicwow.gg/forever/guides/shaman（Beta 天赋树）</li><li><strong>[经济赚钱]</strong> <strong>首发前五周无团本</strong> → 满级初期装备全部来自 60 级五人本、任务链、专业制造、声望、PvP 奖励、黑市拍卖行；攻略站提醒<strong>别在新五人本掉落明确前重金制造</strong>。—— 来源：boostroom.com《WoW Forever Pre-Raid BiS Guide》</li><li><strong>[插件工具]</strong> 附魔/专业增益新增（待验证）：<strong>戒指可附魔</strong>、<strong>腰带可打锻造扣环</strong>、<strong>炼金「调酒术」延长药剂时长</strong>、<strong>头腿敏捷秘药来自厄运之槌贡品任务</strong>。</li><li><strong>[社区热议]</strong> 结论性提醒：<strong>12-09 前任何"Forever 满级 BIS 清单"都是猜测</strong>（官方隐藏物品属性、无地下城手册、取消团本 PTR）；攻略站自己也声明其清单"是地板，不是答案"。详见 <code>stats-and-gear.md</code>。</li></ul>
+<h2>2026-09-19 情报摘要（补充 · 界面工具与"一键输出"）</h2>
+<ul><li><strong>[插件工具]</strong> <strong>官方开发者问答（首席软件工程师 Nora Mills）确认：Forever "选择了现代 API 方案"</strong>。三条理由：对插件开发者有同理心（一套 API 更好维护）、Forever 首领战<strong>比现代版简化得多</strong>（限制"不该负面影响体验"）、<strong>不希望玩家"觉得必须装插件才能玩"</strong>（会导致门槛与守门）。两条承诺：<strong>随游戏内置伤害统计 + 冷却管理器</strong>，且<strong>"挥砍计时器可能即将推出"</strong>。—— 来源：World of Warcraft Developer Q&amp;A VOD（wowsod.pro 转述）</li><li><strong>[插件工具]</strong> <strong>官方 UI 频道补充</strong>：Forever <strong>与主分支共用界面架构，包含 12.1.5 的绝大部分 API</strong>；<strong>12.1.0 的 AuraContainer / AuraButton 改动可用</strong>；<strong>Midnight 的插件限制（含"秘密值 secret values"）同样生效</strong>。—— 来源：WoW UI Discord（gamewave.fr 转述）</li><li><strong>[插件工具]</strong> <strong>修正</strong>：此前记"WeakAuras / Hekili 不可用"<strong>不够准确</strong>。实际是——<strong>WeakAuras 仍然存在但受限</strong>（只能跟踪自身 buff / 冷却 / 资源；<strong>读取敌方施法条、战斗日志事件、其他玩家状态来推导"该按什么"被限制</strong>）；<strong>Hekili 式"下一个技能"提示按原方式做不出来</strong>（属被限制的"计算"类别）。<strong>是接口层限制，非天赋重做导致的失准</strong>。—— 来源：同上</li><li><strong>[插件工具]</strong> <strong>"秘密值"的通俗解释</strong>：插件<strong>可以显示那个盒子、调整大小、挪动位置，但不能打开盒子用里面的内容做决定</strong>。因此首领模组（DBM/BigWigs）<strong>能跑，但能播报多少取决于首领暴露了什么</strong>。—— 来源：masterofwarcraft.net</li><li><strong>[插件工具]</strong> <strong>修正</strong>：<strong>冷却管理器已确认随游戏发布</strong>（Mills 原话 "ships with a built-in damage meter and cooldown manager"），此前记为"计划中而非首发"<strong>已推翻</strong>。—— 来源：同上</li><li><strong>[插件工具]</strong> <strong>Classic / Era 插件不能直接加载</strong>（架构不同）→ 需要 <strong>Forever 专用版本</strong>；Questie、Bagnon、拍卖行类与大型 UI 套件已有作者在移植。<strong>Details / Recount 变可选</strong>。—— 来源：wowsod.pro</li><li><strong>[社区热议]</strong> <strong>关于"一键输出宏"的结论</strong>：<strong>真·一键循环在任何版本都不存在</strong>（暴雪自 2006 年起封死宏的变量/循环/if 分支与战斗数据读取）；唯一合法上限是"<strong>点一下 = 施放优先级最高的可用技能</strong>"（<code>/cast</code> 多技能排队 + <code>/startattack</code>）。<strong>外部自动化软件与硬件宏连发属违规，会封号</strong>。详见 <code>macros-and-ui.md</code>。</li></ul>
+<hr>
+<h2>2026-09-20 情报摘要</h2>
+<ul><li><strong>[官方公告]</strong> <strong>GDKP 拍团被明文禁止 + 第三方购金永久封号</strong>：社区经理 Kaivax 与首席设计师 Josh Greenfield 在直播中确认，Forever 首发<strong>不允许 GDKP</strong>（金币拍团），理由是其第一支柱"培育和保护社交体验"；通过第三方买金者将<strong>永久封号</strong>，Greenfield 称过去"太宽容"、今后将"非常激进地惩罚"。—— 来源：consolepcgaming.com</li><li><strong>[官方公告]</strong> <strong>Beta 开测爆满（17 年峰值）</strong>：9-17 开测后玩家蜂拥而入，经典出生区人山人海、排队/掉线/延迟严重；高级制作人 Tom Ellis 解释这是 Beta PTR 环境（仅 1 个 Realm 部署），与正式环境"差得非常远"，当晚已修复；暴雪总裁 Johanna Faries 亦感叹"Beta 疯狂了"。—— 来源：IGN中国 / 网易 / 凤凰网</li><li><strong>[媒体整理]</strong> <strong>修正（Beta 升至 30 级时间点）</strong>：多来源称 30 级在"开测约两周后"开放（即约 10-01），此前本库记"约 10-08"——已修正 timeline.md / beta-findings.md。</li><li><strong>[媒体整理]</strong> <strong>美元区礼包价参考</strong>：Skyborne Heroic Pack $29.99（<strong>不含 Beta</strong>）/ Epic Pack $59.99（含 Beta）/ Warcraft Forever Collection $79.99（含 Beta）。国服价 ¥218/¥388 仍为确认值，此处仅供跨区参考。—— 来源：onlyfarms.gg / fridayherald.com</li><li><strong>[媒体整理]</strong> <strong>硬件 GPU 门槛确认</strong>：需支持 RGBA16F UAV（compute shader），AMD GCN1 / NVIDIA Maxwell / Intel Skylake <strong>之前架构不支持</strong> → 验证此前"GTX 760/770/780 被排除"判断（GTX 700 系为 Kepler）。—— 来源：mybiggaming.ge / blizzpro.com</li><li><strong>[官方公告]</strong> <strong>画面双模式可切换</strong>：纯经典（2004 原画）+ 现代光照/水面/大气渲染两种模式，可随时切回原版；玩家社区对光照重制好评。Beta 期间还将开放一个新战场。—— 来源：blizzpro.com</li><li><strong>[修正]</strong> 原写"金团/DKP 生态保留、金币可买装备"（硬约束第 7 条、团本前变现表）→ 实际 <strong>GDKP 被禁、第三方购金永久封号</strong>；已修正 leveling-gold-route.md / efficiency-guide.md / beta-findings.md 修正清单。</li></ul>
+<hr>
+<h2>2026-09-24 情报摘要</h2>
+<ul><li><strong>[官方公告]</strong> <strong>国服预购礼包 9-28 截止购买</strong>：天裔英雄礼包 ¥218 / 史诗礼包 ¥388 / 典藏礼包均在 9-28 截止购买（已购权益不变）。若想通过史诗礼包获得国服 Beta 资格，须在 9-28 前下单。—— 来源：华军软件园 / onlinedown（9-24）</li><li><strong>[官方确认]</strong> <strong>Server Slam 进入条件澄清</strong>：无需 Beta 邀请或购买礼包，但<strong>必须持有有效战网账号 + 有效游戏时间/月卡</strong>（纯零成本但有账号门槛）；开放数小时，具体时间待公布。—— 来源：vanilla.games（9-24）</li><li><strong>[官方确认]</strong> <strong>首个团本具名（12-09/12-10）</strong>：<strong>Barrow Deeps 深穴（10 人）/ Hyjal Summit 海加尔峰（20 人）/ Onyxia's Lair 奥妮克希亚巢穴（40 人）</strong>；10 人本奖励对等且永久保留。—— 来源：Sportskeeda roadmap（9-24）</li><li><strong>[官方确认]</strong> <strong>设计哲学定调（世界构建师 Matthew Armstrong，9-22）</strong>：忠实还原原版、保留"摩擦与不便"、社交是支柱——解释了为何经验不加速、集合石移除召唤、不提供飞行、团本无弹性难度是有意取舍，而非疏漏。—— 来源：9game.cn（9-24）</li><li><strong>[媒体整理]</strong> <strong>规则集组队限制</strong>：选择规则集（普通/PvP/角色扮演/专家）后动态分组；<strong>同规则集 + 同阵营才能组队</strong>，阵营限制保留。→ 开荒前必须先与朋友统一规则集与阵营。—— 来源：vanilla.games / dy.163.com（9-24）</li><li><strong>[官方确认]</strong> <strong>Beta 客户端 1.60.1 Build 69977（9-23）</strong>：修复 Mac 显示/稳定性、手柄导航、手柄接任务物品交互；<strong>完整每周更新于 9-24 到来</strong>（可能含升 30 级 / 湿地挖掘场等）。—— 来源：VICE / 网易（9-23-24）</li><li><strong>[官方确认]</strong> <strong>冷却管理器 Beta 状态</strong>：9-18 Known Issues 显示冷却管理器"仍在进行中、按职业不同实现方式有差异"；与 Mills"正式发布随游戏"不矛盾（后者指上线时点，Beta 中尚不完善）。德鲁伊存在护甲加成乘算等已知问题。—— 来源：classicwow.gg（9-24）</li><li><strong>[待验证]</strong> <strong>名称预留时间仍存冲突</strong>：onlinedown/citreport(9-24) 记为 11-03~11-04，与 timesaver(9-19)/classicwow.gg(9-24) 的 10-27~11-03 并存，待官方最终确认。</li><li><strong>[确认]</strong> 内容规模再确认：1000+ 新任务（1-60）、4 新区域（泽风岛/河林/辛德拉/海加尔山）、9 新五人本、15v15 战场"暗矛群岛"、取消副本 ID 锁定改 Boss 周单次拾取。—— 来源：onlyfarms.gg / citreport（9-24）</li></ul></section>
+<section class="doc " id="update_playbook_md"><h1>更新待命手册</h1><blockquote>按要求：<strong>不设置任何定时/自动任务</strong>。本文件是一份"待命"的执行说明，只有你明确下达指令时才会被执行。 更新日期：2026-09-19（上次执行：整理外服 Beta 首周情报）</blockquote>
+<hr>
+<h2>一、如何触发更新</h2>
+<p>直接说下面任意一句即可（会按本手册执行，不额外确认）：</p>
+<ul><li>「更新无限专区情报」</li><li>「拉取最新的魔兽无限消息」</li><li>「看看最近有什么新情报」</li></ul>
+<p>如需指定范围可加限定词，例如：「更新 B 测相关的」「只看经济与赚钱」「重点找练级路线」。</p>
+<hr>
+<h2>二、待命执行流程（收到指令后按序执行）</h2>
+<ol><li><strong>抓取</strong>：按第三节的优先级依次检索各来源，先取"更新时间戳"判断是否有新增。</li><li><strong>分级</strong>：把信息标为 <strong>【官方确认】/【媒体整理】/【社区推测】/【待验证】</strong>，并注明来源 URL。</li><li><strong>写入</strong>：</li></ol>
+<ul>  <li>更新 <code>timeline.md</code> 的关键节点表；</li>  <li>把新情报按类别追加到 <code>intel-digest.md</code>（格式：<code>## YYYY-MM-DD 情报摘要</code> + 分类条目）；</li>  <li>若涉及玩法/职业/经济/工具，更新 <code>leveling-gold-route.md</code>、<code>efficiency-guide.md</code>、<code>beta-findings.md</code> 对应章节，并在 <code>beta-findings.md</code> 第五章"修正清单"补一行 <code>原写 → 实际</code>。</li></ul>
+<ol><li><strong>重建网页</strong>：运行 <code>python build_site.py</code>，重新生成 <code>index.html</code>。</li><li><strong>回报</strong>：用不超过 10 行的摘要说明本次新增/修正了什么；<strong>没有实质更新就明说"无更新"，绝不编造</strong>。</li></ol>
+<p><strong>硬性约束</strong>：只记录可核实信息；禁止臆造数值、日期、金价与时耗；Beta 信息一律标注待验证；与既有内容冲突时必须显式写出"修正"。</p>
+<hr>
+<h2>三、信息源清单（按可信度与优先级）</h2>
+<h3>A. 官方（一手，最高优先级）</h3>
+<div class="tw"><table><thead><tr><th>来源</th><th>URL</th><th>关注点</th></tr></thead><tbody><tr><td>国服官网</td><td>wow.blizzard.cn</td><td>新闻列表、无限专区、座谈回顾、账号找回</td></tr><tr><td>国服商城</td><td>shop.battlenet.com.cn/product/world-of-warcraft-forever</td><td>礼包内容/价格变动、配置要求</td></tr><tr><td>全球官网（中文）</td><td>worldofwarcraft.blizzard.com/zh-cn/</td><td>版本入口说明</td></tr><tr><td>暴雪新闻中心</td><td>news.blizzard.com</td><td>公告与媒体稿</td></tr><tr><td>暴雪支持</td><td>us.support.blizzard.com</td><td>配置要求（文档 000386366）等</td></tr><tr><td>官方蓝贴 / 开发者访谈</td><td>论坛 blue post、Destin 访谈（Wowhead 整理）</td><td><strong>数值与等级带的最终裁决来源</strong></td></tr></tbody></table></div>
+<h3>B. 攻略数据库（二手，结构化程度高）</h3>
+<div class="tw"><table><thead><tr><th>来源</th><th>URL</th><th>关注点</th></tr></thead><tbody><tr><td>Wowhead</td><td>wowhead.com</td><td>Forever 专区、任务/物品/技能数据库</td></tr><tr><td>Icy Veins</td><td>icy-veins.com</td><td>天赋、练级、专业与团本攻略</td></tr><tr><td>LFCarry</td><td>lfcarry.com</td><td>练级时耗测算、副本等级带整理（曾转述 Kaivax 蓝贴）</td></tr><tr><td>BoostRoom / ExpCarry / MmoGah / AccountShark</td><td>各自站点</td><td>Beta 实测、新手岛与赚钱思路（<strong>商业站点，需交叉验证</strong>）</td></tr></tbody></table></div>
+<h3>C. 中文社区（国服口径）</h3>
+<div class="tw"><table><thead><tr><th>来源</th><th>URL</th><th>关注点</th></tr></thead><tbody><tr><td>NGA 玩家社区</td><td>nga.cn / nga.178.com</td><td>国服首发攻略、物价讨论、插件兼容实测</td></tr><tr><td>178 魔兽</td><td>wow.178.com</td><td>资讯</td></tr><tr><td>艾泽拉斯快讯（公众号）</td><td>—</td><td>每日国服快讯</td></tr></tbody></table></div>
+<h3>D. 长期可复用搜索词</h3>
+<ul><li>中文：<code>魔兽世界 无限 练级</code>、<code>魔兽世界 无限 B测 心得</code>、<code>魔兽世界 无限 专业 赚钱</code>、<code>魔兽世界 无限 天裔</code></li><li>英文：<code>WoW Forever beta impressions</code>、<code>WoW Forever power leveling</code>、<code>WoW Forever gold making</code>、<code>WoW Forever blue post</code>、<code>WoW Forever camping guide</code></li></ul>
+<hr>
+<h2>四、分阶段关注重点</h2>
+<div class="tw"><table><thead><tr><th>阶段</th><th>时间</th><th>重点</th></tr></thead><tbody><tr><td><strong>国服 Beta</strong></td><td>10-06 ~ 10-27</td><td>三条航线、食物经验 tooltip、营火解锁、AH 互通性、节点密度、传承点数上限、插件限制是否生效、泽风岛准入</td></tr><tr><td><strong>上线冲刺</strong></td><td>10-28 ~ 11-04</td><td>名称预留、礼包/坐骑价格、<strong>官方最终版职业改动</strong>（座谈后通常还会微调）</td></tr><tr><td><strong>首发期</strong></td><td>11-05 ~ 11 月底</td><td>实际物价、真实练级时耗、各等级段的实际任务密度、热门专业与紧缺材料</td></tr><tr><td><strong>团本期</strong></td><td>12 月起</td><td>10/20/40 人团本分工、消耗品需求、金团生态、卓越装备与传说任务线</td></tr></tbody></table></div>
+<hr>
+<h2>五、重建静态网页（随时可执行）</h2>
+<pre><code>python G:/ai/game/wow_forever/build_site.py</code></pre>
+<p>生成单文件 <code>index.html</code>（自包含、可离线打开、可直接打印）。新增或改名 <code>.md</code> 后会自动出现在导航栏。</p>
+<blockquote>页面外观由同目录 <code>theme.css</code> 控制（暴雪 / 魔兽世界官网风格：暗色羊皮 + 暗金 + 衬线标题）。改配色只动这个文件，再跑一次上面的命令即可，<code>index.html</code> 会自动内联新样式。</blockquote></section>
+    <footer>数据源：国服官网/商城、BlizzCon 2026 座谈、外服 Beta 实测报道 · 更新方式见「更新待命手册」</footer>
+  </main>
+</div>
+<script>
+var btns=document.querySelectorAll('nav button[data-t]');
+var docs=document.querySelectorAll('.doc');
+function show(id){
+  btns.forEach(function(b){b.classList.toggle('on',b.dataset.t===id)});
+  docs.forEach(function(d){d.classList.toggle('on',d.id===id)});
+  window.scrollTo(0,0);
+}
+btns.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.t)})});
+</script></body></html>
