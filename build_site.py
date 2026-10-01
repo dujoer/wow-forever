@@ -21,6 +21,7 @@ ORDER = [
     ("leveling-gold-route.md", "★ 升级赚钱路线"),
     ("talents-and-gear.md", "★ 天赋配点与装备"),
     ("stats-and-gear.md", "★ 属性体系与配装"),
+    ("race-class-guide.md", "★ 种族职业与强弱"),
     ("macros-and-ui.md", "★ 一键输出与宏"),
     ("tools-and-resources.md", "★ 工具与网站"),
     ("launch-playbook.md", "★ 冲刺与开局手册"),
