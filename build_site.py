@@ -23,14 +23,15 @@ ORDER = [
     ("talents-and-gear.md", "★ 天赋配点与装备"),
     ("stats-and-gear.md", "★ 属性体系与配装"),
     ("race-class-guide.md", "★ 种族职业与强弱"),
+    ("solo-gold-farming.md", "★ 单刷打金职业与方法"),
     ("macros-and-ui.md", "★ 一键输出与宏"),
     ("tools-and-resources.md", "★ 工具与网站"),
     ("launch-playbook.md", "★ 冲刺与开局手册"),
     ("efficiency-guide.md", "效率指南"),
     ("timeline.md", "关键时间线"),
     ("reference-sites.md", "参考网站"),
-    ("prep-checklist.md", "准备检查表"),
     ("intel-digest.md", "情报摘要"),
+    ("prep-checklist.md", "可勾选清单（游戏内为主）"),
     ("update-playbook.md", "更新待命手册"),
 ]
 
