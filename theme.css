@@ -112,10 +112,19 @@ header.hero::after{
 #app{display:flex;align-items:flex-start;max-width:1560px;margin:0 auto;padding:0 18px}
 
 /* ---------- nav 树状目录 ---------- */
+/* 左栏默认跟随页面滚动 —— 不设 max-height/overflow，就不会出现第二条滚动条。
+   只有当树真的高于视口时，JS 才给 nav 加 .scroll 启用内部滚动兜底。 */
 nav.tree{
-  width:298px;flex:0 0 298px;position:sticky;top:0;max-height:100vh;overflow:auto;
-  padding:18px 12px;margin-right:20px;
+  width:298px;flex:0 0 298px;position:sticky;top:0;align-self:flex-start;
+  padding:14px 12px 30px;margin-right:20px;
 }
+nav.tree.scroll{
+  max-height:100vh;overflow:auto;overscroll-behavior:contain;
+  scrollbar-width:thin;scrollbar-color:#4a3f22 transparent;
+}
+nav.tree.scroll::-webkit-scrollbar{width:7px}
+nav.tree.scroll::-webkit-scrollbar-track{background:transparent}
+nav.tree.scroll::-webkit-scrollbar-thumb{background:#3a3220;border:0}
 nav.tree .ttl{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   font-family:var(--serif);font-size:11px;color:var(--gold-d);
@@ -139,10 +148,10 @@ nav.tree .search input:focus{
 nav.tree .search input::placeholder{color:#6c6558}
 
 /* 根 = 分组 */
-details.root{margin:8px 0 0}
+details.root{margin:6px 0 0}
 details.root>summary{
   list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;
-  padding:8px 9px;margin-bottom:5px;
+  padding:6px 9px;margin-bottom:4px;
   font-family:var(--serif);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold-d);border:1px solid var(--line2);
   background:linear-gradient(90deg,rgba(31,30,23,.7),rgba(14,14,13,.35));
@@ -153,10 +162,10 @@ details.root>summary:hover{color:var(--gold-b);border-color:var(--gold-d)}
 details.root>summary .rn{margin-left:auto;font-style:normal;font-size:10px;opacity:.85}
 
 /* 一级 = 篇 */
-details.node{margin:3px 0}
+details.node{margin:2px 0}
 details.node>summary{
   list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;
-  padding:7px 9px;border:1px solid var(--line2);border-left:3px solid var(--line);
+  padding:6px 9px;border:1px solid var(--line2);border-left:3px solid var(--line);
   background:linear-gradient(90deg,rgba(24,23,18,.85),rgba(15,15,14,.45));
   transition:.16s;
 }
@@ -184,7 +193,7 @@ i.cnt{
 
 /* 二级 = 篇内小节 */
 a.kid{
-  display:block;margin:1px 0 1px 12px;padding:2px 8px;font-size:12.4px;
+  display:block;margin:0 0 0 12px;padding:2px 8px;line-height:1.62;font-size:12.4px;
   color:#9a917d;border-left:1px solid var(--line2);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.14s;
 }
@@ -288,7 +297,7 @@ code{
 }
 pre{
   background:#0b0b0a;border:1px solid var(--line);border-left:3px solid var(--gold-d);
-  padding:14px 16px;overflow:auto;
+  padding:14px 16px;white-space:pre-wrap;word-break:break-word;
 }
 pre code{background:none;border:0;color:#cdc4ae;padding:0}
 
@@ -324,7 +333,7 @@ details.toc>summary{
 details.toc>summary::-webkit-details-marker{display:none}
 details.toc>summary::before{content:"\2630";margin-right:9px;color:var(--gold-d)}
 details.toc[open]>summary{border-bottom:1px solid var(--line2)}
-.tocbody{padding:8px 14px 14px;max-height:340px;overflow:auto}
+.tocbody{padding:8px 14px 14px}
 .tocbody a{
   display:block;padding:5px 0 5px 10px;border:0;color:#a2987f;
   font-size:13px;border-left:1px solid var(--line2);
@@ -342,8 +351,9 @@ details.toc[open]>summary{border-bottom:1px solid var(--line2)}
 }
 #totop:hover{opacity:1;box-shadow:0 0 18px rgba(200,170,110,.4);color:#fff2d4}
 
-/* ---------- 表格表头吸顶 ---------- */
-.tw table thead th{position:sticky;top:0;z-index:2}
+/* ---------- 宽表格：仅在内容确实超宽时才允许横向滚动 ---------- */
+.tw{overflow-x:auto;overflow-y:visible}
+.tw::-webkit-scrollbar{height:8px}
 
 footer{
   margin-top:8px;padding:18px;text-align:center;color:var(--mut);
@@ -351,7 +361,7 @@ footer{
 }
 
 /* ---------- scrollbar ---------- */
-::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar{width:9px;height:9px}
 ::-webkit-scrollbar-track{background:#0a0a0a}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4a3f22,#241d0f);
   border:1px solid #141210}
@@ -360,11 +370,8 @@ footer{
 @media(max-width:900px){
   #app{flex-direction:column;padding:0 10px}
   #totop{right:12px;bottom:14px;width:38px;height:38px}
-  nav.tree{width:100%;flex:none;position:static;max-height:330px;margin:0 0 14px;
-      overflow:auto;padding:12px 10px;border:1px solid var(--line)}
-  nav.tree .ttl,nav.tree .search{position:sticky;top:-12px;z-index:3;
-      background:var(--bg);padding-top:2px}
-  nav.tree .search{padding-bottom:8px}
+  nav.tree{width:100%;flex:none;position:static;margin:0 0 14px;
+      padding:10px;border:1px solid var(--line)}
   .hero h1{font-size:26px}
   .doc{padding:20px 16px}
 }

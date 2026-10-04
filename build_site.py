@@ -248,12 +248,28 @@ NAV_JS = """
   var kids  = [].slice.call(document.querySelectorAll('a.kid'));
   var nodes = [].slice.call(document.querySelectorAll('details.node'));
   var roots = [].slice.call(document.querySelectorAll('details.root'));
+  var navEl = document.querySelector('nav.tree');
+
+  /* 左栏默认跟随页面滚动，页面只有一条滚动条；
+     只有树本身高于视口时，才启用内部滚动作为兜底。 */
+  function fitNav(){
+    if(!navEl){ return; }
+    navEl.classList.remove('scroll');
+    navEl.style.maxHeight = '';
+    var vh = window.innerHeight - 10;
+    if(navEl.scrollHeight > vh){
+      navEl.classList.add('scroll');
+      navEl.style.maxHeight = Math.max(320, vh) + 'px';
+    }
+  }
 
   function show(id){
     btns.forEach(function(b){ b.classList.toggle('on', b.dataset.t === id); });
     docs.forEach(function(d){ d.classList.toggle('on', d.id === id); });
     reveal(id);
+    observeCurrent();
     window.scrollTo(0, 0);
+    fitNav();
   }
   function reveal(id){
     nodes.forEach(function(n){ if(n.dataset.k === id) n.open = true; });
@@ -266,9 +282,17 @@ NAV_JS = """
     a.classList.add('hit');
     setTimeout(function(){ a.classList.remove('hit'); }, 1400);
   }
+  function keepVisible(a){
+    if(!navEl || !navEl.classList.contains('scroll')){ return; }
+    var kr = a.getBoundingClientRect(), nr = navEl.getBoundingClientRect();
+    if(kr.top < nr.top + 4 || kr.bottom > nr.bottom - 4){
+      navEl.scrollTop += kr.top - nr.top - 16;
+    }
+  }
   function goto(a){
     var t = a.dataset.t, id = a.dataset.a;
-    show(t); reveal(t);
+    show(t);
+    keepVisible(a);
     requestAnimationFrame(function(){
       var el = id ? document.getElementById(id) : null;
       var y = el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0;
@@ -276,16 +300,14 @@ NAV_JS = """
     });
     flash(a);
   }
-  btns.forEach(function(b){
-    b.addEventListener('click', function(){ show(b.dataset.t); });
-  });
-  kids.forEach(function(a){
-    a.addEventListener('click', function(e){ e.preventDefault(); goto(a); });
-  });
-  /* 小节高亮：滚动时把当前小节标出来 */
-  var secs = [].slice.call(document.querySelectorAll('.doc.on h2[id], .doc.on h3[id]'));
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(es){
+
+  /* 正文滚动时，把当前所在小节在树里高亮（跟随当前篇） */
+  var io = null;
+  function observeCurrent(){
+    if(!('IntersectionObserver' in window)){ return; }
+    if(io){ io.disconnect(); }
+    var secs = [].slice.call(document.querySelectorAll('.doc.on h2[id], .doc.on h3[id]'));
+    io = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(e.isIntersecting && e.intersectionRatio > 0.55){
           var kid = document.querySelector('a.kid[data-a="' + e.target.id + '"]');
@@ -296,13 +318,23 @@ NAV_JS = """
     secs.forEach(function(s){ io.observe(s); });
   }
 
-  /* 关键词过滤树 */
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){ show(b.dataset.t); });
+  });
+  kids.forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); goto(a); });
+  });
+  if(navEl){ navEl.addEventListener('toggle', fitNav, true); }
+  observeCurrent();
+
+  /* 关键词过滤 */
   var q = document.getElementById('q');
   if(q){
     q.addEventListener('input', function(){
       var v = q.value.trim().toLowerCase();
       if(!v){
         kids.concat(nodes, roots).forEach(function(x){ x.classList.remove('hide'); });
+        fitNav();
         return;
       }
       kids.forEach(function(a){
@@ -312,6 +344,7 @@ NAV_JS = """
       });
       nodes.forEach(function(n){ n.classList.toggle('hide', !n.querySelector('a.kid:not(.hide)')); });
       roots.forEach(function(r){ r.classList.toggle('hide', !r.querySelector('a.kid:not(.hide)')); });
+      fitNav();
     });
   }
   /* 展开 / 收起全部 */
@@ -322,8 +355,13 @@ NAV_JS = """
       nodes.concat(roots).forEach(function(n){ n.open = !open; });
       all.dataset.mode = open ? 'close' : 'open';
       all.textContent = open ? '展开全部' : '收起全部';
+      requestAnimationFrame(fitNav);
     });
   }
+
+  window.addEventListener('resize', fitNav);
+  window.addEventListener('load', fitNav);
+  fitNav();
 })();
 """
 
