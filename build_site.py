@@ -416,10 +416,10 @@ def build_node(key, title, toc, first):
             lv - 2, key, anchor, anchor,
             esc(text).replace('"', '&quot;'), esc(text))
         for lv, text, anchor in toc)
-    return ('<details class="node%s" data-k="%s"%s><summary>'
+    return ('<details class="node%s" data-k="%s"><summary>'
             '<span class="car"></span><button class="nt" type="button" data-t="%s">%s%s</button>'
             '<i class="cnt">%d</i></summary>%s</details>') % (
-        ' on' if first else '', key, ' open' if first else '',
+        ' on' if first else '', key,
         key, star, esc(title), len(toc), kids)
 
 
@@ -477,36 +477,20 @@ def main():
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>《魔兽世界》：无限 · 开荒资料库</title>
 <style>%s</style></head><body>
-<div class="topbar">
-  <b>WORLD OF WARCRAFT</b><span>FOREVER · CLASSIC+</span>
-  <span class="sp">国服上线 2026-11-05</span>
-</div>
-<header class="hero">
-  <div class="crest"></div>
-  <div class="eyebrow">Classic+ 永久分支 · 等级上限锁 60</div>
-  <h1>《魔兽世界》：无限</h1>
-  <div class="sub">World of Warcraft: Forever — 单人开荒资料库</div>
-  <div class="meta">
-    <span>共 <i>%d</i> 篇</span>
-    <span>国服上线 <i>2026-11-05 约 07:00</i></span>
-    <span>生成于 <i>%s</i></span>
-  </div>
-  <div class="diamond"></div>
+<header class="head">
+  <div class="hd-l"><b>魔兽世界：无限</b><span>FOREVER · CLASSIC+ · 锁 60</span></div>
+  <div class="hd-r"><span>共 %d 篇</span><i>·</i><span>国服上线 2026-11-05</span><i>·</i><span>更新 %s</span><button type="button" onclick="window.print()">打印</button></div>
 </header>
 <div id="app">
   <nav class="tree">
     <div class="ttl">
-      <span>树状目录 · Tree</span>
-      <span class="acts"><i class="act" id="expandAll" data-mode="open">收起全部</i></span>
+      <span>目录</span>
+      <span class="acts"><i class="act" id="expandAll" data-mode="close">展开全部</i></span>
     </div>
-    <div class="search"><input id="q" placeholder="过滤小节 / 关键词…" autocomplete="off"></div>
+    <div class="search"><input id="q" placeholder="过滤关键词…" autocomplete="off"></div>
     <div class="treebody root">%s</div>
   </nav>
   <main>
-    <div class="bar">
-      <button onclick="window.print()">打印 / 导出 PDF</button>
-      <span class="info">离线可用 · 单文件 · 点左侧小节直达</span>
-    </div>
     %s
     <footer>数据源：国服官网/商城、BlizzCon 2026 座谈、外服 Beta 实测报道 · 更新方式见「更新手册」</footer>
   </main>

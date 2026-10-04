@@ -48,69 +48,29 @@ body{
 a{color:var(--gold-b);text-decoration:none;border-bottom:1px solid rgba(200,170,110,.32)}
 a:hover{color:#fff;border-bottom-color:var(--gold-b);text-shadow:0 0 8px rgba(243,221,166,.55)}
 
-/* ---------- thin brand bar ---------- */
-.topbar{
-  height:30px;display:flex;align-items:center;gap:18px;
-  padding:0 22px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--mut);background:rgba(0,0,0,.62);
-  border-bottom:1px solid var(--line2);
-}
-.topbar b{color:var(--gold);font-weight:700}
-.topbar .sp{margin-left:auto}
-
-/* ---------- hero ---------- */
-header.hero{
-  position:relative;text-align:center;
-  padding:52px 24px 40px;overflow:hidden;
+/* ---------- 紧凑页头 ---------- */
+header.head{
+  display:flex;align-items:center;gap:16px;
+  padding:11px 22px;position:relative;
+  background:linear-gradient(180deg,rgba(16,15,12,.92),rgba(8,8,10,.86));
   border-bottom:1px solid var(--line);
-  background:
-    radial-gradient(600px 220px at 50% 130%, rgba(200,170,110,.20), transparent 70%),
-    linear-gradient(180deg,rgba(20,18,12,.92),rgba(8,8,9,.55));
 }
-header.hero::before{
-  content:"";position:absolute;left:50%;top:-140px;width:900px;height:400px;
-  transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(closest-side,rgba(200,170,110,.18),transparent 72%);
+header.head::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-x) 14%,var(--gold) 50%,var(--gold-x) 86%,transparent);
 }
-header.hero::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold-x) 18%,var(--gold) 50%,var(--gold-x) 82%,transparent);
+.hd-l{display:flex;align-items:baseline;gap:10px;min-width:0}
+.hd-l b{font-family:var(--serif);font-size:16px;color:var(--gold-b);letter-spacing:.05em;white-space:nowrap}
+.hd-l span{font-size:10.5px;letter-spacing:.18em;color:var(--gold-d);text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd-r{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mut);white-space:nowrap}
+.hd-r i{font-style:normal;color:var(--line)}
+.hd-r button{
+  margin-left:8px;padding:4px 12px;cursor:pointer;font-family:inherit;font-size:12px;
+  color:var(--gold);background:transparent;border:1px solid var(--line);transition:.16s;
 }
-.hero .crest{
-  width:52px;height:52px;margin:0 auto 14px;position:relative;
-  border:1px solid var(--gold-d);transform:rotate(45deg);
-  background:linear-gradient(145deg,#1d1a12,#0c0b08);
-  box-shadow:0 0 22px rgba(200,170,110,.22);
-}
-.hero .crest::after{
-  content:"W";position:absolute;inset:0;transform:rotate(-45deg);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);font-size:24px;font-weight:700;color:var(--gold);
-  letter-spacing:0;
-}
-.hero .eyebrow{
-  font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;
-  color:var(--gold-d);margin-bottom:12px;
-}
-.hero h1{
-  margin:0;font-family:var(--serif);font-weight:700;
-  font-size:clamp(25px,4.4vw,42px);letter-spacing:.06em;
-  color:var(--gold-b);
-  text-shadow:0 2px 0 #000,0 0 26px rgba(200,170,110,.34);
-}
-.hero .sub{
-  margin-top:12px;font-size:13.5px;letter-spacing:.18em;
-  color:var(--mut);text-transform:uppercase;
-}
-.hero .meta{
-  margin-top:18px;font-size:12.5px;color:#a79e8a;
-  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
-}
-.hero .meta i{font-style:normal;color:var(--gold)}
-.hero .diamond{
-  width:9px;height:9px;margin:16px auto 0;background:var(--gold);
-  transform:rotate(45deg);box-shadow:0 0 12px rgba(200,170,110,.7);
-}
+.hd-r button:hover{color:#fff2d4;border-color:var(--gold-d)}
+@media(max-width:900px){.hd-l span{display:none}.hd-r span,.hd-r i{display:none}}
 
 /* ---------- layout ---------- */
 #app{display:flex;align-items:flex-start;max-width:1560px;margin:0 auto;padding:0 18px}
@@ -119,8 +79,8 @@ header.hero::after{
 /* 左栏默认跟随页面滚动 —— 不设 max-height/overflow，就不会出现第二条滚动条。
    只有当树真的高于视口时，JS 才给 nav 加 .scroll 启用内部滚动兜底。 */
 nav.tree{
-  width:298px;flex:0 0 298px;position:sticky;top:0;align-self:flex-start;
-  padding:14px 12px 30px;margin-right:20px;
+  width:282px;flex:0 0 282px;position:sticky;top:0;align-self:flex-start;
+  padding:14px 10px 30px;margin-right:18px;
 }
 nav.tree.scroll{
   max-height:100vh;overflow:auto;overscroll-behavior:contain;
@@ -131,16 +91,16 @@ nav.tree.scroll::-webkit-scrollbar-track{background:transparent}
 nav.tree.scroll::-webkit-scrollbar-thumb{background:#3a3220;border:0}
 nav.tree .ttl{
   display:flex;align-items:center;justify-content:space-between;gap:8px;
-  font-family:var(--serif);font-size:11px;color:var(--gold-d);
-  letter-spacing:.26em;text-transform:uppercase;
-  margin:0 8px 10px;padding-bottom:8px;border-bottom:1px solid var(--line2);
+  font-size:10.5px;color:var(--gold-d);
+  letter-spacing:.22em;text-transform:uppercase;
+  margin:0 4px 8px;padding-bottom:7px;border-bottom:1px solid var(--line2);
 }
 nav.tree .act{
   font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--gold-d);
   cursor:pointer;border:1px solid var(--line2);padding:2px 7px;transition:.15s;
 }
 nav.tree .act:hover{color:var(--gold-b);border-color:var(--gold-d)}
-nav.tree .search{padding:0 8px 10px}
+nav.tree .search{padding:0 4px 8px}
 nav.tree .search input{
   width:100%;background:#0c0c0b;border:1px solid var(--line2);color:var(--txt);
   padding:6px 9px;font-family:inherit;font-size:12.4px;letter-spacing:.02em;
@@ -152,60 +112,52 @@ nav.tree .search input:focus{
 nav.tree .search input::placeholder{color:#6c6558}
 
 /* 根 = 分组 */
-details.root{margin:6px 0 0}
+details.root{margin:4px 0 0}
 details.root>summary{
-  list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;
-  padding:6px 9px;margin-bottom:4px;
-  font-family:var(--serif);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--gold-d);border:1px solid var(--line2);
-  background:linear-gradient(90deg,rgba(31,30,23,.7),rgba(14,14,13,.35));
-  transition:.16s;
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;
+  padding:9px 5px 4px;margin-top:4px;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold-d);border-bottom:1px solid var(--line2);transition:.16s;
 }
 details.root>summary::-webkit-details-marker{display:none}
-details.root>summary:hover{color:var(--gold-b);border-color:var(--gold-d)}
-details.root>summary .rn{margin-left:auto;font-style:normal;font-size:10px;opacity:.85}
+details.root>summary:hover{color:var(--gold-b)}
+details.root>summary .rn{margin-left:auto;font-style:normal;font-size:10px;opacity:.8}
 
 /* 一级 = 篇 */
-details.node{margin:2px 0}
+details.node{margin:1px 0}
 details.node>summary{
   list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;
-  padding:6px 9px;border:1px solid var(--line2);border-left:3px solid var(--line);
-  background:linear-gradient(90deg,rgba(24,23,18,.85),rgba(15,15,14,.45));
-  transition:.16s;
+  padding:7px 7px;border-left:2px solid transparent;transition:.14s;
 }
 details.node>summary::-webkit-details-marker{display:none}
-details.node>summary:hover{
-  border-left-color:var(--gold-d);
-  background:linear-gradient(90deg,rgba(52,43,24,.9),rgba(20,18,13,.5));
-}
-details.node.open>summary{
-  border-color:var(--gold-d);border-left-color:var(--gold);
-  background:linear-gradient(90deg,rgba(88,70,36,.78),rgba(28,24,16,.5));
-}
+details.node>summary:hover{border-left-color:var(--gold-d);background:rgba(200,170,110,.06)}
+details.node.open>summary,
+details.node.on>summary{border-left-color:var(--gold);background:rgba(200,170,110,.10)}
 button.nt{
   flex:1;min-width:0;text-align:left;background:none;border:0;padding:0;cursor:pointer;
-  color:#a89f8b;font-family:inherit;font-size:13.2px;letter-spacing:.02em;
+  color:#a89f8b;font-family:inherit;font-size:13px;letter-spacing:.02em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 button.nt:hover{color:var(--gold-b)}
-button.nt .star{color:var(--gold);margin-right:5px}
-details.node.open>summary button.nt{color:#fff6df;font-weight:700}
+button.nt .star{color:var(--gold);margin-right:4px}
+details.node.open>summary button.nt,
+details.node.on>summary button.nt{color:#fff2d4;font-weight:700}
 i.cnt{
   font-style:normal;flex:0 0 auto;font-size:10px;color:var(--gold-d);
-  border:1px solid var(--line2);padding:0 5px;line-height:15px;
+  opacity:.75;padding:0 2px;
 }
 
 /* 二级 = 篇内小节 */
 a.kid{
-  display:block;margin:0 0 0 12px;padding:2px 8px;line-height:1.62;font-size:12.4px;
-  color:#9a917d;border-left:1px solid var(--line2);
+  display:block;margin:0 0 0 10px;padding:2px 8px;line-height:1.55;font-size:12px;
+  color:#948c7a;border-left:1px solid var(--line2);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.14s;
 }
 a.kid:hover{
   color:var(--gold-b);border-left-color:var(--gold);border-bottom:0;
   background:linear-gradient(90deg,rgba(200,170,110,.12),transparent);
 }
-a.kid.l1{padding-left:26px;font-size:12.2px;color:#8b8370}
+a.kid.l1{padding-left:21px;font-size:12px;color:#8b8370}
 a.kid.cur{color:#fff2d4;border-left-color:var(--gold);
   background:linear-gradient(90deg,rgba(200,170,110,.16),transparent)}
 a.kid.hit{color:#fff;border-left-color:var(--gold-b);
@@ -218,63 +170,33 @@ details[open]>summary .car{transform:rotate(90deg)}
 .hide{display:none!important}
 
 /* ---------- main / panels ---------- */
-main{flex:1;min-width:0;padding:24px 0 70px}
-.bar{margin-bottom:16px;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.bar button,.bar span.info{
-  padding:7px 15px;font-size:12.4px;font-family:var(--serif);letter-spacing:.12em;
-  text-transform:uppercase;cursor:pointer;
-  color:var(--gold);background:linear-gradient(180deg,#221e15,#141210);
-  border:1px solid var(--gold-x);
-}
-.bar button:hover{color:#fff;background:linear-gradient(180deg,#3a3018,#1d1913);
-  box-shadow:0 0 14px rgba(200,170,110,.3)}
-.bar span.info{border-color:var(--line2);color:var(--mut);cursor:default;background:none}
-.bar span.info:hover{color:var(--mut);background:none;box-shadow:none}
+main{flex:1;min-width:0;padding:16px 0 70px}
 
 .doc{display:none;position:relative;
-  background:
-    linear-gradient(180deg,rgba(31,30,23,.72),rgba(15,15,14,.86)),
-    repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 2px,transparent 2px 4px);
-  border:1px solid var(--line);
-  box-shadow:0 0 0 1px #0b0b0c inset,0 18px 40px rgba(0,0,0,.55);
-  padding:30px 34px 34px;margin-bottom:22px;
+  background:linear-gradient(180deg,rgba(25,24,19,.58),rgba(13,13,12,.76));
+  border:1px solid var(--line2);
+  padding:26px 32px 32px;margin-bottom:18px;
 }
 .doc.on{display:block}
-.doc::before{
-  content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold) 12%,var(--gold-b) 50%,var(--gold) 88%,transparent);
-}
 
 /* ---------- headings ---------- */
 h1{
-  font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.05em;
-  color:var(--gold-b);margin:0 0 8px;position:relative;
+  font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.04em;
+  color:var(--gold-b);margin:0 0 6px;
 }
-h1::after{
-  content:"";display:block;width:120px;height:1px;margin:14px 0 0;
-  background:linear-gradient(90deg,var(--gold),transparent);
-}
-.doc>h1{margin-bottom:22px}
+.doc>h1{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line2)}
 h2{
-  font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:.04em;
-  color:var(--gold);margin:34px 0 12px;padding-bottom:7px;
-  border-bottom:1px solid var(--line2);position:relative;padding-left:20px;
-}
-h2::before{
-  content:"";position:absolute;left:0;top:6px;width:9px;height:9px;
-  background:var(--gold-d);transform:rotate(45deg);
+  font-family:var(--serif);font-size:17.4px;font-weight:700;letter-spacing:.04em;
+  color:var(--gold);margin:28px 0 10px;padding-bottom:7px;
+  border-bottom:1px solid var(--line2);
 }
 h3{
-  font-family:var(--serif);font-size:16.4px;font-weight:700;letter-spacing:.03em;
-  color:#e8dec4;margin:30px 0 10px;padding:7px 0 7px 14px;
-  border-left:3px solid var(--gold-d);
-  background:linear-gradient(90deg,rgba(200,170,110,.13),rgba(200,170,110,0) 46%);
+  font-family:var(--serif);font-size:15px;font-weight:700;letter-spacing:.03em;
+  color:#e8dec4;margin:22px 0 8px;padding-left:10px;
+  border-left:2px solid var(--gold-x);
 }
-h4,h5,h6{font-family:var(--sans);font-size:14.6px;color:#cdc4ae;margin:18px 0 7px}
-h4{
-  color:#d9cfb4;padding-left:11px;border-left:2px solid var(--gold-x);
-  letter-spacing:.02em;
-}
+h4,h5,h6{font-family:var(--sans);font-size:14.2px;color:#d9cfb4;margin:16px 0 6px;
+  padding-left:9px;border-left:2px solid var(--line);letter-spacing:.02em}
 p{margin:9px 0}
 strong{color:#fff2d4;font-weight:700}
 em{color:var(--gold-b);font-style:normal}
@@ -382,14 +304,12 @@ footer{
 
 /* ---------- print: light parchment for readability ---------- */
 @media print{
-  nav,.bar,.topbar,#totop{display:none}
+  nav,.head button,#totop{display:none}
   #app{display:block;max-width:none;padding:0}
   body{background:#fff;color:#1a1a18;font-size:11.2pt}
-  header.hero{background:none;border-bottom:2px solid #8a7038;padding:0 0 12px}
-  .hero h1{color:#5e4c28;text-shadow:none;font-size:20pt}
-  .hero .hidden-print,.hero .crest,.hero .diamond{display:none}
-  .hero .eyebrow,.hero .meta{color:#5b5347}
-  .hero .meta i{color:#8a7038}
+  header.head{background:none;border-bottom:2px solid #8a7038;padding:0 0 10px}
+  .hd-l b{color:#5e4c28;font-size:16pt}
+  .hd-l span,.hd-r{color:#5b5347}
   .doc{display:block!important;border:0;box-shadow:none;background:#fff;
        padding:0 0 10px;margin:0;page-break-after:always}
   .doc::before{display:none}
@@ -407,40 +327,24 @@ footer{
   footer{color:#777}
 }
 </style></head><body>
-<div class="topbar">
-  <b>WORLD OF WARCRAFT</b><span>FOREVER · CLASSIC+</span>
-  <span class="sp">国服上线 2026-11-05</span>
-</div>
-<header class="hero">
-  <div class="crest"></div>
-  <div class="eyebrow">Classic+ 永久分支 · 等级上限锁 60</div>
-  <h1>《魔兽世界》：无限</h1>
-  <div class="sub">World of Warcraft: Forever — 单人开荒资料库</div>
-  <div class="meta">
-    <span>共 <i>8</i> 篇</span>
-    <span>国服上线 <i>2026-11-05 约 07:00</i></span>
-    <span>生成于 <i>2026-10-04 17:03</i></span>
-  </div>
-  <div class="diamond"></div>
+<header class="head">
+  <div class="hd-l"><b>魔兽世界：无限</b><span>FOREVER · CLASSIC+ · 锁 60</span></div>
+  <div class="hd-r"><span>共 8 篇</span><i>·</i><span>国服上线 2026-11-05</span><i>·</i><span>更新 2026-10-04 19:18</span><button type="button" onclick="window.print()">打印</button></div>
 </header>
 <div id="app">
   <nav class="tree">
     <div class="ttl">
-      <span>树状目录 · Tree</span>
-      <span class="acts"><i class="act" id="expandAll" data-mode="open">收起全部</i></span>
+      <span>目录</span>
+      <span class="acts"><i class="act" id="expandAll" data-mode="close">展开全部</i></span>
     </div>
-    <div class="search"><input id="q" placeholder="过滤小节 / 关键词…" autocomplete="off"></div>
-    <div class="treebody root"><details class="node on" data-k="README_md" open><summary><span class="car"></span><button class="nt" type="button" data-t="README_md">首页 · 怎么读这个库</button><i class="cnt">6</i></summary><a class="kid l0" data-t="README_md" data-a="sec1" href="#sec1" title="一、这到底是什么">一、这到底是什么</a><a class="kid l0" data-t="README_md" data-a="sec2" href="#sec2" title="二、关键事实速览">二、关键事实速览</a><a class="kid l0" data-t="README_md" data-a="sec3" href="#sec3" title="三、只有 5 件事要在上线前做（其余一律上线后再弄）">三、只有 5 件事要在上线前做（其余一律上线后再弄）</a><a class="kid l0" data-t="README_md" data-a="sec4" href="#sec4" title="四、游戏内才是大头（按你想解决的问题直接跳）">四、游戏内才是大头（按你想解决的问题直接跳）</a><a class="kid l0" data-t="README_md" data-a="sec5" href="#sec5" title="五、文档构成（共 8 篇）">五、文档构成（共 8 篇）</a><a class="kid l0" data-t="README_md" data-a="sec6" href="#sec6" title="六、三条最容易踩的坑">六、三条最容易踩的坑</a></details>
+    <div class="search"><input id="q" placeholder="过滤关键词…" autocomplete="off"></div>
+    <div class="treebody root"><details class="node on" data-k="README_md"><summary><span class="car"></span><button class="nt" type="button" data-t="README_md">首页 · 怎么读这个库</button><i class="cnt">6</i></summary><a class="kid l0" data-t="README_md" data-a="sec1" href="#sec1" title="一、这到底是什么">一、这到底是什么</a><a class="kid l0" data-t="README_md" data-a="sec2" href="#sec2" title="二、关键事实速览">二、关键事实速览</a><a class="kid l0" data-t="README_md" data-a="sec3" href="#sec3" title="三、只有 5 件事要在上线前做（其余一律上线后再弄）">三、只有 5 件事要在上线前做（其余一律上线后再弄）</a><a class="kid l0" data-t="README_md" data-a="sec4" href="#sec4" title="四、游戏内才是大头（按你想解决的问题直接跳）">四、游戏内才是大头（按你想解决的问题直接跳）</a><a class="kid l0" data-t="README_md" data-a="sec5" href="#sec5" title="五、文档构成（共 8 篇）">五、文档构成（共 8 篇）</a><a class="kid l0" data-t="README_md" data-a="sec6" href="#sec6" title="六、三条最容易踩的坑">六、三条最容易踩的坑</a></details>
 <details class="root" open><summary><span class="car"></span>玩法核心<i class="rn">3</i></summary><div class="treebody"><details class="node" data-k="leveling_and_gold_md"><summary><span class="car"></span><button class="nt" type="button" data-t="leveling_and_gold_md"><span class="star">★</span>练级 · 技巧 · 打金</button><i class="cnt">29</i></summary><a class="kid l0" data-t="leveling_and_gold_md" data-a="sec1" href="#sec1" title="上篇：1-60 最快路线表与赚钱路线">上篇：1-60 最快路线表与赚钱路线</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec2" href="#sec2" title="零、先说结论（一句话路线）">零、先说结论（一句话路线）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec3" href="#sec3" title="一、决定路线的 7 条硬约束（Forever 独有，务必先吃透）">一、决定路线的 7 条硬约束（Forever 独有，务必先吃透）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec4" href="#sec4" title="二、地图等级带（Forever 新/重做区域）">二、地图等级带（Forever 新/重做区域）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec5" href="#sec5" title="三、1-60 最快路线表">三、1-60 最快路线表</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec6" href="#sec6" title="四、赚钱路线（Forever 经济）">四、赚钱路线（Forever 经济）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec7" href="#sec7" title="六、待验证与更新事项（Beta/上线后确认）">六、待验证与更新事项（Beta/上线后确认）</a><a class="kid l0" data-t="leveling_and_gold_md" data-a="sec8" href="#sec8" title="中篇：练级机制 —— 经验结构、营地、时耗与 20 条技巧">中篇：练级机制 —— 经验结构、营地、时耗与 20 条技巧</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec9" href="#sec9" title="零、三条先看懂的底层事实">零、三条先看懂的底层事实</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec10" href="#sec10" title="一、经验从哪来：完整收益结构">一、经验从哪来：完整收益结构</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec11" href="#sec11" title="二、营地与休息：被低估的最大白嫖">二、营地与休息：被低估的最大白嫖</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec12" href="#sec12" title="三、1-60 时耗基准（目前最完整的一组数字）">三、1-60 时耗基准（目前最完整的一组数字）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec13" href="#sec13" title="四、职业 × 练级速度（相对系数）">四、职业 × 练级速度（相对系数）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec14" href="#sec14" title="五、20 条可直接照做的技巧（按优先级）">五、20 条可直接照做的技巧（按优先级）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec15" href="#sec15" title="七、花钱顺序（现金规划）">七、花钱顺序（现金规划）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec16" href="#sec16" title="八、必须绕开的已知坑（截至 10-02 蓝贴的问题清单）">八、必须绕开的已知坑（截至 10-02 蓝贴的问题清单）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec17" href="#sec17" title="九、本手册仍待确认的事项">九、本手册仍待确认的事项</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec18" href="#sec18" title="十、一句话总结">十、一句话总结</a><a class="kid l0" data-t="leveling_and_gold_md" data-a="sec19" href="#sec19" title="下篇：单刷打金 —— 职业排序与可执行打法">下篇：单刷打金 —— 职业排序与可执行打法</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec20" href="#sec20" title="零、先给结论（速览）">零、先给结论（速览）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec21" href="#sec21" title="一、单刷打金的 4 条硬约束（Forever 独有）">一、单刷打金的 4 条硬约束（Forever 独有）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec22" href="#sec22" title="二、单刷打金的 4 条主路径（方法层）">二、单刷打金的 4 条主路径（方法层）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec23" href="#sec23" title="三、逐职业单刷方法（可执行版）">三、逐职业单刷方法（可执行版）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec24" href="#sec24" title="四、Forever 独有的 8 个打金杠杆（旧经验里没有的）">四、Forever 独有的 8 个打金杠杆（旧经验里没有的）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec25" href="#sec25" title="五、分阶段单刷路线（1-60 打金节奏）">五、分阶段单刷路线（1-60 打金节奏）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec26" href="#sec26" title="七、红线与待验证">七、红线与待验证</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec27" href="#sec27" title="八、与其他文档的分工">八、与其他文档的分工</a><a class="kid l0" data-t="leveling_and_gold_md" data-a="sec28" href="#sec28" title="附篇：单人效率方法（操作层 · Forever 适配）">附篇：单人效率方法（操作层 · Forever 适配）</a><a class="kid l1" data-t="leveling_and_gold_md" data-a="sec29" href="#sec29" title="五、单人效率方法（操作层 · Forever 适配）">五、单人效率方法（操作层 · Forever 适配）</a></details><details class="node" data-k="classes_and_gear_md"><summary><span class="car"></span><button class="nt" type="button" data-t="classes_and_gear_md"><span class="star">★</span>职业 · 天赋 · 配装</button><i class="cnt">25</i></summary><a class="kid l0" data-t="classes_and_gear_md" data-a="sec1" href="#sec1" title="上篇：种族 × 职业 —— 矩阵、特长与强弱排序">上篇：种族 × 职业 —— 矩阵、特长与强弱排序</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec2" href="#sec2" title="零、先看这四条，否则会选错">零、先看这四条，否则会选错</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec3" href="#sec3" title="一、完整种族 × 职业矩阵【官方确认】">一、完整种族 × 职业矩阵【官方确认】</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec4" href="#sec4" title="二、种族特长全表【官方确认 · 数值 Beta 敏感】">二、种族特长全表【官方确认 · 数值 Beta 敏感】</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec5" href="#sec5" title="三、按种族：这个种族最该玩什么（排序 + 理由）">三、按种族：这个种族最该玩什么（排序 + 理由）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec6" href="#sec6" title="四、按职业：这个职业最该选什么种族（排序）">四、按职业：这个职业最该选什么种族（排序）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec7" href="#sec7" title="五、九职业优劣势详解（Forever 视角）">五、九职业优劣势详解（Forever 视角）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec8" href="#sec8" title="六、各站梯队的**分歧**有多大（务必知情）">六、各站梯队的**分歧**有多大（务必知情）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec9" href="#sec9" title="七、决策速查：按你的目标直接选">七、决策速查：按你的目标直接选</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec10" href="#sec10" title="八、待验证清单（Beta 与上线后逐条核实）">八、待验证清单（Beta 与上线后逐条核实）</a><a class="kid l0" data-t="classes_and_gear_md" data-a="sec11" href="#sec11" title="中篇：天赋配点与装备系统">中篇：天赋配点与装备系统</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec12" href="#sec12" title="零、先看这三条，否则会白花时间">零、先看这三条，否则会白花时间</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec13" href="#sec13" title="一、热门职业天赋配点（练级向）">一、热门职业天赋配点（练级向）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec14" href="#sec14" title="二、装备：官方把装备系统改成了什么样">二、装备：官方把装备系统改成了什么样</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec15" href="#sec15" title="三、待验证清单（Beta 与上线后逐条核实）">三、待验证清单（Beta 与上线后逐条核实）</a><a class="kid l0" data-t="classes_and_gear_md" data-a="sec16" href="#sec16" title="下篇：属性体系与配装规则">下篇：属性体系与配装规则</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec17" href="#sec17" title="零、官方原话：Forever 的属性盘子长什么样">零、官方原话：Forever 的属性盘子长什么样</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec18" href="#sec18" title="二、九个职业的属性关键（按专精）">二、九个职业的属性关键（按专精）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec19" href="#sec19" title="三、按&quot;职责&quot;看属性关键（跨职业通用）">三、按"职责"看属性关键（跨职业通用）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec20" href="#sec20" title="四、官方样张：七件装备，读懂 Forever 的配装语言">四、官方样张：七件装备，读懂 Forever 的配装语言</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec21" href="#sec21" title="五、装备选择：来源优先级与取舍规则">五、装备选择：来源优先级与取舍规则</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec22" href="#sec22" title="六、待验证清单（Beta 与上线后逐条核实）">六、待验证清单（Beta 与上线后逐条核实）</a><a class="kid l0" data-t="classes_and_gear_md" data-a="sec23" href="#sec23" title="附篇：职业选择速览与技能要点">附篇：职业选择速览与技能要点</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec24" href="#sec24" title="二、职业推荐（单人效率向）">二、职业推荐（单人效率向）</a><a class="kid l1" data-t="classes_and_gear_md" data-a="sec25" href="#sec25" title="三、技能 / 天赋要点（Forever 的实装重构）">三、技能 / 天赋要点（Forever 的实装重构）</a></details><details class="node" data-k="tools_and_ui_md"><summary><span class="car"></span><button class="nt" type="button" data-t="tools_and_ui_md"><span class="star">★</span>工具 · 插件 · 宏</button><i class="cnt">27</i></summary><a class="kid l0" data-t="tools_and_ui_md" data-a="sec1" href="#sec1" title="上篇：工具与网站全景（Forever 专用）">上篇：工具与网站全景（Forever 专用）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec2" href="#sec2" title="一、官方与准官方（最高优先级）">一、官方与准官方（最高优先级）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec3" href="#sec3" title="二、数据库（查物品/任务/技能/副本）">二、数据库（查物品/任务/技能/副本）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec4" href="#sec4" title="三、天赋配点工具（51 点，10 级起）">三、天赋配点工具（51 点，10 级起）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec5" href="#sec5" title="四、练级路线与导航插件">四、练级路线与导航插件</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec6" href="#sec6" title="五、插件生态、安装与已知坑">五、插件生态、安装与已知坑</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec7" href="#sec7" title="六、经济与拍卖行">六、经济与拍卖行</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec8" href="#sec8" title="七、公会、组队与社区">七、公会、组队与社区</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec9" href="#sec9" title="八、国服玩家专项清单">八、国服玩家专项清单</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec10" href="#sec10" title="九、硬件与外设自检">九、硬件与外设自检</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec11" href="#sec11" title="十、避坑清单（商业站点与安全）">十、避坑清单（商业站点与安全）</a><a class="kid l0" data-t="tools_and_ui_md" data-a="sec12" href="#sec12" title="中篇：宏、界面与一键输出（上限在哪）">中篇：宏、界面与一键输出（上限在哪）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec13" href="#sec13" title="零、直接回答：真·&quot;一键输出&quot;做不到，而且不是 Forever 才做不到">零、直接回答：真·"一键输出"做不到，而且不是 Forever 才做不到</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec14" href="#sec14" title="一、宏系统的四条硬限制（20 年没变）">一、宏系统的四条硬限制（20 年没变）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec15" href="#sec15" title="二、三种合法形态（这就是上限了）">二、三种合法形态（这就是上限了）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec16" href="#sec16" title="三、Forever 的额外限制：连&quot;插件提示&quot;也被堵了">三、Forever 的额外限制：连"插件提示"也被堵了</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec17" href="#sec17" title="四、官方给你的三条替代路径">四、官方给你的三条替代路径</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec18" href="#sec18" title="五、合规红线（这一节请务必看完）">五、合规红线（这一节请务必看完）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec19" href="#sec19" title="六、按场景给你的实际建议">六、按场景给你的实际建议</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec20" href="#sec20" title="七、待验证清单">七、待验证清单</a><a class="kid l0" data-t="tools_and_ui_md" data-a="sec21" href="#sec21" title="下篇：参考网站速查">下篇：参考网站速查</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec22" href="#sec22" title="二、数据库 / 攻略（上线前后最实用）">二、数据库 / 攻略（上线前后最实用）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec23" href="#sec23" title="三、中文社区（国服玩家首选）">三、中文社区（国服玩家首选）</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec24" href="#sec24" title="四、国际社区 / 资讯">四、国际社区 / 资讯</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec25" href="#sec25" title="五、视频 / 直播">五、视频 / 直播</a><a class="kid l0" data-t="tools_and_ui_md" data-a="sec26" href="#sec26" title="附篇：效率工具">附篇：效率工具</a><a class="kid l1" data-t="tools_and_ui_md" data-a="sec27" href="#sec27" title="六、效率工具（Forever 版本修正）">六、效率工具（Forever 版本修正）</a></details></div></details>
 <details class="root" open><summary><span class="car"></span>行动清单<i class="rn">1</i></summary><div class="treebody"><details class="node" data-k="launch_playbook_md"><summary><span class="car"></span><button class="nt" type="button" data-t="launch_playbook_md"><span class="star">★</span>开局行动手册</button><i class="cnt">24</i></summary><a class="kid l0" data-t="launch_playbook_md" data-a="sec1" href="#sec1" title="一、游戏外：只需做这 5 件事（其余一律上线后再弄）">一、游戏外：只需做这 5 件事（其余一律上线后再弄）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec2" href="#sec2" title="一、游戏外：只需做这 5 件事（其余一律上线后再说）">一、游戏外：只需做这 5 件事（其余一律上线后再说）</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec3" href="#sec3" title="二、游戏内清单：上线 24 小时 / 第一周 / 打金 / 满级后">二、游戏内清单：上线 24 小时 / 第一周 / 打金 / 满级后</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec4" href="#sec4" title="二、游戏内：上线 24 小时该做什么（按顺序勾）">二、游戏内：上线 24 小时该做什么（按顺序勾）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec5" href="#sec5" title="三、游戏内：第一周每天固定动作（循环勾）">三、游戏内：第一周每天固定动作（循环勾）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec6" href="#sec6" title="四、游戏内：打金 / 单刷清单（详见 `练级 · 技巧 · 打金`）">四、游戏内：打金 / 单刷清单（详见 `练级 · 技巧 · 打金`）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec7" href="#sec7" title="五、游戏内：满级后到团本（12-09）该做什么">五、游戏内：满级后到团本（12-09）该做什么</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec8" href="#sec8" title="六、容易忘的小坑（上线前看一眼就够）">六、容易忘的小坑（上线前看一眼就够）</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec9" href="#sec9" title="三、冲刺时间表（10-01 → 11-05）">三、冲刺时间表（10-01 → 11-05）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec10" href="#sec10" title="一、冲刺时间表（10-01 → 11-05）">一、冲刺时间表（10-01 → 11-05）</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec11" href="#sec11" title="四、规则集与命名：这是选错回不了头的两个决定">四、规则集与命名：这是选错回不了头的两个决定</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec12" href="#sec12" title="二、规则集：这是唯一&quot;选错就回不了头&quot;的决定">二、规则集：这是唯一"选错就回不了头"的决定</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec13" href="#sec13" title="三、命名规则（最容易踩坑的一环）">三、命名规则（最容易踩坑的一环）</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec14" href="#sec14" title="五、键位、宏与插件：上线前先定死">五、键位、宏与插件：上线前先定死</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec15" href="#sec15" title="四、键位、宏与插件：上线前先定死">四、键位、宏与插件：上线前先定死</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec16" href="#sec16" title="六、开局 72 小时实操打法">六、开局 72 小时实操打法</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec17" href="#sec17" title="五、开局 72 小时的实操打法">五、开局 72 小时的实操打法</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec18" href="#sec18" title="七、满级前的 5 周（11-05 → 12-09）">七、满级前的 5 周（11-05 → 12-09）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec19" href="#sec19" title="六、满级前的 5 周（11-05 → 12-09）">六、满级前的 5 周（11-05 → 12-09）</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec20" href="#sec20" title="八、常见坑速查与仍待官方确认">八、常见坑速查与仍待官方确认</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec21" href="#sec21" title="七、常见坑速查">七、常见坑速查</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec22" href="#sec22" title="八、仍待官方确认的清单">八、仍待官方确认的清单</a><a class="kid l0" data-t="launch_playbook_md" data-a="sec23" href="#sec23" title="九、上线后行动清单（按时间）">九、上线后行动清单（按时间）</a><a class="kid l1" data-t="launch_playbook_md" data-a="sec24" href="#sec24" title="七、上线后行动清单（按时间）">七、上线后行动清单（按时间）</a></details></div></details>
 <details class="root" open><summary><span class="car"></span>情报追踪<i class="rn">2</i></summary><div class="treebody"><details class="node" data-k="intel_digest_md"><summary><span class="car"></span><button class="nt" type="button" data-t="intel_digest_md"><span class="star">★</span>情报速报与实测</button><i class="cnt">19</i></summary><a class="kid l0" data-t="intel_digest_md" data-a="sec1" href="#sec1" title="上篇：逐日情报摘要（2026-09-19 → 10-04）">上篇：逐日情报摘要（2026-09-19 → 10-04）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec2" href="#sec2" title="2026-09-19 情报摘要（项目建立日 · 基线快照）">2026-09-19 情报摘要（项目建立日 · 基线快照）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec3" href="#sec3" title="2026-09-19 情报摘要（第二次更新 · 13:55）">2026-09-19 情报摘要（第二次更新 · 13:55）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec4" href="#sec4" title="2026-09-19 情报摘要（补充 · 属性与配装专题）">2026-09-19 情报摘要（补充 · 属性与配装专题）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec5" href="#sec5" title="2026-09-19 情报摘要（补充 · 界面工具与&quot;一键输出&quot;）">2026-09-19 情报摘要（补充 · 界面工具与"一键输出"）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec6" href="#sec6" title="2026-09-20 情报摘要">2026-09-20 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec7" href="#sec7" title="2026-09-24 情报摘要">2026-09-24 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec8" href="#sec8" title="2026-09-25 ~ 09-27 情报摘要">2026-09-25 ~ 09-27 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec9" href="#sec9" title="2026-09-28 情报摘要">2026-09-28 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec10" href="#sec10" title="2026-09-29 ~ 09-30 情报摘要">2026-09-29 ~ 09-30 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec11" href="#sec11" title="2026-10-01 情报摘要">2026-10-01 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec12" href="#sec12" title="2026-10-02 情报摘要">2026-10-02 情报摘要</a><a class="kid l1" data-t="intel_digest_md" data-a="sec13" href="#sec13" title="2026-10-03 ~ 10-04 情报摘要">2026-10-03 ~ 10-04 情报摘要</a><a class="kid l0" data-t="intel_digest_md" data-a="sec14" href="#sec14" title="下篇：外服 Beta 实测 —— 硬数据、捷径、实测发现">下篇：外服 Beta 实测 —— 硬数据、捷径、实测发现</a><a class="kid l1" data-t="intel_digest_md" data-a="sec15" href="#sec15" title="一、官方确认的硬数据（最高可信度）">一、官方确认的硬数据（最高可信度）</a><a class="kid l1" data-t="intel_digest_md" data-a="sec16" href="#sec16" title="三、职业：Beta 实测倾向梯队【社区推测 + 官方改动佐证】">三、职业：Beta 实测倾向梯队【社区推测 + 官方改动佐证】</a><a class="kid l1" data-t="intel_digest_md" data-a="sec17" href="#sec17" title="四、赚钱：Beta 验证后的经济原则【媒体整理 + 官方系统佐证】">四、赚钱：Beta 验证后的经济原则【媒体整理 + 官方系统佐证】</a><a class="kid l1" data-t="intel_digest_md" data-a="sec18" href="#sec18" title="六、国服 Beta（10-06 ~ 10-27）你要亲自核验的清单">六、国服 Beta（10-06 ~ 10-27）你要亲自核验的清单</a><a class="kid l1" data-t="intel_digest_md" data-a="sec19" href="#sec19" title="七、9-25 大型 Beta 补丁 &amp; Beta 新发现（采集：2026-09-25 ~ 09-27）">七、9-25 大型 Beta 补丁 &amp; Beta 新发现（采集：2026-09-25 ~ 09-27）</a></details><details class="node" data-k="timeline_md"><summary><span class="car"></span><button class="nt" type="button" data-t="timeline_md">关键时间线</button><i class="cnt">0</i></summary></details></div></details>
 <details class="root" open><summary><span class="car"></span>内部<i class="rn">1</i></summary><div class="treebody"><details class="node" data-k="update_playbook_md"><summary><span class="car"></span><button class="nt" type="button" data-t="update_playbook_md">更新手册（内部）</button><i class="cnt">9</i></summary><a class="kid l0" data-t="update_playbook_md" data-a="sec1" href="#sec1" title="一、如何触发更新">一、如何触发更新</a><a class="kid l0" data-t="update_playbook_md" data-a="sec2" href="#sec2" title="二、待命执行流程（收到指令后按序执行）">二、待命执行流程（收到指令后按序执行）</a><a class="kid l0" data-t="update_playbook_md" data-a="sec3" href="#sec3" title="三、信息源清单（按可信度与优先级）">三、信息源清单（按可信度与优先级）</a><a class="kid l1" data-t="update_playbook_md" data-a="sec4" href="#sec4" title="A. 官方（一手，最高优先级）">A. 官方（一手，最高优先级）</a><a class="kid l1" data-t="update_playbook_md" data-a="sec5" href="#sec5" title="B. 攻略数据库（二手，结构化程度高）">B. 攻略数据库（二手，结构化程度高）</a><a class="kid l1" data-t="update_playbook_md" data-a="sec6" href="#sec6" title="C. 中文社区（国服口径）">C. 中文社区（国服口径）</a><a class="kid l1" data-t="update_playbook_md" data-a="sec7" href="#sec7" title="D. 长期可复用搜索词">D. 长期可复用搜索词</a><a class="kid l0" data-t="update_playbook_md" data-a="sec8" href="#sec8" title="四、分阶段关注重点">四、分阶段关注重点</a><a class="kid l0" data-t="update_playbook_md" data-a="sec9" href="#sec9" title="五、重建静态网页（随时可执行）">五、重建静态网页（随时可执行）</a></details></div></details></div>
   </nav>
   <main>
-    <div class="bar">
-      <button onclick="window.print()">打印 / 导出 PDF</button>
-      <span class="info">离线可用 · 单文件 · 点左侧小节直达</span>
-    </div>
     <section class="doc on" id="README_md"><h1>首页 · 怎么读这个库</h1><blockquote>Classic+ 永久分支 · 等级上限锁 60 · 无飞行 · 无等级缩放 · 规则集取代服务器 国服上线 <strong>2026-11-05 约 07:00</strong>（= 2026-11-04 15:00 PST）</blockquote>
 <hr>
 <h2 id="sec1">一、这到底是什么</h2>
