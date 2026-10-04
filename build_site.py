@@ -94,6 +94,24 @@ def list_item_html(line):
     return indent, '<li>%s%s</li>' % (check, inline(body))
 
 
+def _is_sep_row(s):
+    """表格分隔行：必须被 | 包围（单独一行的 --- 是水平线，不算）"""
+    s = (s or '').strip()
+    if not (s.startswith('|') and s.endswith('|')):
+        return False
+    cs = [c.strip().replace(' ', '') for c in s.strip('|').split('|')]
+    cs = [c for c in cs if c]
+    return bool(cs) and all(re.match(r'^:?-+:?$', c) for c in cs)
+
+
+def _is_new_header(lines, k, n):
+    """lines[k] 像新表表头：它后面第一个非空行是分隔行"""
+    m = k + 1
+    while m < n and not lines[m].strip():
+        m += 1
+    return m < n and _is_sep_row(lines[m])
+
+
 def md_to_html(text):
     """返回 (正文 HTML, 页内目录 [(层级, 文本, 锚点)])"""
     lines = text.split('\n')
@@ -134,17 +152,32 @@ def md_to_html(text):
             i += 1
             continue
 
-        # 表格
+        # 表格（容忍行间空行：只有确认是「新表头 + 分隔行」才断开成另一张表）
         if line.lstrip().startswith('|'):
             rows = []
-            while i < n and lines[i].lstrip().startswith('|'):
-                rows.append(lines[i].strip())
-                i += 1
+            while i < n:
+                s = lines[i]
+                if s.lstrip().startswith('|'):
+                    rows.append(s.strip())
+                    i += 1
+                elif not s.strip():
+                    j = i
+                    while j < n and not lines[j].strip():
+                        j += 1
+                    same_table = (j < n and lines[j].lstrip().startswith('|')
+                                  and not (any(_is_sep_row(r) for r in rows)
+                                           and _is_new_header(lines, j, n)))
+                    if same_table:
+                        i = j
+                    else:
+                        break
+                else:
+                    break
             cells = []
             for r in rows:
                 parts = [c.strip() for c in r.strip('|').split('|')]
                 cells.append(parts)
-            if re.match(r'^[-: ]+$', ''.join(cells[1])) if len(cells) > 1 else False:
+            if len(cells) > 1 and _is_sep_row(rows[1]):
                 cells.pop(1)
             head = cells[0]
             body = cells[1:]
