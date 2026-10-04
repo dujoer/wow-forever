@@ -19,6 +19,7 @@ ORDER = [
     ("README.md", "项目总览"),
     ("beta-findings.md", "★ 外服实测与捷径"),
     ("leveling-gold-route.md", "★ 升级赚钱路线"),
+    ("leveling-tactics.md", "★ 练级技巧与捷径"),
     ("talents-and-gear.md", "★ 天赋配点与装备"),
     ("stats-and-gear.md", "★ 属性体系与配装"),
     ("race-class-guide.md", "★ 种族职业与强弱"),
