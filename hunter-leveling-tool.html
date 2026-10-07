@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>猎人 1-60 练级半自动助手 · 魔兽世界：无限</title>
+<style>
+:root{
+  --bg:#ffffff; --bg-soft:#f5f5f7; --card:#ffffff;
+  --txt:#1d1d1f; --txt-2:#424245; --mut:#6e6e73;
+  --line:#e8e8ec; --line-2:#d2d2d7;
+  --accent:#0071e3; --accent-soft:rgba(0,113,227,.09); --accent-line:rgba(0,113,227,.32);
+  --code-bg:#f5f5f7; --top-bg:rgba(255,255,255,.78);
+  --gold:#8a7038; --ok:#1d7a45; --ok-soft:rgba(29,122,69,.1);
+  --bad:#c0392b; --bad-soft:rgba(192,57,43,.09);
+  --radius:18px; --radius-s:12px;
+  --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+  --shadow-s:0 1px 2px rgba(0,0,0,.05);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI Variable Text","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,"Cascadia Mono",monospace;
+}
+html[data-theme="dark"]{
+  --bg:#0b0b0d; --bg-soft:#161617; --card:#151517;
+  --txt:#f2f2f4; --txt-2:#c9c9ce; --mut:#8e8e93;
+  --line:#2a2a2d; --line-2:#3a3a3e;
+  --accent:#2997ff; --accent-soft:rgba(41,151,255,.13); --accent-line:rgba(41,151,255,.42);
+  --code-bg:#1c1c1f; --top-bg:rgba(11,11,13,.78);
+  --gold:#c8aa6e; --ok:#4fc07e; --ok-soft:rgba(79,192,126,.13);
+  --bad:#ff6b5e; --bad-soft:rgba(255,107,94,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);font-size:15.5px;line-height:1.7;color:var(--txt);background:var(--bg);-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-soft);color:var(--txt)}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3,h4{font-weight:600;letter-spacing:-.01em;margin:0}
+a{color:var(--accent);text-decoration:none}
+
+header.top{position:sticky;top:0;z-index:20;background:var(--top-bg);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block}
+.brand small{font-weight:400;color:var(--mut);font-size:12.5px}
+.top-sp{flex:1}
+.tbtn{background:var(--bg-soft);border:1px solid var(--line);color:var(--txt-2);border-radius:999px;padding:5px 13px;font-size:12.5px;transition:.16s}
+.tbtn:hover{border-color:var(--line-2);color:var(--txt)}
+
+main{max-width:1180px;margin:0 auto;padding:26px 22px 70px}
+.hero{margin-bottom:22px}
+.hero h1{font-size:26px;line-height:1.3}
+.hero p{margin:9px 0 0;color:var(--mut);font-size:14px;max-width:760px}
+.tagline{margin-top:12px;display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);white-space:nowrap}
+.chip.g{background:var(--ok-soft);color:var(--ok);border-color:var(--ok);border-color:transparent}
+.chip.n{background:var(--bg-soft);color:var(--mut);border-color:var(--line)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;margin-bottom:18px}
+.panel>h2{font-size:16.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.panel>h2 .no{font-family:var(--mono);font-size:12px;color:var(--gold);border:1px solid var(--line-2);border-radius:6px;padding:1px 7px;font-weight:400}
+.panel .sub{margin:6px 0 0;color:var(--mut);font-size:13px}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0}
+
+.slider-box{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.lv-num{font-family:var(--mono);font-size:44px;font-weight:600;line-height:1;color:var(--accent);min-width:96px}
+.lv-num small{display:block;font-size:11.5px;font-weight:400;color:var(--mut);letter-spacing:.04em;margin-top:5px;font-family:var(--sans)}
+.sl-wrap{flex:1;min-width:240px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--line-2);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid var(--card);box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid var(--card);cursor:pointer}
+.ticks{display:flex;gap:5px;flex-wrap:wrap;margin-top:11px}
+.tk{background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12px;color:var(--txt-2);font-family:var(--mono)}
+.tk:hover{border-color:var(--line-2)}
+.tk.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.stats{display:flex;gap:26px;flex-wrap:wrap}
+.stat b{display:block;font-family:var(--mono);font-size:20px;font-weight:600}
+.stat span{font-size:11.5px;color:var(--mut)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:880px){.grid2{grid-template-columns:1fr}}
+
+.now{border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:var(--radius-s);padding:14px 16px;margin-top:14px}
+.now .k{font-size:11.5px;color:var(--mut);letter-spacing:.04em}
+.now .v{font-size:19px;font-weight:600;margin:3px 0 4px}
+.now .d{font-size:13px;color:var(--txt-2)}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:12px}
+th{text-align:left;font-size:11.5px;font-weight:600;color:var(--mut);letter-spacing:.03em;padding:0 10px 7px;border-bottom:1px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--txt-2)}
+tr:last-child td{border-bottom:none}
+tr.cur td{background:var(--accent-soft)}
+tr.done td{color:var(--mut)}
+td.mono{font-family:var(--mono);color:var(--txt);white-space:nowrap}
+td.nm{color:var(--txt);font-weight:500}
+
+.macro{border:1px solid var(--line);border-radius:var(--radius-s);background:var(--code-bg);margin-top:11px;overflow:hidden}
+.macro-head{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.macro-head b{font-size:13.5px;font-weight:600}
+.macro-head span{font-size:12px;color:var(--mut);flex:1}
+.cp{background:var(--card);border:1px solid var(--line-2);border-radius:8px;padding:3px 11px;font-size:12px;color:var(--txt-2)}
+.cp:hover{border-color:var(--accent);color:var(--accent)}
+.cp.done{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+pre{margin:0;padding:12px 13px;font-family:var(--mono);font-size:12.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--txt)}
+
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:10px 14px;font-size:13px;color:var(--txt-2);margin-top:13px}
+.note.warn{border-left-color:var(--bad);background:var(--bad-soft)}
+.note b{color:var(--txt)}
+ul.tight{margin:9px 0 0;padding-left:20px}
+ul.tight li{margin:5px 0;font-size:13.5px;color:var(--txt-2)}
+ul.tight li b{color:var(--txt)}
+
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;margin-top:12px;font-size:13.5px}
+.kv dt{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap;padding-top:1px}
+.kv dd{margin:0;color:var(--txt-2)}
+
+.chk{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.chk:last-child{border-bottom:none}
+.chk input{margin:5px 0 0;width:15px;height:15px;accent-color:var(--accent);flex:none}
+.chk label{cursor:pointer;color:var(--txt-2)}
+.chk label b{color:var(--txt);font-weight:500}
+.chk input:checked+label{opacity:.5}
+.chk input:checked+label b{text-decoration:line-through}
+
+.ban{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;font-size:13.5px;margin-top:12px}
+.ban div{margin:0}
+.ban .m{font-family:var(--mono);font-size:12px;padding-top:2px;white-space:nowrap}
+.ok{color:var(--ok)}
+.no{color:var(--bad)}
+.ban .t{color:var(--txt-2)}
+
+footer{max-width:1180px;margin:0 auto;padding:0 22px 60px;color:var(--mut);font-size:12.5px}
+footer b{color:var(--txt-2);font-weight:500}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="brand"><i></i>猎人 1-60 练级助手<small>魔兽世界：无限</small></span>
+    <span class="top-sp"></span>
+    <button class="tbtn" id="themeBtn">深色</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>猎人 · 1-60 练级半自动助手</h1>
+    <p>基于官方内置功能与游戏内宏的合规辅助方案：<b>你负责走位与开怪，工具负责把"指哪打哪"压到最低操作成本。</b>拖动等级滑块，下方所有模块会按你的等级实时切换。</p>
+    <div class="tagline">
+      <span class="chip">半自动 · 零封号风险</span>
+      <span class="chip">练级速度 T0（约 −8%）</span>
+      <span class="chip g">官方功能 + 游戏内宏</span>
+      <span class="chip n">数据截至 2026-10-08</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2><span class="no">01</span>选择等级</h2>
+    <p class="sub">天赋累计点数 = 等级 − 9（10 级起每级 1 点，1-60 共 51 点）。</p>
+    <div class="slider-box" style="margin-top:16px">
+      <div class="lv-num" id="lvNum">20<small>当前等级</small></div>
+      <div class="sl-wrap">
+        <input type="range" id="lvRange" min="1" max="60" value="20">
+        <div class="ticks" id="ticks"></div>
+      </div>
+    </div>
+    <hr class="sep">
+    <div class="stats">
+      <div class="stat"><b id="stPoints">11</b><span>已获天赋点</span></div>
+      <div class="stat"><b id="stTree">野兽控制</b><span>当前加点系别</span></div>
+      <div class="stat"><b id="stSeg">13-19 级</b><span>所在路线段</span></div>
+      <div class="stat"><b id="stHour">约 150 小时</b><span>1-60 总时耗基准</span></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2><span class="no">02</span>当前该点哪个天赋</h2>
+    <p class="sub">加点顺序按「先保宠物，再补自己」排列。等级栏为最早可达成等级（= 累计点数 + 9），与原文标注的区间口径一致化处理。</p>
+    <div class="now" id="talentNow"></div>
+    <table>
+      <thead><tr><th>等级</th><th>天赋</th><th>投入</th><th>所在系别与作用</th></tr></thead>
+      <tbody id="talentBody"></tbody>
+    </table>
+    <div class="note warn"><b>三条硬规则：</b>① 洗天赋必须回主城找职业训练师，有成本 —— <b>10-40 段一次排完，别边练边试</b>；② 每系每投入 5 点才解锁下一层；③ <b>不要点「独来独往」</b>（无宠物 +20% 伤害）—— 它与整条兽王路线互斥，练级等于把坦一起点没了。</div>
+  </section>
+
+  <div class="grid2">
+
+    <section class="panel">
+      <h2><span class="no">03</span>本等级推荐宏</h2>
+      <p class="sub">宏只做「按指定顺序尝试施法」，判断始终由你完成 —— 这是合规边界所在。</p>
+      <div id="macroArea"></div>
+      <div class="note"><b>怎么用：</b>宏键<b>连按</b>（每次按键 = 施放当前优先级最高且可用的技能）。它不是循环，每次按键都是一次从上往下的全新扫描。</div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="no">04</span>半自动设置（核心）</h2>
+      <p class="sub">这三个是官方内置开关，开启后就是你要的「走近自动找怪 + 按住持续输出」。</p>
+      <dl class="kv">
+        <dt>行动锁定</dt><dd>选项 → 游戏体验 → 战斗 → 启用行动锁定<br>走近敌人自动选中，并随视角动态切换。<b>这就是"自己找怪"那一半。</b></dd>
+        <dt>按住施法</dt><dd>选项 → 游戏体验 → 战斗 → 按住施法<br>按住键盘快捷键持续施放<b>单个法术</b>，不必反复点击。</dd>
+        <dt>交互键</dt><dd>选项 → 游戏体验 → 操作 → 启用交互键（默认 F）<br>靠近即可拾取尸体、交接任务、开箱，省掉大量鼠标操作。</dd>
+      </dl>
+      <div class="note warn"><b>必须知道的一条：</b>按住施法<b>不兼容宏</b>，也不支持鼠标点击与主动物品（官方明确限制，目的是压制自动化）。<br>所以键位必须<b>分两套</b>：宏键手动连按，按住键只绑<b>单个技能</b>。下面这张表就是按这个限制设计的。</div>
+      <table>
+        <thead><tr><th>键位</th><th>绑定</th><th>用法</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1</td><td class="nm">输出宏</td><td>手动连按 —— 优先级兜底，自动跳过不可用技能</td></tr>
+          <tr><td class="mono">2</td><td class="nm">奥术射击（单技能）</td><td>按住不放 —— 走官方「按住施法」持续输出</td></tr>
+          <tr><td class="mono">Q</td><td class="nm">假死宏</td><td>脱战 / 重置。脱战优先于贪刀</td></tr>
+          <tr><td class="mono">E</td><td class="nm">陷阱</td><td>战斗中可放，30 秒 CD，冰火各自独立</td></tr>
+          <tr><td class="mono">R</td><td class="nm">宠物维护宏</td><td>宠物躺了立刻按：先喂养，失败则复活</td></tr>
+          <tr><td class="mono">F</td><td class="nm">交互键</td><td>拾取 / 交接 / 开箱</td></tr>
+          <tr><td class="mono">滚轮下</td><td class="nm">/startattack</td><td>近战距离补平砍，防断平砍</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <section class="panel">
+    <h2><span class="no">05</span>1-60 练级路线</h2>
+    <p class="sub">Forever 无飞行、无等级缩放、集合石无召唤 —— 跑图成本是最大的隐性税。<b>每进一张新图，第一件事是把鸟点全开。</b></p>
+    <table>
+      <thead><tr><th>阶段</th><th>联盟推荐</th><th>部落推荐</th><th>这一段的要点</th></tr></thead>
+      <tbody id="routeBody"></tbody>
+    </table>
+    <div class="note"><b>五个真正的效率杠杆：</b>开鸟点 → 营地 + 食物 + 睡袋 → 每个五人本「接满任务只打一次」 → 40 级第一时间买骑术 → 收工前在旅店下线吃满休息池。</div>
+  </section>
+
+  <div class="grid2">
+
+    <section class="panel">
+      <h2><span class="no">06</span>经验加成清单</h2>
+      <p class="sub">勾选表示已生效，状态保存在本地。注意：<b>这些不是倍率，不能相加。</b></p>
+      <div id="buffList"></div>
+      <div class="note warn"><b>三个必记的坑：</b>① 食物 +5% <b>只作用于杀怪</b>，纯任务段里它是 0；② 睡袋说的是"一般获得的经验"（含任务），食物说的是"杀怪经验"，机制不同，<b>不能把 5% + 3% + 休息相乘</b>；③ 学生饲料不能当休息经验补充。</div>
+    </section>
+
+    <section class="panel">
+      <h2><span class="no">07</span>传承（Legacy）投入顺序</h2>
+      <p class="sub">账号级复利，第一个号投资回报最高。单角色最多约 29 点，每角色最多花 16 点。</p>
+      <ul class="tight">
+        <li><b>天赋异禀</b> —— 从第 9 级起每升一级就给天赋点（原版 10 级），总上限仍 51。越早点，前期越强。</li>
+        <li><b>休息充足</b> —— 休息经验积累与上限各 +4%/级。这是"把下线时间变成经验"的唯一直正途径。</li>
+        <li><b>冒险快感</b> —— 对非普通敌人致命一击后 10 秒回 1% 最大生命 / 法力（副本、团本、战场不触发）。</li>
+        <li><b>生死之间 / 永久效果</b> —— 跑尸更快、营地篝火增益 +50%。</li>
+        <li><b>绩效考核 / 加班</b> —— 上交箱子 5% 几率拿满好感度；专业技能升级几率 +4%。</li>
+        <li><b>丰饶收获</b>（专业分支）—— 采集产量五档 +20% → +100%。<b>最被忽视的一条纯利润。</b></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <section class="panel">
+    <h2><span class="no">08</span>合规边界（决定你的账号安全）</h2>
+    <p class="sub">判断标准只有一条：<b>这一个按键有没有替你做了本该由你做的判断或操作？</b>有 → 违规。</p>
+    <div class="ban">
+      <div class="m ok">安全</div><div class="t">官方内置功能：行动锁定、按住施法、交互键、内置伤害统计、冷却管理器、挥砍计时器</div>
+      <div class="m ok">安全</div><div class="t">游戏内宏：<code>/cast</code> 优先级、<code>/startattack</code>、<code>/castsequence</code>、条件宏</div>
+      <div class="m ok">安全</div><div class="t">正规渠道的免费插件（界面、背包、任务、地图、拍卖行）—— 不要买付费插件或"内部版"</div>
+      <div class="m no">违规</div><div class="t">AutoHotkey / 按键精灵等外部连点或循环脚本 —— 账号处罚</div>
+      <div class="m no">违规</div><div class="t">鼠标键盘自带硬件宏做多键合一或连发 —— 暴雪视同外部自动化</div>
+      <div class="m no">严重违规</div><div class="t">读屏 / 读内存来驱动决策的智能宏、多开输入同步 —— 封号红线</div>
+      <div class="m no">做不到</div><div class="t">Hekili 式"下一个技能"提示：Forever 用现代 API + 秘密值机制，此类"计算型"功能被接口层面限制，不是没适配</div>
+      <div class="m no">不存在</div><div class="t">一键输出循环宏：宏系统没有变量、没有循环、没有 if 判断，2006 年安全执行改造后就封死，与版本无关</div>
+    </div>
+    <div class="note warn" style="margin-top:16px"><b>国服额外权重：</b>国服运营已发布「无限经济系统维护治理公告」并<b>鼓励玩家在游戏内举报</b>。野外固定点长时间刷怪极显眼，举报密度会高于直营服 —— 这也是"没有安全版自动打怪"的现实原因之一。</div>
+  </section>
+
+  <section class="panel">
+    <h2><span class="no">09</span>关键等级节点</h2>
+    <table>
+      <thead><tr><th>等级</th><th>节点</th><th>为什么重要</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">5</td><td class="nm">营地系统教学</td><td>约 5 级有教学任务；篝火旁坐下 60 秒拿 1 小时营地增益（属性，不是经验倍率）</td></tr>
+        <tr><td class="mono">14</td><td class="nm">舒适睡袋任务链</td><td>+3% 经验、持续 2 小时、1 小时 CD —— 唯一一个"通用于任务与杀怪"的加成，顺路务必做</td></tr>
+        <tr><td class="mono">20</td><td class="nm">瞄准射击变基础技能</td><td>官方 10-01 确认：20 级起为基础技能，且<b>不打断自动射击</b> —— 20 级后循环核心</td></tr>
+        <tr><td class="mono">40</td><td class="nm">双专精 + 骑术</td><td>双专精解锁；同时第一时间买骑术，这是最大的单点时间杠杆</td></tr>
+        <tr><td class="mono">35-45</td><td class="nm">进入「河林」</td><td>150+ 新任务，替代原版反复刷 SM / ZF 的最大红利</td></tr>
+        <tr><td class="mono">58-60</td><td class="nm">避开海加尔山</td><td>设计师刻意放缓该区升级节奏 —— 它是满级后的装备 / 声望区，不是效率练级区</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>Forever 技能改动（官方 10-01）：</b>瞄准射击 20 级基础且不打断自动射击 · 奥术射击不再与瞄准共享冷却、改由多重射击共享 · 陷阱战斗中可用但 30 秒 CD、冰火各自独立 · 新增 45 码狙击射击 · <b>龙脊之刺与猎杀本能已被移除</b> · 宠物随装备缩放、不再吃玩家 buff、驯服不再对高于自身的野兽生效 · 狂怒之嚎 AP 加成 −40% · 新增狐狸家族。</div>
+  </section>
+
+</main>
+
+<footer>
+  <p><b>数据来源：</b>本项目《猎人专篇》《练级 · 技巧 · 打金》《工具 · 插件 · 宏》，以及暴雪 10-01 官方补丁说明与开发者问答。技能与宠物机制来自官方与 Beta 实测；21-60 段天赋为框架推断（Beta 上限只到 30 级）。</p>
+  <p><b>口径提示：</b>天赋中文名取自 Beta 客户端汉化，国服正式中文名以上线为准；1-60 时耗约 150 小时为第三方模型推算，非官方数据。<b>Beta 期的金币与物品不继承正式服。</b></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var TALENTS = [
+    {f:1,t:5,name:'致命守护',max:'5/5',tree:'野兽控制 · 第 1 层',note:'雄鹰守护激活时，自动射击有 10% 几率使远程攻速 +30%、持续 12 秒 —— 这一档猎人能拿到的最强单点天赋'},
+    {f:6,t:7,name:'寻路',max:'2/2',tree:'野兽控制 · 第 2 层',note:'猎豹与豹群守护速度再 +6%；没坐骑的阶段全靠它赶路'},
+    {f:8,t:9,name:'强化复活宠物',max:'2/2',tree:'野兽控制 · 第 3 层',note:'复活施法 −6 秒、法力 −40%、复活后血量 +30%；宠物躺了是猎人最大的停机'},
+    {f:10,t:10,name:'耐久训练',max:'1/5',tree:'野兽控制 · 第 4 层',note:'宠物生命与护甲 +15%，为补满这 5 点铺路'},
+    {f:11,t:11,name:'野兽迅捷',max:'1/1',tree:'野兽控制 · 第 5 层 ★11 点里程碑',note:'宠物移速 +30%，抢先咬住目标、跟得上你'},
+    {f:12,t:13,name:'强化灵猴守护',max:'2/2',tree:'野兽控制',note:'灵猴守护躲闪 +6%，且宠物吃到 50% 该效果（Forever 新机制）'},
+    {f:14,t:15,name:'集中火力',max:'2/2',tree:'野兽控制',note:'宠物激活时，你与宠物全伤 +2%'},
+    {f:16,t:16,name:'召唤雄鹰',max:'1/1',tree:'野兽控制 ★16 点里程碑',note:'2 只雄鹰俯冲 18 秒；兽王 20 级后的第一个质变'},
+    {f:17,t:21,name:'狂怒释放',max:'5/5',tree:'野兽控制',note:'宠物与雄鹰伤害 +15%（已改为只作用于宠物与雄鹰）'},
+    {f:22,t:22,name:'胁迫',max:'1/1',tree:'野兽控制 ★21 点里程碑',note:'宠物下次命中使目标昏迷 3 秒且该次暴击 +100%；拉怪与应急脱战都靠它'},
+    {f:23,t:27,name:'凶暴',max:'5/5',tree:'野兽控制',note:'宠物与雄鹰暴击 +10%'},
+    {f:28,t:29,name:'灵魂联结',max:'2/2',tree:'野兽控制',note:'每 5 秒你与宠物各回 1% 生命 —— 大幅减少吃喝停顿'},
+    {f:30,t:31,name:'野兽戒律',max:'2/2',tree:'野兽控制 · 兽王线满 31 点',note:'宠物集中回复 +20%，施法时仍保持 50% 法力回复'},
+    {f:32,t:36,name:'致命攻击',max:'5/5',tree:'射击',note:'暴击 +5%'},
+    {f:37,t:37,name:'效率',max:'1/1',tree:'射击',note:'法术消耗 −15%'},
+    {f:38,t:42,name:'精确瞄准',max:'5/5',tree:'射击',note:'攻强 = 智力 ×100% —— 智力不是纯蓝条'},
+    {f:43,t:44,name:'疾速杀戮',max:'2/2',tree:'射击',note:'击杀后下一发射击 +20%'},
+    {f:45,t:47,name:'鹰眼',max:'3/3',tree:'射击',note:'射程 +6 码（也可按卡蓝 / 卡手改选急速恢复、强化钉刺）'},
+    {f:48,t:51,name:'收尾自由分配',max:'4 点',tree:'射击',note:'强化钉刺 / 急速恢复等，卡蓝选回蓝、卡手选钉刺'}
+  ];
+
+  var ROUTES = [
+    {lo:1,hi:11,seg:'1-12 级',ally:'艾尔文森林 / 丹莫罗 / 泰达希尔',horde:'杜隆塔尔 / 莫高雷 / 提瑞斯法林地',tip:'天裔玩家走泽风岛。顺手把亚麻布、轻皮、低级草药留着，首周溢价最高。'},
+    {lo:12,hi:19,seg:'12-20 级',ally:'西部荒野 / 洛克莫丹 / 黑海岸',horde:'贫瘠之地 / 银松森林',tip:'顺势开鸟点。约 14 级做睡袋任务链。'},
+    {lo:20,hi:24,seg:'18-25 级',ally:'赤脊山 / 暮色森林 / 湿地 / 灰谷',horde:'贫瘠之地（续）/ 石爪山 / 千针石林',tip:'赤脊山是进入河林的前置。20 级起瞄准射击进循环。'},
+    {lo:25,hi:34,seg:'25-32 级',ally:'湿地 / 阿拉希高地 / 荆棘谷（初探）',horde:'千针石林 / 希尔斯布莱德 / 阿拉希',tip:'插入本：洛丹伦废墟、达拉然城 —— 接满任务只打一次。'},
+    {lo:35,hi:39,seg:'35-45 级',ally:'河林（150+ 任务）',horde:'河林（150+ 任务）',tip:'替代 SM / ZF 循环的最大红利。同步推凄凉之地；插入本：克罗多克要塞。'},
+    {lo:40,hi:49,seg:'40-50 级',ally:'塔纳利斯 / 菲拉斯 / 辛特兰 / 艾萨拉',horde:'同上',tip:'40 级第一时间买骑术。用热砂港码头乘船直达加基森，跨大陆效率质变。'},
+    {lo:50,hi:57,seg:'50-58 级',ally:'安戈洛 / 费伍德 / 西瘟疫 / 东瘟疫 / 燃烧平原 / 希利苏斯',horde:'同上',tip:'插入本：塑造者之台（58-60）、黑喉要塞。约 4.5 小时 / 级，最慢的一段。'},
+    {lo:58,hi:60,seg:'58-60 级',ally:'冬泉谷 / 东瘟疫 / 希利苏斯',horde:'同上',tip:'纯速通别选海加尔山 —— 设计师刻意放慢，它是满级后的装备与声望区。'}
+  ];
+
+  var BUFFS = [
+    {k:'food',name:'饱食（Well Fed）食物',d:'杀怪经验 +5%，食物自身时长',w:'吃 tooltip 明确写了经验加成的食物 —— 不是所有食物都有'},
+    {k:'bag',name:'舒适睡袋',d:'经验最多 +3%，躺 3 分钟起步、每分钟 +1%，持续 2 小时、1 小时 CD',w:'14 级起的一条隐藏任务链终点'},
+    {k:'tent',name:'营地帐篷',d:'把休息经验池补到当前等级的 5%',w:'池子已满（≥5%）时完全无效；帐篷须放在篝火旁并坐下'},
+    {k:'rest',name:'休息经验（Rested XP）',d:'杀怪经验加成池，上限约当前等级 5%',w:'在旅馆 / 城市 / 休息区下线积累'},
+    {k:'camp',name:'营地篝火增益',d:'属性加成（缩短战斗时间），不是经验倍率',w:'篝火旁坐下 60 秒 → 1 小时；最多 3 人各放一件；与职业 buff 同族、不叠加'},
+    {k:'legacy',name:'Well Rested（Legacy 冒险树）',d:'休息积累 +4%/级、休息上限 +4%/级，共 5 级',w:'花 Legacy 点数 —— 把下线时间折算成经验'}
+  ];
+
+  var MACROS = {
+    open: {t:'起手宏（1 级以上通用）',d:'一键：宠物上去咬 + 上猎人印记',code:'#showtooltip\n/petattack\n/startattack\n/cast 猎人印记'},
+    low:  {t:'输出宏 · 20 级前',d:'优先级兜底：奥术射击可用就放，否则多重射击',code:'#showtooltip\n/startattack\n/cast 奥术射击\n/cast 多重射击'},
+    high: {t:'输出宏 · 20 级后（核心）',d:'瞄准射击 20 级起是基础技能且不打断自动射击 —— 放最上面',code:'#showtooltip\n/startattack\n/cast 瞄准射击\n/cast 奥术射击\n/cast 多重射击'},
+    fd:   {t:'保命宏 · 假死',d:'脱战专用，建议单独键位 —— 脱战优先于贪刀',code:'#showtooltip\n/cast 假死'},
+    pet:  {t:'宠物维护宏',d:'顺序宏：先喂养，宠物死了则复活',code:'#showtooltip\n/castsequence reset=10 喂养宠物\n/cast 复活宠物'}
+  };
+
+  var LS_KEY = 'wowforever_hunter_leveling_v1';
+
+  function $(id){ return document.getElementById(id); }
+
+  function store(){
+    try{ return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }catch(e){ return {}; }
+  }
+  function save(o){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(o)); }catch(e){}
+  }
+
+  function pointsOf(lv){ return lv - 9; }
+
+  function currentTalent(lv){
+    var p = pointsOf(lv);
+    if(p < 1) return null;
+    for(var i=0;i<TALENTS.length;i++){
+      if(p >= TALENTS[i].f && p <= TALENTS[i].t) return TALENTS[i];
+    }
+    return TALENTS[TALENTS.length-1];
+  }
+
+  function routeOf(lv){
+    for(var i=0;i<ROUTES.length;i++){
+      if(lv >= ROUTES[i].lo && lv <= ROUTES[i].hi) return ROUTES[i];
+    }
+    return ROUTES[ROUTES.length-1];
+  }
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderTalent(lv){
+    var p = pointsOf(lv);
+    var cur = currentTalent(lv);
+    var now = $('talentNow');
+
+    if(p < 1){
+      now.innerHTML = '<div class="k">1-9 级</div><div class="v">天赋尚未开放</div><div class="d">10 级起每级 1 点。这之前把宠物驯好、把 14 级的睡袋任务链记在心上即可。</div>';
+    } else {
+      var served = cur.t - cur.f + 1;
+      var placed = p - cur.f + 1;
+      now.innerHTML = '<div class="k">当前该点 · 累计 ' + p + ' / 51 点（最早 ' + (p+9) + ' 级达成）</div>' +
+        '<div class="v">' + esc(cur.name) + '　<span style="font-family:var(--mono);font-size:15px;color:var(--mut)">' + esc(cur.max) + '</span></div>' +
+        '<div class="d">' + esc(cur.tree) + ' · 本档已投 ' + placed + ' / ' + served + ' 点<br>' + esc(cur.note) + '</div>';
+    }
+
+    var rows = TALENTS.map(function(t){
+      var lvFrom = t.f + 9, lvTo = t.t + 9;
+      var cls = '';
+      if(t === cur) cls = ' class="cur"';
+      else if(p > t.t) cls = ' class="done"';
+      var lvTxt = (lvFrom === lvTo) ? String(lvFrom) : (lvFrom + '→' + lvTo);
+      return '<tr' + cls + '><td class="mono">' + lvTxt + '</td><td class="nm">' + esc(t.name) + '</td><td class="mono">' + esc(t.max) + '</td><td>' + esc(t.tree) + '</td></tr>';
+    }).join('');
+    $('talentBody').innerHTML = rows;
+  }
+
+  function macroBlock(key){
+    var m = MACROS[key];
+    return '<div class="macro">' +
+      '<div class="macro-head"><b>' + esc(m.t) + '</b><span>' + esc(m.d) + '</span>' +
+      '<button class="cp" data-copy="' + key + '">复制</button></div>' +
+      '<pre>' + esc(m.code) + '</pre></div>';
+  }
+
+  function renderMacros(lv){
+    var html = macroBlock('open');
+    html += (lv >= 20) ? macroBlock('high') : macroBlock('low');
+    html += macroBlock('fd');
+    html += macroBlock('pet');
+    $('macroArea').innerHTML = html;
+    bindCopy();
+  }
+
+  function bindCopy(){
+    var btns = document.querySelectorAll('#macroArea .cp');
+    for(var i=0;i<btns.length;i++){
+      btns[i].onclick = function(){
+        var key = this.getAttribute('data-copy');
+        var txt = MACROS[key].code;
+        var b = this;
+        function ok(){ b.textContent = '已复制'; b.className = 'cp done';
+          setTimeout(function(){ b.textContent = '复制'; b.className = 'cp'; }, 1500); }
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(txt).then(ok, function(){ fallback(txt, ok); });
+        } else { fallback(txt, ok); }
+      };
+    }
+  }
+
+  function fallback(txt, ok){
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); ok(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  function renderRoute(lv){
+    var cur = routeOf(lv);
+    var html = ROUTES.map(function(r){
+      var cls = (r === cur) ? ' class="cur"' : '';
+      return '<tr' + cls + '><td class="mono">' + esc(r.seg) + '</td><td>' + esc(r.ally) + '</td><td>' + esc(r.horde) + '</td><td>' + esc(r.tip) + '</td></tr>';
+    }).join('');
+    $('routeBody').innerHTML = html;
+  }
+
+  function renderBuffs(){
+    var st = store();
+    var html = BUFFS.map(function(b){
+      var on = !!st[b.k];
+      return '<div class="chk"><input type="checkbox" id="bk_' + b.k + '" data-k="' + b.k + '"' + (on ? ' checked' : '') + '>' +
+        '<label for="bk_' + b.k + '"><b>' + esc(b.name) + '</b> — ' + esc(b.d) + '<br><span style="color:var(--mut);font-size:12.5px">' + esc(b.w) + '</span></label></div>';
+    }).join('');
+    $('buffList').innerHTML = html;
+    var ins = $('buffList').querySelectorAll('input[type=checkbox]');
+    for(var i=0;i<ins.length;i++){
+      ins[i].onchange = function(){
+        var s = store();
+        s[this.getAttribute('data-k')] = this.checked;
+        save(s);
+      };
+    }
+  }
+
+  function renderTicks(lv){
+    var marks = [1,10,14,20,30,40,50,60];
+    $('ticks').innerHTML = marks.map(function(n){
+      return '<button class="tk' + (n === lv ? ' on' : '') + '" data-lv="' + n + '">' + n + '</button>';
+    }).join('');
+    var bs = $('ticks').querySelectorAll('.tk');
+    for(var i=0;i<bs.length;i++){
+      bs[i].onclick = function(){
+        var n = parseInt(this.getAttribute('data-lv'),10);
+        $('lvRange').value = n;
+        setLevel(n);
+      };
+    }
+  }
+
+  function renderStats(lv){
+    var p = Math.max(0, pointsOf(lv));
+    $('stPoints').textContent = p;
+    var cur = currentTalent(lv);
+    $('stTree').textContent = cur ? (cur.tree.indexOf('射击') === 0 ? '射击' : '野兽控制') : '未开放';
+    $('stSeg').textContent = routeOf(lv).seg;
+    var h;
+    if(lv <= 40) h = '约 150 小时';
+    else if(lv <= 50) h = '一半时间压在这段';
+    else h = '约 4.5 小时 / 级';
+    $('stHour').textContent = h;
+  }
+
+  function setLevel(lv){
+    lv = Math.max(1, Math.min(60, lv));
+    $('lvNum').innerHTML = lv + '<small>当前等级</small>';
+    renderTicks(lv);
+    renderStats(lv);
+    renderTalent(lv);
+    renderMacros(lv);
+    renderRoute(lv);
+    var s = store(); s.lv = lv; save(s);
+  }
+
+  $('lvRange').oninput = function(){ setLevel(parseInt(this.value,10)); };
+
+  var themeBtn = $('themeBtn');
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.textContent = (t === 'dark') ? '浅色' : '深色';
+    var s = store(); s.theme = t; save(s);
+  }
+  themeBtn.onclick = function(){
+    var cur = document.documentElement.getAttribute('data-theme');
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  };
+
+  var saved = store();
+  if(saved.theme) applyTheme(saved.theme);
+  var startLv = (saved.lv && saved.lv >= 1 && saved.lv <= 60) ? saved.lv : 20;
+  $('lvRange').value = startLv;
+  renderBuffs();
+  setLevel(startLv);
+})();
+</script>
+</body>
+</html>

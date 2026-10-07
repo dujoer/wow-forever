@@ -21,7 +21,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 
 # 导航顺序：文件名 -> (显示标题, 分组)
 ORDER = [
-    ("README.md", "首页 · 怎么读这个库", ""),
+    ("README.md", "导读 · 怎么读这个库", ""),
     ("leveling-and-gold.md", "★ 练级 · 技巧 · 打金", "玩法核心"),
     ("classes-and-gear.md", "★ 职业 · 天赋 · 配装", "玩法核心"),
     ("hunter.md", "★ 猎人专篇", "玩法核心"),
@@ -34,6 +34,39 @@ ORDER = [
 
 TITLE_MAP = dict((f, t) for f, t, _ in ORDER)
 GROUP_MAP = dict((f, g) for f, _, g in ORDER)
+
+# 顶部切换条用的短名（空间有限，只放 4 个字左右）
+SHORT = {
+    "README.md": "导读",
+    "leveling-and-gold.md": "练级打金",
+    "classes-and-gear.md": "职业天赋",
+    "hunter.md": "猎人专篇",
+    "tools-and-ui.md": "工具插件",
+    "launch-playbook.md": "开局手册",
+    "intel-digest.md": "情报速报",
+    "timeline.md": "时间线",
+    "update-playbook.md": "更新手册",
+}
+
+
+def short_of(fname, title):
+    t = title[1:].lstrip() if title.startswith('★') else title
+    return SHORT.get(fname, t[:6])
+
+
+def brief(raw):
+    """取正文第一段有效文字作为首页卡片摘要"""
+    for line in raw.split('\n'):
+        s = line.strip()
+        if (not s or s.startswith('#') or s.startswith('|') or s.startswith('>')
+                or s.startswith('- ') or s.startswith('* ') or s.startswith('```')
+                or s.startswith('<!--') or re.match(r'^\d+\.', s)
+                or re.match(r'^([-*_=])\1{2,}\s*$', s)):
+            continue
+        s = re.sub(r'\*\*([^*]+)\*\*', r'\1', s)
+        s = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', s)
+        return s.replace('`', '')[:76]
+    return ''
 
 
 def esc(s):
@@ -113,8 +146,9 @@ def _is_new_header(lines, k, n):
     return m < n and _is_sep_row(lines[m])
 
 
-def md_to_html(text):
-    """返回 (正文 HTML, 页内目录 [(层级, 文本, 锚点)])"""
+def md_to_html(text, prefix=''):
+    """返回 (正文 HTML, 页内目录 [(层级, 文本, 锚点)])
+    prefix 为篇级前缀，保证多篇文章之间的锚点 id 不冲突"""
     lines = text.split('\n')
     out = []
     toc = []
@@ -202,7 +236,7 @@ def md_to_html(text):
             txt = inline(m.group(2))
             if lv in (2, 3):
                 counter[0] += 1
-                anchor = 'sec%d' % counter[0]
+                anchor = '%ssec%d' % (prefix, counter[0])
                 toc.append((lv, m.group(2).strip(), anchor))
                 out.append('<h%d id="%s">%s</h%d>' % (lv, anchor, txt, lv))
             else:
@@ -277,234 +311,341 @@ def load_css():
 
 NAV_JS = """
 (function(){
-  var btns  = [].slice.call(document.querySelectorAll('nav button[data-t]'));
-  var docs  = [].slice.call(document.querySelectorAll('.doc'));
-  var kids  = [].slice.call(document.querySelectorAll('a.kid'));
-  var nodes = [].slice.call(document.querySelectorAll('details.node'));
-  var roots = [].slice.call(document.querySelectorAll('details.root'));
-  var navEl = document.querySelector('nav.tree');
+  var DATA = __DATA__;
+  var HOME='home';
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  var docs=[].slice.call(document.querySelectorAll('.doc'));
+  var tocList=document.getElementById('tocList');
+  var pagerEl=document.getElementById('pager');
+  var topBtn=document.getElementById('totop');
+  var cur=HOME;
+  var seq=DATA.map(function(d){return d.k;});
+  var io=null;
 
-  /* 左栏默认跟随页面滚动，页面只有一条滚动条；
-     只有树本身高于视口时，才启用内部滚动作为兜底。 */
-  function fitNav(){
-    if(!navEl){ return; }
-    navEl.classList.remove('scroll');
-    navEl.style.maxHeight = '';
-    var vh = window.innerHeight - 10;
-    if(navEl.scrollHeight > vh){
-      navEl.classList.add('scroll');
-      navEl.style.maxHeight = Math.max(320, vh) + 'px';
+  function byKey(k){for(var i=0;i<DATA.length;i++){if(DATA[i].k===k)return DATA[i];}return null;}
+  function topOff(){return 76;}
+
+  function item(k,t,i){
+    return '<a class="l'+(t[0]-2)+'" data-i="'+i+'" data-k="'+k+'" data-a="'+t[2]+'" href="#'+t[2]+'" title="'+t[1]+'">'+t[1]+'</a>';
+  }
+  var sideT=document.querySelector('.side-t');
+  function renderToc(k){
+    tocList.classList.remove('res');
+    if(k===HOME){
+      if(sideT){sideT.innerHTML='全部 <b>篇目</b>';}
+      var g='<div class="tocgroup">全部篇目</div>';
+      DATA.forEach(function(d){
+        g+='<a class="l0" data-i="0" data-k="'+d.k+'" data-a="" href="#" title="'+d.t+'">'+d.t+'</a>';
+      });
+      tocList.innerHTML=g;bindToc();return;
     }
+    if(sideT){sideT.innerHTML='本篇 <b>目录</b>';}
+    var d=byKey(k);
+    if(!d){tocList.innerHTML='<div class="side-empty">暂无小节</div>';return;}
+    var h='';
+    d.toc.forEach(function(t,i){h+=item(k,t,i);});
+    tocList.innerHTML=h;bindToc();expandAround(-1);
   }
-
-  function show(id){
-    btns.forEach(function(b){ b.classList.toggle('on', b.dataset.t === id); });
-    docs.forEach(function(d){ d.classList.toggle('on', d.id === id); });
-    reveal(id);
-    observeCurrent();
-    window.scrollTo(0, 0);
-    fitNav();
-  }
-  function reveal(id){
-    nodes.forEach(function(n){ if(n.dataset.k === id) n.open = true; });
-    roots.forEach(function(r){
-      if(r.querySelector('details.node[data-k="' + id + '"]')) r.open = true;
+  /* Apple 文档式：只列一级，阅读到哪一段才展开它的子项，保证侧栏始终短 */
+  function expandAround(i){
+    var d=byKey(cur);
+    if(!d)return;
+    var toc=d.toc,p=0;
+    if(i>=0){
+      p=i;
+      while(p>0&&toc[p][0]!==2)p--;
+    }
+    var q=p+1;
+    while(q<toc.length&&toc[q][0]===3)q++;
+    [].slice.call(tocList.querySelectorAll('a')).forEach(function(a){
+      var j=parseInt(a.getAttribute('data-i'),10);
+      if(a.className.indexOf('l1')>=0){a.classList.toggle('sub-show',j>p&&j<q);}
     });
   }
-  function flash(a){
-    kids.forEach(function(k){ k.classList.remove('hit'); });
-    a.classList.add('hit');
-    setTimeout(function(){ a.classList.remove('hit'); }, 1400);
-  }
-  function keepVisible(a){
-    if(!navEl || !navEl.classList.contains('scroll')){ return; }
-    var kr = a.getBoundingClientRect(), nr = navEl.getBoundingClientRect();
-    if(kr.top < nr.top + 4 || kr.bottom > nr.bottom - 4){
-      navEl.scrollTop += kr.top - nr.top - 16;
-    }
-  }
-  function goto(a){
-    var t = a.dataset.t, id = a.dataset.a;
-    show(t);
-    keepVisible(a);
-    requestAnimationFrame(function(){
-      var el = id ? document.getElementById(id) : null;
-      var y = el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0;
-      window.scrollTo({ top: y < 0 ? 0 : y, behavior: 'smooth' });
+  function bindToc(){
+    [].slice.call(tocList.querySelectorAll('a')).forEach(function(a){
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        var k=a.getAttribute('data-k'),id=a.getAttribute('data-a');
+        expandAround(parseInt(a.getAttribute('data-i'),10));
+        if(k!==cur){show(k,id);}else{scrollToId(id);}
+        [].slice.call(tocList.querySelectorAll('a')).forEach(function(x){x.classList.remove('hit');});
+        a.classList.add('hit');
+      });
     });
-    flash(a);
   }
-
-  /* 正文滚动时，把当前所在小节在树里高亮（跟随当前篇） */
-  var io = null;
-  function observeCurrent(){
-    if(!('IntersectionObserver' in window)){ return; }
-    if(io){ io.disconnect(); }
-    var secs = [].slice.call(document.querySelectorAll('.doc.on h2[id], .doc.on h3[id]'));
-    io = new IntersectionObserver(function(es){
+  function scrollToId(id){
+    if(!id){window.scrollTo(0,0);return;}
+    var el=document.getElementById(id);
+    if(!el)return;
+    var y=el.getBoundingClientRect().top+window.pageYOffset-topOff();
+    window.scrollTo(0,Math.max(0,y));   /* 平滑度交给 CSS scroll-behavior */
+  }
+  function updatePager(k){
+    if(!pagerEl)return;
+    if(k===HOME){pagerEl.innerHTML='';return;}
+    var i=seq.indexOf(k),h='';
+    var p=i>0?byKey(seq[i-1]):null,n=(i>-1&&i<seq.length-1)?byKey(seq[i+1]):null;
+    if(p)h+='<a class="prev" href="#" data-k="'+p.k+'"><span class="lab">上一篇</span><span class="nm">'+p.t+'</span></a>';
+    if(n)h+='<a class="next" href="#" data-k="'+n.k+'"><span class="lab">下一篇</span><span class="nm">'+n.t+'</span></a>';
+    pagerEl.innerHTML=h;
+    [].slice.call(pagerEl.querySelectorAll('a')).forEach(function(a){
+      a.addEventListener('click',function(e){e.preventDefault();show(a.getAttribute('data-k'));});
+    });
+  }
+  function observe(){
+    if(!('IntersectionObserver' in window))return;
+    if(io)io.disconnect();
+    var secs=[].slice.call(document.querySelectorAll('.doc.on h2[id],.doc.on h3[id]'));
+    io=new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(e.isIntersecting && e.intersectionRatio > 0.55){
-          var kid = document.querySelector('a.kid[data-a="' + e.target.id + '"]');
-          kids.forEach(function(k){ k.classList.toggle('cur', k === kid); });
+        if(e.isIntersecting&&e.intersectionRatio>0.5){
+          var a=tocList.querySelector('a[data-a="'+e.target.id+'"]');
+          if(a){expandAround(parseInt(a.getAttribute('data-i'),10));}
+          [].slice.call(tocList.querySelectorAll('a')).forEach(function(x){x.classList.toggle('cur',x===a);});
         }
       });
-    }, { rootMargin: '-70px 0px -45% 0px', threshold: [0, 0.55, 1] });
-    secs.forEach(function(s){ io.observe(s); });
+    },{rootMargin:'-84px 0px -55% 0px',threshold:[0,0.5,1]});
+    secs.forEach(function(s){io.observe(s);});
   }
-
-  btns.forEach(function(b){
-    b.addEventListener('click', function(){ show(b.dataset.t); });
+  function show(k,anchor){
+    cur=k;
+    chips.forEach(function(c){c.classList.toggle('on',c.getAttribute('data-k')===k);});
+    docs.forEach(function(d){d.classList.toggle('on',d.id===k);});
+    renderToc(k);updatePager(k);
+    var q=document.getElementById('q');
+    if(q&&q.value){q.value='';}
+    if(anchor){requestAnimationFrame(function(){scrollToId(anchor);});}
+    else{window.scrollTo(0,0);}
+    observe();
+  }
+  chips.forEach(function(c){c.addEventListener('click',function(){show(c.getAttribute('data-k'));});});
+  [].slice.call(document.querySelectorAll('.brand')).forEach(function(b){
+    b.addEventListener('click',function(e){e.preventDefault();show(HOME);});
   });
-  kids.forEach(function(a){
-    a.addEventListener('click', function(e){ e.preventDefault(); goto(a); });
+  [].slice.call(document.querySelectorAll('.card')).forEach(function(c){
+    c.addEventListener('click',function(){show(c.getAttribute('data-k'));});
   });
-  if(navEl){ navEl.addEventListener('toggle', fitNav, true); }
-  observeCurrent();
-
-  /* 关键词过滤 */
-  var q = document.getElementById('q');
+  var q=document.getElementById('q');
   if(q){
-    q.addEventListener('input', function(){
-      var v = q.value.trim().toLowerCase();
-      if(!v){
-        kids.concat(nodes, roots).forEach(function(x){ x.classList.remove('hide'); });
-        fitNav();
-        return;
-      }
-      kids.forEach(function(a){
-        var hit = a.textContent.toLowerCase().indexOf(v) >= 0;
-        a.classList.toggle('hide', !hit);
-        if(hit){ reveal(a.dataset.t); }
+    q.addEventListener('input',function(){
+      var v=q.value.trim().toLowerCase();
+      if(!v){renderToc(cur);return;}
+      var h='',n=0;
+      DATA.forEach(function(d){
+        var inT=d.t.toLowerCase().indexOf(v)>=0;
+        var hits=d.toc.filter(function(t){return inT||t[1].toLowerCase().indexOf(v)>=0;});
+        if(inT)hits=hits.slice(0,8);
+        if(!hits.length)return;
+        h+='<div class="tocgroup">'+d.t+'</div>';
+        hits.forEach(function(t){n++;h+=item(d.k,t);});
       });
-      nodes.forEach(function(n){ n.classList.toggle('hide', !n.querySelector('a.kid:not(.hide)')); });
-      roots.forEach(function(r){ r.classList.toggle('hide', !r.querySelector('a.kid:not(.hide)')); });
-      fitNav();
+      tocList.classList.toggle('res',n>0);
+      tocList.innerHTML=n?h:'<div class="side-empty">没有匹配的小节</div>';
+      bindToc();
     });
   }
-  /* 展开 / 收起全部 */
-  var all = document.getElementById('expandAll');
-  if(all){
-    all.addEventListener('click', function(){
-      var open = all.dataset.mode === 'open';
-      nodes.concat(roots).forEach(function(n){ n.open = !open; });
-      all.dataset.mode = open ? 'close' : 'open';
-      all.textContent = open ? '展开全部' : '收起全部';
-      requestAnimationFrame(fitNav);
+  var tb=document.getElementById('themeBtn');
+  if(tb){
+    tb.addEventListener('click',function(){
+      var now=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+      document.documentElement.setAttribute('data-theme',now);
+      try{localStorage.setItem('wf-theme',now);}catch(e){}
+      tb.textContent=now==='dark'?'\u2600':'\u263E';
     });
   }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='/'&&document.activeElement!==q){e.preventDefault();if(q)q.focus();}
+    if(e.key==='Escape'&&document.activeElement===q){q.value='';q.dispatchEvent(new Event('input'));q.blur();}
+  });
+  window.addEventListener('scroll',function(){
+    if(!topBtn)return;
+    topBtn.classList.toggle('show',window.pageYOffset>420);
+  });
+  if(topBtn)topBtn.addEventListener('click',function(){window.scrollTo(0,0);});
 
-  window.addEventListener('resize', fitNav);
-  window.addEventListener('load', fitNav);
-  fitNav();
+  var hash=(location.hash||'').replace('#','');
+  var wantAnchor=null;
+  if(hash&&hash!=='home'){
+    if(byKey(hash)){show(hash);}
+    else{
+      var el=document.getElementById(hash);
+      var sec=(el&&el.closest)?el.closest('.doc'):null;
+      if(sec){show(sec.id,hash);wantAnchor=hash;}else{show(HOME);}
+    }
+  }else{show(HOME);}
+
+  /* 浏览器对 #篇名 的自动滚动会把篇标题顶出视口，加载完成后多帧重置 */
+  var booting=true;
+  function fixScroll(){
+    if(!booting)return;
+    if(wantAnchor&&cur!==HOME){scrollToId(wantAnchor);}
+    else{window.scrollTo(0,0);}
+  }
+  document.addEventListener('click',function(){booting=false;},true);  /* 用户一旦操作就不再干预 */
+  window.addEventListener('load',function(){
+    if(!hash||hash==='home'){booting=false;return;}  /* 无 # 进入：初始就在顶部，无需纠正 */
+    fixScroll();
+    setTimeout(fixScroll,60);
+    setTimeout(fixScroll,320);
+    setTimeout(function(){booting=false;},520);
+  });
+  window.addEventListener('hashchange',function(){
+    var k=(location.hash||'').replace('#','');
+    if(!k||k==='home'){wantAnchor=null;show(HOME);return;}
+    if(byKey(k)){wantAnchor=null;show(k);return;}
+    var el=document.getElementById(k);
+    var sec=(el&&el.closest)?el.closest('.doc'):null;
+    if(sec){wantAnchor=k;show(sec.id,k);}
+  });
 })();
 """
 
 PRINT_JS = """
 window.addEventListener('beforeprint', function(){
-  document.querySelectorAll('.doc').forEach(function(d){ d.classList.add('on'); });
-  document.querySelectorAll('nav,.bar').forEach(function(n){ n.style.display='none'; });
+  if(document.documentElement.getAttribute('data-theme')==='dark'){
+    document.documentElement.setAttribute('data-theme','light');
+  }
 });
 """
 
-
-def build_node(key, title, toc, first):
-    star = ''
-    if title.startswith('★'):
-        star = '<span class="star">★</span>'
-        title = title[1:].lstrip()
-    kids = ''.join(
-        '<a class="kid l%d" data-t="%s" data-a="%s" href="#%s" title="%s">%s</a>' % (
-            lv - 2, key, anchor, anchor,
-            esc(text).replace('"', '&quot;'), esc(text))
-        for lv, text, anchor in toc)
-    return ('<details class="node%s" data-k="%s"><summary>'
-            '<span class="car"></span><button class="nt" type="button" data-t="%s">%s%s</button>'
-            '<i class="cnt">%d</i></summary>%s</details>') % (
-        ' on' if first else '', key,
-        key, star, esc(title), len(toc), kids)
+THEME_JS = """
+(function(){try{
+  var t=localStorage.getItem('wf-theme');
+  if(!t){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}
+  document.documentElement.setAttribute('data-theme',t);
+}catch(e){}})();
+"""
 
 
 def main():
+    import json
     items = collect_files()
     CSS = load_css()
 
     parsed = []
-    for fname, title, group in items:
+    for idx, (fname, title, group) in enumerate(items):
         path = os.path.join(BASE, fname)
         raw = open(path, encoding='utf-8').read()
         # 去掉首个一级标题（已用作导航标题）
         raw = re.sub(r'^#\s+.*\n?', '', raw, count=1)
-        body, toc = md_to_html(raw)
+        body, toc = md_to_html(raw, 'p%d_' % (idx + 1))
         key = re.sub(r'\W', '_', fname)
         parsed.append({
-            'key': key, 'title': title, 'group': group or 'START',
-            'body': body, 'toc': toc,
+            'key': key, 'title': title,
+            'name': title[1:].lstrip() if title.startswith('★') else title,
+            'short': short_of(fname, title),
+            'group': group or 'START', 'body': body, 'toc': toc,
+            'brief': brief(raw),
         })
-
-    nav_html, doc_html = [], []
-    first = True
-    seen_groups = []
-    group_nodes = {}
     for it in parsed:
-        it['node'] = build_node(it['key'], it['title'], it['toc'], first)
-        nav_html.append(it['node'])  # 占位，稍后按分组重排
-        doc_html.append(
-            '<section class="doc%s" id="%s"><h1>%s</h1>%s%s</section>' % (
-                ' on' if first else '', it['key'], esc(it['title']),
-                '', it['body']))
-        key = it['key']
-        if it['group'] not in seen_groups:
-            seen_groups.append(it['group'])
-            group_nodes[it['group']] = []
-        group_nodes[it['group']].append(it)
-        first = False
+        if not it['brief']:
+            it['brief'] = '共 %d 个小节，点开查看完整内容。' % len(it['toc'])
 
-    # 重新组装树：分组（根） → 篇（节点） → 小节（叶子）
-    tree = []
-    for g in seen_groups:
-        nodes = group_nodes[g]
-        inner = ''.join(n['node'] for n in nodes)
-        if g == 'START':
-            tree.append(inner)
-        else:
-            tree.append(
-                '<details class="root" open><summary><span class="car"></span>%s'
-                '<i class="rn">%d</i></summary><div class="treebody">%s</div></details>' % (
-                    esc(g), len(nodes), inner))
+    def escq(s):
+        return html.escape(s, quote=True)
 
+    def label_of(g):
+        return '快速上手' if g == 'START' else g
+
+    # 顶部切换条：概览 + 各篇短名
+    chips = ['<button class="chip on" type="button" data-k="home">概览</button>']
+    for it in parsed:
+        chips.append('<button class="chip" type="button" data-k="%s">%s</button>' % (
+            it['key'], esc(it['short'])))
+    chips_html = ''.join(chips)
+
+    # 首页卡片：按分组分块
+    seen = []
+    for it in parsed:
+        if it['group'] not in seen:
+            seen.append(it['group'])
+    blocks = []
+    for g in seen:
+        nodes = [x for x in parsed if x['group'] == g]
+        cards = []
+        for n in nodes:
+            nm = n['name']
+            cards.append(
+                '<div class="card" data-k="%s" role="button" tabindex="0">'
+                '<div class="no">%02d</div><h3>%s</h3><p>%s</p>'
+                '<div class="meta"><b>%d 节</b><i>·</i><span>%s</span>'
+                '<span class="arrow">&#8250;</span></div></div>' % (
+                    n['key'], parsed.index(n) + 1, esc(nm), esc(n['brief']),
+                    len(n['toc']), esc(label_of(g))))
+        blocks.append('<div class="sec-t">%s</div><div class="grid">%s</div>' % (
+            esc('从这里开始' if g == 'START' else g), ''.join(cards)))
+    home_body = ''.join(blocks)
+
+    total_sec = sum(len(it['toc']) for it in parsed)
     stamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+
+    home_html = (
+        '<section class="doc home on" id="home">'
+        '<div class="hero">'
+        '<div class="eyebrow">World of Warcraft: Forever &#183; Classic+ &#183; 等级上限锁 60</div>'
+        '<h1>开荒资料库</h1>'
+        '<p class="lede">单人开荒可用的完整口径：练级、打金、职业配装、工具插件与情报追踪。'
+        '所有结论都标注来源与不确定处，没有官方口径的地方如实留白。</p>'
+        '<div class="facts">'
+        '<span><b>%d</b> 篇</span><span><b>%d</b> 节</span>'
+        '<span>国服上线 <b>2026-11-05</b></span><span>更新 <b>%s</b></span>'
+        '</div></div>%s</section>') % (len(parsed), total_sec, stamp, home_body)
+
+    doc_html = []
+    for it in parsed:
+        nm = it['name']
+        doc_html.append(
+            '<section class="doc" id="%s"><div class="title">%s</div>'
+            '<div class="sub"><span>%s</span><span>%d 节</span></div>%s</section>' % (
+                it['key'], esc(nm), esc(label_of(it['group'])), len(it['toc']), it['body']))
+    docs_html = ''.join(doc_html)
+
+    data = [{'k': it['key'], 't': it['name'],
+             'toc': [[lv, escq(tx), a] for lv, tx, a in it['toc']]} for it in parsed]
+    nav_js = NAV_JS.replace('__DATA__', json.dumps(data, ensure_ascii=False))
+
     html_doc = """<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8">
+<html lang="zh-CN" data-theme="light"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>《魔兽世界》：无限 · 开荒资料库</title>
-<style>%s</style></head><body>
-<header class="head">
-  <div class="hd-l"><b>魔兽世界：无限</b><span>FOREVER · CLASSIC+ · 锁 60</span></div>
-  <div class="hd-r"><span>共 %d 篇</span><i>·</i><span>国服上线 2026-11-05</span><i>·</i><span>更新 %s</span><button type="button" onclick="window.print()">打印</button></div>
-</header>
-<div id="app">
-  <nav class="tree">
-    <div class="ttl">
-      <span>目录</span>
-      <span class="acts"><i class="act" id="expandAll" data-mode="close">展开全部</i></span>
+<style>%s</style>
+<script>%s</script></head><body>
+<header class="top"><div class="top-in">
+  <a class="brand" href="#home">魔兽世界：无限<em>Forever</em></a>
+  <nav class="chips">%s</nav>
+  <div class="tools">
+    <div class="search">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.6-3.6"></path></svg>
+      <input id="q" placeholder="搜索小节" autocomplete="off">
     </div>
-    <div class="search"><input id="q" placeholder="过滤关键词…" autocomplete="off"></div>
-    <div class="treebody root">%s</div>
-  </nav>
+    <button type="button" id="themeBtn" title="切换深浅">&#9788;</button>
+    <button type="button" onclick="window.print()">打印</button>
+  </div>
+</div></header>
+<div id="app">
+  <aside class="side">
+    <div class="side-t">本篇 <b>目录</b></div>
+    <div class="toclist" id="tocList"></div>
+    <div class="side-hint">按 <kbd>/</kbd> 搜索小节，<kbd>Esc</kbd> 清空<br>点右上角切换深浅色</div>
+  </aside>
   <main>
-    %s
-    <footer>数据源：国服官网/商城、BlizzCon 2026 座谈、外服 Beta 实测报道 · 更新方式见「更新手册」</footer>
+    %s%s
+    <div class="pager" id="pager"></div>
+    <footer>数据源：国服官网 / 商城、BlizzCon 2026 座谈、外服 Beta 实测报道 · 更新方式见「更新手册」</footer>
   </main>
 </div>
-<button id="totop" title="回到顶部">↑</button>
+<button id="totop" title="回到顶部">&#8593;</button>
 <script>%s</script>
-<script>%s</script></body></html>""" % (CSS, len(items), stamp,
-                                        '\n'.join(tree), '\n'.join(doc_html), NAV_JS, PRINT_JS)
+<script>%s</script></body></html>""" % (CSS, THEME_JS, chips_html, home_html, docs_html,
+                                        nav_js, PRINT_JS)
 
     out = os.path.join(BASE, 'index.html')
     open(out, 'w', encoding='utf-8').write(html_doc)
     print('built ->', out)
     print('docs  ->', len(items), [t for _, t, _ in items])
+    print('secs  ->', total_sec)
     print('size  ->', os.path.getsize(out), 'bytes')
 
 
