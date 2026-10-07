@@ -329,7 +329,7 @@ footer{
 </style></head><body>
 <header class="head">
   <div class="hd-l"><b>魔兽世界：无限</b><span>FOREVER · CLASSIC+ · 锁 60</span></div>
-  <div class="hd-r"><span>共 8 篇</span><i>·</i><span>国服上线 2026-11-05</span><i>·</i><span>更新 2026-10-07 16:58</span><button type="button" onclick="window.print()">打印</button></div>
+  <div class="hd-r"><span>共 8 篇</span><i>·</i><span>国服上线 2026-11-05</span><i>·</i><span>更新 2026-10-07 17:53</span><button type="button" onclick="window.print()">打印</button></div>
 </header>
 <div id="app">
   <nav class="tree">
@@ -1012,6 +1012,38 @@ footer{
 <ul><li><strong>炼金「调酒术 Mixology」延长所有药剂持续时间</strong>。</li></ul>
 <ul><li><strong>头/腿的敏捷秘药来自厄运之槌的贡品任务</strong>。</li></ul>
 <ul><li>以上均为 Beta 期攻略站整理，<strong>国服上线前请复核</strong>。</li></ul>
+<hr>
+<h4>5.5 绿装（精良 / uncommon）词条到底该怎么选【官方口径 + 客户端实测】</h4>
+<blockquote><strong>这一节回答的问题</strong>：练级路上掉落的绿色装备，哪些词条该留、哪些该卖。 可信度：官方座谈（暴雪 Deep Dive）讲机制、客户端 1.60.1.70205 反编译讲<strong>实际数值</strong>，两者叠加。</blockquote>
+<p><strong>先看一个事实，决定你对绿装的态度</strong>。对 live 经典服（Classic Era）的客户端做全量比对，Forever 有 <strong>2613 件物品的属性与经典不同</strong>，其中 <strong>267 件在 33 级以下就能穿</strong> —— 正好就是练级期你在穿的那一档。这 267 件里：</p>
+<ul><li><strong>只有 12 件是减属性的</strong>，而且减得极小（兄弟会斗篷 −1 敏捷、黑角防御甲 −1 耐力、塞琳家族印章 −2 点、梦游者法杖 −11 智力 −10 精神换 +11 精神与 5% 睡眠抗性）。</li><li><strong>其余 255 件全是加东西</strong>：加护甲、把智力精神换成法伤、把治疗写成数字、给盾牌加暴击和格挡、以及<strong>新增从未有过的装备特效</strong>。</li></ul>
+<p><strong>结论</strong>：练级期的绿装<strong>整体变强了</strong>，但变得面目全非 —— 沿用"看名字就知道好不好"的 2004 年经验会持续选错。</p>
+<hr>
+<h5>一、六条估值变化：哪些词条涨了、哪些跌了</h5>
+<div class="tw"><table><thead><tr><th>词条</th><th>变化</th><th>怎么估</th><th>依据</th></tr></thead><tbody><tr><td><strong>命中（Hit Chance）</strong></td><td><strong>涨</strong></td><td>合并后<strong>一项覆盖近战 + 远程 + 法术</strong>，还覆盖<strong>毒药、陷阱、钉刺、嘲讽</strong>。一件命中绿装的价值 = 你整套攻击同时少 miss。但官方<strong>没有公布通用命中上限</strong></td><td>官方座谈 + 官方 β 说明</td></tr><tr><td><strong>暴击（Crit Chance）</strong></td><td><strong>涨</strong></td><td>三种暴击同样合并，<strong>混合型专精（增强萨、惩戒骑、猎人打近战那一段）受益最大</strong>。<strong>猎人的远程暴击没有上限</strong></td><td>官方座谈</td></tr><tr><td><strong>武器技能（Weapon Skill）</strong></td><td><strong>跌</strong></td><td>机制保留，但官方明说"<strong>你在单件装备上拿到的比以前少</strong>"，要终结"几件武器技能装永久占位"的局面。<strong>绿装上出现武器技能词条，直接按"只有它自己值钱"估</strong></td><td>官方座谈原话</td></tr><tr><td><strong>被闪避/招架几率降低（精准 / Expertise 类）</strong></td><td><strong>新选项</strong></td><td>官方单独点名：这类效果<strong>要独立于命中与武器技能去比较</strong>，给近战和坦克多了一条路线</td><td>官方座谈 + 官方 β 说明</td></tr><tr><td><strong>治疗加成（Bonus Healing）</strong></td><td><strong>涨（练级期）</strong></td><td>现在<strong>附带约 1/3 的伤害加成</strong>（官方样张反推 14 治疗 : 14 法伤 = 1:1 的第三份，即治疗值 ×1/3 当伤害）。出门做任务杀得动东西</td><td>官方座谈 + 官方样张</td></tr><tr><td><strong>法术强度（Spell Power）</strong></td><td><strong>大涨</strong></td><td>法术基础伤害被下调，<strong>法力池不再等于输出</strong>，装备要扛起更大的伤害份额 → 法系绿装从"智力精神"整体转向"法伤"</td><td>客户端实测 + 官方口径</td></tr></tbody></table></div>
+<p><strong>三件绿装级武器，就是这场改动的样本</strong>：</p>
+<div class="tw"><table><thead><tr><th>装备</th><th>经典（1.12）</th><th>Forever</th><th>说明</th></tr></thead><tbody><tr><td><strong>树皮夹克 Tree Bark Jacket</strong></td><td>10 智力 + 6 耐力</td><td><strong>13 法术强度 + 60 护甲</strong></td><td>布衣练级件不再堆蓝条，直接给输出</td></tr><tr><td><strong>绿色羊毛长袍 Green Woolen Robe</strong></td><td>三属性块</td><td><strong>智力 + 法术强度</strong></td><td>同上</td></tr><tr><td><strong>女巫法杖 Witching Stave</strong></td><td>8 智力</td><td><strong>智力 + 耐力 + 暗影抗性 + 27 暗影法伤</strong></td><td>一把法杖同时是输出件和抗性件</td></tr></tbody></table></div>
+<p><strong>护甲也整体比记忆中高</strong>：绿色铁甲（Green Iron Hauberk）在原 Strength/Stamina 之上<strong>多出 120 护甲</strong>，索尔森之盾 +50、军官斗篷与披风各 +40、若干腰腿件 +30~60。</p>
+<p><strong>盾牌现在自带进攻词条</strong>：铁木盾（Ironbark Shield）<strong>+14 暴击</strong>、光学偏转器（Optomatic Deflector）+10 格挡、警觉小盾（Vigilant Buckler）+5 格挡、云种盾（Seedcloud Buckler）把智精换成法伤与<strong>自然抗性</strong>。</p>
+<p><strong>绿装还能带"情境词条"</strong>：卡玛的手杖让移动减速效果 −10%、猫科披风减跌落伤害、掠夺者与高地靴<strong>加移速</strong>、Baron's Scepter 团队回血、Martyr's Chain 死亡时对周围造成 420 圣伤。<strong>Forever 没有飞行</strong>，绿装上的移速词条就是实打实的练级时间。</p>
+<hr>
+<h5>二、绿装词条优先级（练级期通用，按职责）</h5>
+<p><strong>近战物理（战士 / 盗贼 / 惩戒骑 / 增强萨 / 猫德）</strong> 命中（到上限）→ 主属性（力量/敏捷）→ 暴击 → 攻强 → <strong>减闪避招架</strong> → 耐力。<strong>武器技能排到很后面</strong>。</p>
+<p><strong>远程物理（猎人）</strong> <strong>远程命中打满</strong> → 敏捷 → 暴击（无上限）→ 攻强 → 智力（经「谨慎瞄准」转攻强）→ 耐力。<strong>近战武器只看它印在上面的属性</strong>（你基本不挥它）；<strong>弹袋的远程攻速加成是硬指标</strong>。</p>
+<p><strong>法系输出（法师 / 术士 / 暗牧 / 元素萨 / 鸟德）</strong> 命中（到上限）→ <strong>法术强度</strong> → 暴击 → 智力 → 精神/耐力。 ⚠️ <strong>魔杖不吃你的法术强度</strong> —— 换魔杖要单独看它自己的 DPS 与词条，<strong>别以为换上高法伤装备魔杖就会变强</strong>。</p>
+<p><strong>治疗（神圣骑 / 恢复萨 / 恢复德 / 戒律牧）</strong> 智力 → 精神 → 耐力 → 法术强度 → 治疗加成。<strong>治疗绿装现在自带约 1/3 伤害</strong>，练级期可以穿着它做任务不掉血、也杀得动 —— 但<strong>不要因此把输出位全换成治疗装</strong>，对比整件的其它属性再决定。</p>
+<p><strong>坦克（防战 / 防骑 / 熊德）</strong> 护甲（<strong>绿装护甲比经典高 30~120</strong>）→ 命中/精准（<strong>嘲讽吃合并命中的红利</strong>）→ 耐力 → 格挡/躲闪/招架 → 力量/敏捷。<strong>绿装护甲整体上调，会改变 20 多级的坦克选件口径</strong>。</p>
+<hr>
+<h5>三、五步判断法：拿到一件绿装怎么决定留不留</h5>
+<ol><li><strong>读完整条 tooltip，不要看形状。</strong> 决定这件装备的往往是他<strong>最下面那一行数值</strong>。</li><li><strong>先问"它回答什么问题"</strong> —— Forever 没有万能最强件，只有"在这个场景最强的件"。</li><li><strong>命中类词条先算覆盖</strong>：这件装备的命中，是只帮你的普攻，还是同时帮陷阱 / 毒药 / 钉刺 / 嘲讽？覆盖越多越值。</li><li><strong>遇到武器技能词条，单独估价</strong> —— 它不能和敏捷、暴击直接换算，官方就是要让它贬值。</li><li><strong>遇到"对 X 生物 / 在 Y 地区"的特效，按场景留</strong>：一件绿装换图就失效，但它值一个银行格子（默认约 96 格）。</li></ol>
+<hr>
+<h5>四、两个最容易踩的坑</h5>
+<ul><li><strong>别用 TBC（燃烧的远征）的命中上限计算器来估绿装</strong>。官方口径是：Forever <strong>没有公布过通用命中上限</strong>，攻击与法术的 miss 几率也未必相同。</li><li><strong>角色面板上的"对高等级敌人伤害惩罚"是目前 Beta 的已知错误</strong>（已知问题列表里明确挂着的 glancing blow 惩罚不正确）。<strong>别把面板上那个怪数字当成新的武器技能规则</strong>，那是个 bug，等修。</li></ul>
+<hr>
+<h5>五、练级期对绿装的总纪律</h5>
+<p><strong>别为绿装停下。</strong> Forever 的经验曲线完全没加速（约 160 小时到 60），刷装是净亏损 —— 绿装会被等级替换掉。绿装的任务只有一个：<strong>把它穿到下一次掉更好的为止</strong>。真正值得留的是<strong>三件</strong>：</p>
+<ol><li><strong>远程/法术武器</strong>（猎人弓弩、法系法杖与魔杖）—— 效率件，早点换收益大；</li><li><strong>带移速或生物特攻的绿装饰品</strong> —— 无飞行 + 情境词条，价值稳定；</li><li><strong>一套抗性/生物克制件</strong> —— 进团本前用（首发没有地下城手册，进团前不知道首领是谁）。</li></ol>
+<p>其余绿装：<strong>属性对就穿，属性一般就卖，别占银行</strong>。</p>
 <hr>
 <h3 id="sec22">六、待验证清单（Beta 与上线后逐条核实）</h3>
 <ul><li><span class="cb "></span><strong>命中与暴击的实际转换数值</strong>——座谈<strong>明确没有给换算数字</strong>，目前所有百分比均为经典数学的继承</li></ul>
