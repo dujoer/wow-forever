@@ -24,6 +24,7 @@ ORDER = [
     ("README.md", "首页 · 怎么读这个库", ""),
     ("leveling-and-gold.md", "★ 练级 · 技巧 · 打金", "玩法核心"),
     ("classes-and-gear.md", "★ 职业 · 天赋 · 配装", "玩法核心"),
+    ("hunter.md", "★ 猎人专篇", "玩法核心"),
     ("tools-and-ui.md", "★ 工具 · 插件 · 宏", "玩法核心"),
     ("launch-playbook.md", "★ 开局行动手册", "行动清单"),
     ("intel-digest.md", "★ 情报速报与实测", "情报追踪"),
